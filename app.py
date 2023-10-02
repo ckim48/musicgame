@@ -28,9 +28,26 @@ def about():
 @app.route('/mypage', methods=['GET'])
 def mypage():
     if 'username' in session:
-        return render_template('mypage.html', isLogin = True)
+        username = session['username']  # Assuming you have a way to get the username
+        conn = sqlite3.connect('static/assets/data/database.db')
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT score FROM Users WHERE username = ?", (username,))
+        current_score = cursor.fetchone()
+        score = current_score[0]
+        cursor.execute("SELECT email FROM Users WHERE username = ?", (username,))
+        email = cursor.fetchone()
+        email = email[0]
+        cursor.execute("SELECT country FROM Users WHERE username = ?", (username,))
+        country = cursor.fetchone()
+        country = country[0]
+        cursor.execute("SELECT age FROM Users WHERE username = ?", (username,))
+        age = cursor.fetchone()
+        age = age[0]
+
+        return render_template('mypage.html', isLogin = True,score=score,email=email,username=username,age=age,country=country)
     else:
-        return render_template('mypage.html', isLogin = False)
+        return render_template('index.html', isLogin = False)
 def validate_login(username, password):
     conn = sqlite3.connect('static/assets/data/database.db')
     cursor = conn.cursor()
