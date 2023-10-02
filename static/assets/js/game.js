@@ -70,8 +70,9 @@ function hideStartButton() {
   // Set the expected sequence for the current problem
   expectedSequence = expectedSequences[problemIndex];
 }
-
+let canPressKeys = true;
 function showPressedKey(key) {
+if (canPressKeys) {
   if (gameStarted) {
     // Remove problem index and information message
     const problemInfoContainer = document.querySelector('.problem-info-container');
@@ -80,7 +81,7 @@ function showPressedKey(key) {
     }
 
     const displayElement = document.createElement('div');
-    displayElement.textContent = `${keyIndex}. ${key}`;
+    displayElement.textContent = `${key}`;
     displayElement.classList.add('pressed-key');
     gameboard.appendChild(displayElement);
 
@@ -95,6 +96,7 @@ function showPressedKey(key) {
       // Check the sequence after a short delay (e.g., 500 milliseconds)
       setTimeout(checkSequence, 500);
     }
+  }
   }
 }
 
@@ -111,7 +113,7 @@ function checkSequence() {
     congratsElement.textContent = 'Congratulations!';
     congratsElement.classList.add('congratulations');
     gameboard.appendChild(congratsElement);
-
+    canPressKeys = false;
     sendScoreToBackend(score);
 
     // Reset the game after a delay (e.g., 3 seconds)
@@ -133,7 +135,9 @@ function checkSequence() {
 
         // Display the new problem
         hideStartButton();
+        canPressKeys = true;
       } else {
+
         // If all problems are completed, show a final message or perform other actions
         gameCompleted();
       }
@@ -152,7 +156,7 @@ function checkSequence() {
     warningElement.textContent = 'Wrong answer! Try again.';
     warningElement.classList.add('warning');
     warningContainer.appendChild(warningElement);
-
+    canPressKeys = false;
     // Add a retry button with Bootstrap styles and center it
     const retryButton = document.createElement('button');
     retryButton.textContent = 'Retry';
@@ -171,6 +175,7 @@ function resetGame() {
   userSequence = [];
   gameStarted = true; // Allow the user to press keys again
   hideStartButton(); // Display the information message again
+  canPressKeys = true;
 }
 
 function clearPressedKeys() {

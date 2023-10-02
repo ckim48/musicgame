@@ -1,16 +1,30 @@
 from flask import Flask, render_template, url_for, request, redirect,flash,session
 import sqlite3
+from datetime import timedelta
 
 app = Flask(__name__)
 app.secret_key = 'codingisfun'
 session = {}
+app.permanent_session_lifetime = timedelta(seconds=7200)
+
 @app.route('/', methods=['GET'])
 def index():
     if 'username' in session:
         return render_template('index.html', isLogin = True)
     else:
         return render_template('index.html', isLogin = False)
-
+@app.route('/about', methods=['GET'])
+def about():
+    if 'username' in session:
+        return render_template('about.html', isLogin = True)
+    else:
+        return render_template('about.html', isLogin = False)
+@app.route('/mypage', methods=['GET'])
+def mypage():
+    if 'username' in session:
+        return render_template('mypage.html', isLogin = True)
+    else:
+        return render_template('mypage.html', isLogin = False)
 def validate_login(username, password):
     conn = sqlite3.connect('static/assets/data/database.db')
     cursor = conn.cursor()
@@ -77,7 +91,7 @@ def scoreboard():
     conn = sqlite3.connect('static/assets/data/database.db')
     cursor = conn.cursor()
 
-    cursor.execute("SELECT score FROM User WHERE username = ?", (username,))
+    cursor.execute("SELECT score FROM Users WHERE username = ?", (username,))
     current_score = cursor.fetchone()
 
     if current_score is None:
@@ -86,8 +100,7 @@ def scoreboard():
         isLogin = True
     else:
         isLogin = False
-    # Increment the current score by 1
-    new_score = current_score[0] + 1
+
     return render_template('scoreboard.html', title='Scoreboard',score = current_score[0], isLogin = isLogin)
 
 @app.route('/update_score', methods=['POST'])

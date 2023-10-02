@@ -14,7 +14,9 @@ a:hover {
   text-decoration: none;
 }
 
-h1,
+h1{
+font-family: 'Josefin Sans', sans-serif;
+}
 h2,
 h3,
 h4,
@@ -375,10 +377,11 @@ h6 {
 }
 
 #hero h2 {
-  color: #aeaeae;
+  color: white;
+  margin-top: 15px;
   margin-bottom: 30px;
-  font-size: 14px;
-  font-weight: 400;
+  font-size: 16px;
+  font-weight: 800;
   text-transform: uppercase;
 }
 
@@ -822,12 +825,15 @@ section {
   background-color: #86F28B;
 }
 .pressed-key {
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 10px;
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
   border-radius: 5px;
+  background-color: #f9f9f9;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
   margin-bottom: 10px;
   margin-right: 10px;
 }
@@ -885,8 +891,11 @@ section {
 }
 
 #leaderboard {
-  width: 60%;
+  width: 40%  !important;
   position: relative;
+}
+.tw{
+width: 70%  !important;
 }
 
 table {
@@ -965,3 +974,100 @@ td {
 }
 
 
+
+.wave {
+  position: relative;
+  -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0,0,0,.2));
+  font-size: 60px;
+}
+.wave span {
+  position: relative;
+  display: inline-block;
+  color: white;
+  text-transform: uppercase;
+  animation: waviy 1s infinite;
+  animation-delay: calc(.1s * var(--i));
+
+}
+@media (max-width: 575px) {
+  .wave span {
+    font-size:32px
+  }
+}
+@keyframes waviy {
+  0%,40%,100% {
+    transform: translateY(0)
+  }
+  20% {
+    transform: translateY(-8px)
+  }
+}
+.myphoto{
+width: 75%;
+border-radius: 10px;
+}
+.myphoto2{
+width: 90%;
+border-radius: 10px;
+}
+.services .icon-box h4 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 5px 0 10px 60px;
+}
+
+.services .icon-box i {
+  font-size: 48px;
+  float: left;
+  color: #7cc576;
+}
+
+.services .icon-box p {
+  font-size: 15px;
+  color: #959595;
+  margin-left: 60px;
+}
+
+.services .image {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 400px;
+}
+#contact h3{
+    font-size:18px;
+}
+.contact-info:hover{
+    scale:1.1;
+}
+.user-info{
+list-style:none;
+}
+.user-card{
+
+}
+.user-card {
+    height: 100%;
+    border: 1px solid #EE9C38;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.user-card:hover{
+scale:1.05;
+}
+.gradient-custom {
+background: #f6d365;
+
+background: -webkit-linear-gradient(to right bottom, rgba(149, 205, 216 , 1), rgba(253, 160, 133, 1));
+
+background: linear-gradient(to right bottom, rgba(149, 205, 216 , 1), rgba(253, 160, 133, 1))
+}
+.info-card:hover{
+scale:1.04;
+}
+.gradient-custom {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
