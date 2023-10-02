@@ -2,6 +2,7 @@
 body {
   font-family: "Open Sans", sans-serif;
   color: #555555;
+
 }
 
 a {
@@ -344,10 +345,14 @@ h6 {
 # Hero Section
 --------------------------------------------------------------*/
 #hero {
-  width: 100%;
-  height: 100vh;
-  background: url("../img/hero-bg.jpg");
   position: relative;
+  height: 100vh; /* Adjust the height as needed */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+    margin: 0;
+  padding: 0;
 }
 
 #hero .hero-container {
@@ -364,6 +369,28 @@ h6 {
   padding: 0 15px;
 }
 
+.video-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#hero video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Adjust the opacity (last value) for darkness */
+}
+
 #hero .hero-logo {
   margin-bottom: 30px;
 }
@@ -373,7 +400,7 @@ h6 {
   font-size: 48px;
   font-weight: 500;
   line-height: 56px;
-  color: #fff;
+  color: black;
 }
 
 #hero h2 {
@@ -1191,3 +1218,4 @@ scale:1.04;
   position: absolute;
   animation: firework6 0.7s linear;
 }
+
