@@ -1,6 +1,7 @@
-from flask import Flask, render_template, url_for, request, redirect,flash,session
+from flask import Flask, render_template, url_for, request, redirect,flash,session,jsonify
 import sqlite3
 from datetime import timedelta
+import datetime
 
 app = Flask(__name__)
 app.secret_key = 'codingisfun'
@@ -10,7 +11,12 @@ app.permanent_session_lifetime = timedelta(seconds=7200)
 @app.route('/', methods=['GET'])
 def index():
     if 'username' in session:
-        return render_template('index.html', isLogin = True)
+        username = session['username']
+        conn = sqlite3.connect('static/assets/data/database.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT score FROM Users WHERE username = ?", (username,))
+        current_score = cursor.fetchone()
+        return render_template('index.html', isLogin = True,current_score=current_score[0])
     else:
         return render_template('index.html', isLogin = False)
 @app.route('/about', methods=['GET'])
@@ -111,7 +117,7 @@ def update_score():
         conn = sqlite3.connect('static/assets/data/database.db')
         cursor = conn.cursor()
 
-        cursor.execute("SELECT score FROM User WHERE username = ?", (username,))
+        cursor.execute("SELECT score FROM Users WHERE username = ?", (username,))
         current_score = cursor.fetchone()
 
         if current_score is None:
@@ -119,12 +125,17 @@ def update_score():
 
         # Increment the current score by 1
         new_score = current_score[0] + 1
+        get_score = 1
 
         # Update the score in the database for the given username
-        cursor.execute("UPDATE User SET score = ? WHERE username = ?", (new_score, username))
+        cursor.execute("UPDATE Users SET score = ? WHERE username = ?", (new_score, username))
+        today_date = datetime.date.today()
+
+        formatted_date = today_date.strftime('%Y/%m/%d')
+        cursor.execute("Insert INTO Scores Values(?,?,?)", (formatted_date , 1, username))
         conn.commit()
 
-        return f'Score updated to {new_score} for user {username}', 200
+        return jsonify({'score': new_score})
 
     except Exception as e:
         conn.rollback()  # Roll back the transaction if an error occurs
