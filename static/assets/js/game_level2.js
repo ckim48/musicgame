@@ -16,9 +16,10 @@ let score = 0;
 //let incorrectCnt = 0;
 //const incorrectLimit = 5;
 
+
 const problem_list = [ // img, interval, showNum
-    ['Beep', 1, 3],
-    ['Clap', 2, 4]
+    ['Beep', [1, 3], 3],
+    ['Clap', [1, 2, 1], 4]
 ];
 
 startButton.addEventListener('click', () => {
@@ -40,6 +41,7 @@ function wait_keyInput() {
 }
 
 function showProblem() {
+    canPressKey = false;
     // Show problem index and information message on separate lines
     const problemInfoContainer = document.createElement('div');
     problemInfoContainer.classList.add('problem-info-container', 'text-center');
@@ -56,59 +58,83 @@ function showProblem() {
     infoMessage.classList.add('info-message');
     problemInfoContainer.appendChild(infoMessage);
 
-    console.log(problem_list[problemIndex]);
+    console.log(problemIndex, problem_list[problemIndex]);
+
     displayContent(problem_list[problemIndex]);
     wait_keyInput()
 }
 
 function displayContent(curr_problem) {
-    const problemInfoContainer = document.querySelector('.problem-info-container');
-    if (problemInfoContainer) {
-        problemInfoContainer.remove();
-    }
+//    const problemInfoContainer = document.querySelector('.problem-info-container');
+//    if (problemInfoContainer) {
+//        problemInfoContainer.remove();
+//    }
 
     const contentElement = document.createElement('div');
     var text = '';
-    var count = 0;
-    var display_interval = setInterval(function() {
-        count++;
-        text += curr_problem[0];
-        contentElement.textContent = text;
-        contentElement.classList.add('content-element');
-        gameboard.appendChild(contentElement);
-        console.log('Play '+ curr_problem[0] + ' sound.');
-        beepSound.play();
-        if (count === (curr_problem[2])) {
-            clearInterval(display_interval);
-            canPressKey = true
-            start_time = new Date();
+    var curr_interval = curr_problem[1];
+
+    for (let i = 0; i < curr_problem[2]; i++) {
+        if (i==0) {
+            text = curr_problem[0];
+            contentElement.textContent = text;
+            contentElement.classList.add('content-element');
+            gameboard.appendChild(contentElement);
+            beepSound.play();
         }
-    }, curr_problem[1] * 1000);
+        else {
+            setTimeout(() => {
+                console.log(i)
+                text += curr_problem[0];
+                contentElement.textContent = text;
+                contentElement.classList.add('content-element');
+                gameboard.appendChild(contentElement);
+                console.log('Play '+ curr_problem[0] + ' sound after ' + curr_interval[i-1]*1000 + 'seconds.');
+                beepSound.play();
+            }, curr_interval[i-1] * 1000); }
+    }
+    canPressKey = true;
 }
 
 function showPressedKey(key) {
-    let end_time = new Date()
-    let timeDiff = end_time.getTime() - start_time.getTime();
-    console.log(timeDiff/1000)
+    const problemInfoContainer = document.querySelector('.problem-info-container');
+    if (problemInfoContainer) {
+      problemInfoContainer.remove();
+    }
 
+    let pressed_time = new Date()
     const displayElement = document.createElement('div');
-    displayElement.textContent = `${key}` + ' ' + timeDiff/1000 + 'seconds';
+    displayElement.textContent = `${key}`;
     displayElement.classList.add('pressed-key');
     gameboard.appendChild(displayElement);
 
-    // Add the key to the user's sequence
-    const input = Math.round(timeDiff/1000)
-    userInput.push(input);
-    canPressKey = false;
+//    // Increment the index for the next key
+//    keyIndex++;
 
-    setTimeout(checkSequence(), 3000);
+    // Add the key to the user's sequence
+    userInput.push(pressed_time.getTime());
+    // Check if the user's sequence length matches the expected sequence length
+    if (userInput.length === problem_list[problemIndex][2]) {
+      // Check the sequence after a short delay (e.g., 500 milliseconds)
+      canPressKey = false;
+      setTimeout(checkSequence, 500);
+    }
 }
 
 function checkSequence() {
     if (check_flag) {
-        console.log(userInput[problemIndex], problem_list[problemIndex][1])
+        console.log(userInput[problemIndex])
         clearPressedKeys();
-        if (Math.round(userInput[problemIndex]) === problem_list[problemIndex][1]) {
+        var intervals = []
+        console.log(userInput);
+        for (let i = 1; i < userInput.length; i++) {
+            var timeDiff = Math.round((userInput[i] - userInput[i-1]) / 1000);
+            intervals.push(timeDiff);
+        }
+        console.log(intervals);
+        console.log(JSON.stringify(problem_list[problemIndex][1]), JSON.stringify(intervals));
+        const correct = JSON.stringify(problem_list[problemIndex][1]) === JSON.stringify(intervals);
+        if (correct) {
             score++;
             const congratsElement = document.createElement('div');
             congratsElement.textContent = 'Congratulations!';
@@ -124,7 +150,8 @@ function checkSequence() {
             // Progress to the next problem
             problemIndex++;
             if (problemIndex < problem_list.length) {
-                keyIndex = 1;
+//                keyIndex = 1;
+                userInput = [];
                 showProblem();
             }
             else {
