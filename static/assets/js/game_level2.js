@@ -12,6 +12,7 @@ function set_variable(){
     check_flag = true
     start_time = new Date()
     score = 0;
+    dev = 0.5;
 }
 
 //let currentQuestion = 1;
@@ -133,12 +134,22 @@ function checkSequence2() {
         var intervals = [0]
         console.log(userInput);
         for (let i = 1; i < userInput.length; i++) {
-            var timeDiff = Math.round((userInput[i] - userInput[i-1]) / 1000);
+            var timeDiff = (userInput[i] - userInput[i-1]) / 1000;
             intervals.push(timeDiff);
         }
         console.log(intervals);
-        console.log(JSON.stringify(problem_list[problemIndex][1]), JSON.stringify(intervals));
-        const correct = JSON.stringify(problem_list[problemIndex][1]) === JSON.stringify(intervals);
+        var correct = true;
+        for (var i = 0; i < intervals.length; i++) {
+            if (correct) {
+                min_dev = problem_list[problemIndex][1][i] - dev;
+                max_dev = problem_list[problemIndex][1][i] + dev;
+                console.log(min_dev, max_dev)
+                if (intervals[i] <= min_dev || intervals[i] >= max_dev) {
+                    correct = false;
+                }
+            }
+        }
+
         if (correct) {
             score++;
             const congratsElement = document.createElement('div');
