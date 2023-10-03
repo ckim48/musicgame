@@ -124,12 +124,12 @@
           <div class="row text-center mx-auto mt-5" data-aos="fade-up" data-aos-delay="200">
 
             <div class="col-md-4">
-              <button class="btn btn-primary active" onclick="changeContent(1)" id="btn1">Recognition</button>
+              <button class="btn btn-primary active" onclick="changeContent(1)" id="btn1"><i class="bi bi-unlock"></i> Recognition</button>
             </div>
 
               {% if current_score > 10 %}
             <div class="col-md-4">
-              <button class="btn btn-primary " onclick="changeContent(2)"id="btn2">Interval</button>
+              <button class="btn btn-primary " onclick="changeContent(2)"id="btn2"><i class="bi bi-unlock"></i> Interval</button>
             </div>
               {% else %}
                     <div class="col-md-4">
@@ -138,10 +138,10 @@
               {% endif %}
               {% if current_score > 15 %}
             <div class="col-md-4">
-              <button class="btn btn-primary" onclick="changeContent(3)"id="btn3"> Pitch & Interval</button>
+              <button class="btn btn-primary" onclick="changeContent(3)"id="btn3"><i class="bi bi-unlock"></i> Pitch & Interval</button>
             </div>
               {% else %}
-                          <div class="col-md-3">
+                          <div class="col-md-4">
               <button class="btn btn-primary inactive" onclick="changeContent(3)"id="btn3" disabled><i class="bi bi-lock"></i>Pitch & Interval</button>
             </div>
               {% endif %}
@@ -165,7 +165,7 @@
                                                   <button class="btn btn-danger mx-auto start-btn"  id="startBtn3" data-keep="true"> Start</button>
 
               {% else %}
-        <p class="">Please Login to Start the Game!</p><br>
+        <a class="color-black" href="{{url_for('login')}}"><p class="">Please Login to Start the Game!</p></a><br>
 
                 {% endif %}
 
