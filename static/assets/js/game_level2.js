@@ -221,7 +221,7 @@ function resetGame() {
   showProblem();
   problemIndex = 0;
   score = 0;
-  canPressKey = false;
+  canPressKey = true;
 }
 
 function clearPressedKeys() {
