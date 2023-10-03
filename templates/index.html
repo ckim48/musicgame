@@ -124,16 +124,16 @@
           <div class="row text-center mx-auto mt-5" data-aos="fade-up" data-aos-delay="200">
 
             <div class="col-md-3">
-              <button class="btn btn-primary active" onclick="changeContent(1)" id="btn1">Recognition</button>
+              <button class="btn btn-primary active" onclick="loadAndChangeContent('../static/assets/js/game.js',1)" id="btn1">Recognition</button>
             </div>
 
               {% if current_score > 10 %}
             <div class="col-md-3">
-              <button class="btn btn-primary " onclick="changeContent(2)"id="btn2">Interval</button>
+              <button class="btn btn-primary " onclick="loadAndChangeContent('../static/assets/js/game_level2.js',2)"id="btn2">Interval</button>
             </div>
               {% else %}
                     <div class="col-md-3">
-              <button class="btn btn-primary inactive" onclick="changeContent(2)"id="btn2" disabled><i class="bi bi-lock"></i> Interval</button>
+              <button class="btn btn-primary inactive" onclick=""id="btn2" disabled><i class="bi bi-lock"></i> Interval</button>
             </div>
               {% endif %}
               {% if current_score > 15 %}
@@ -212,9 +212,30 @@
 
   <!-- Template Main JS File -->
   <script src="../static/assets/js/main.js"></script>
-  <script src="../static/assets/js/game.js"></script>
+<!--  <script src="../static/assets/js/game.js"></script>-->
 <!--  <script src="../static/assets/js/game_level2.js"></script>-->
 <script>
+let loadedScript = null;
+           loadAndChangeContent('../static/assets/js/game.js', 1);
+
+
+
+        function loadAndChangeContent(scriptName, parameter) {
+            // Remove the previously loaded script if it exists
+            if (loadedScript) {
+                document.body.removeChild(loadedScript);
+                loadedScript = null;
+            }
+
+            const script = document.createElement('script');
+            script.src = scriptName;
+            script.onload = function() {
+                // Once the script is loaded, call the corresponding changeContent function
+                changeContent(parameter);
+            };
+            document.body.appendChild(script);
+            loadedScript = script;
+        }
 
             function changeContent(btnId) {
             var buttons = document.querySelectorAll('.btn');

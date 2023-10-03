@@ -90,8 +90,8 @@ def insert_user_data(username, password, age, country, email):
     conn = sqlite3.connect('static/assets/data/database.db')
     cursor = conn.cursor()
 
-    cursor.execute("INSERT INTO Users (username, password, age, country, email) VALUES (?, ?, ?, ?, ?)",
-                   (username, password, age, country, email))
+    cursor.execute("INSERT INTO Users (username, password, age, country, email,score) VALUES (?, ?, ?, ?, ?,?)",
+                   (username, password, age, country, email,0))
 
     conn.commit()
     conn.close()
