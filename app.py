@@ -213,5 +213,6 @@ def prepare_data_for_graph(scores):
     dates = [row[0] for row in scores]
     scores = [row[1] for row in scores]
     return dates, scores
+
 if __name__ == '__main__':
     app.run(debug=True)

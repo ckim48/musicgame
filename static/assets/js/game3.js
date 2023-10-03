@@ -3,14 +3,19 @@ const startButton3 = document.getElementById('startBtn3');
 const miSound = new Audio('../static/assets/audio/mi.mp3');
 const solSound = new Audio('../static/assets/audio/sol.mp3');
 const faSound = new Audio('../static/assets/audio/fa.mp3');
-function set_variable(){
+let processingProblem = false;
+let expectedSequences2 =generate_problem2();
+function set_variable2(){
     keyIndex = 1;
     problemIndex = 0; // Keep track of the current problem
     currentQuestion = 1;
-    gameStarted = false;
+    gameStarted = true;
+    game3 = true;
+    game1=false;
+    game2=false;
     score = 1;
-    expectedSequences =generate_problem2();
-    console.log(expectedSequences);
+//    let expectedSequences2 =generate_problem2();
+    console.log(expectedSequences2);
     level1Completed = false;
     canPressKeys = true;
     userSequence = []; // To store the user's key presses
@@ -40,11 +45,11 @@ function generateProblem2(level) {
   for (let i = 0; i < length; i++) {
     const randomValue = Math.random();
     if (randomValue < 0.33) {
-      problem.push('left');
+      problem.push('q');
     } else if (randomValue < 0.67) {
-      problem.push('right');
+      problem.push('e');
     } else {
-      problem.push('up');
+      problem.push('w');
     }
   }
 
@@ -58,16 +63,19 @@ function generateProblem2(level) {
 
 function playSound(problem) {
   for (let i = 0; i < problem.length; i++) {
-    if (problem[i] == 'left') {
+    if (problem[i] == 'q') {
       setTimeout(() => {
-        console.log("Play left sound");
+          miSound.play();
+        console.log("Play q sound");
       }, i * 1200);
-    } else if (problem[i] == 'right') {
+    } else if (problem[i] == 'e') {
       setTimeout(() => {
-        console.log("Play right sound");
+      faSound.play();
+        console.log("Play e sound");
       }, i * 1200);
-    } else if (problem[i] == 'up') {
+    } else if (problem[i] == 'w') {
       setTimeout(() => {
+        solSound.play();
         console.log("Play up sound");
       }, i * 1200);
     }
@@ -78,7 +86,7 @@ function playSound(problem) {
 
 
 
-function hideStartButton() {
+function hideStartButton3() {
   startButton3.style.display = 'none';
   gameStarted = true; // The game has started once the button is clicked
 
@@ -94,7 +102,7 @@ function hideStartButton() {
   problemInfoContainer.appendChild(problemIndexElement);
 
 
-  playSound(expectedSequences[problemIndex]) // Play the sound for the current problem
+  playSound(expectedSequences2[problemIndex]) // Play the sound for the current problem
 
   const infoMessage = document.createElement('div');
   infoMessage.textContent = 'Listen to the sounds and Press the correct keys in order.';
@@ -103,15 +111,15 @@ function hideStartButton() {
 
 
   const infoMessage2 = document.createElement('div');
-infoMessage2.innerHTML = '<strong><span class="bi bi-arrow-left"></span></strong> Key for Lowest Pitch, <strong><span class="bi bi-arrow-up"></span></strong> Key for Middle Pitch, and <strong><span class="bi bi-arrow-right"></span></strong> Key for Highest Pitch';
+infoMessage2.innerHTML = '<strong> \'q\' </strong> Key for Lowest Pitch, <strong>\'w\'</strong> Key for Middle Pitch, and <strong>\'e\'</span></strong> Key for Highest Pitch';
   infoMessage2.classList.add('info-message');
   problemInfoContainer.appendChild(infoMessage2);
 
   // Set the expected sequence for the current problem
-  expectedSequence = expectedSequences[problemIndex];
+  expectedSequence = expectedSequences2[problemIndex];
 }
 
-function showPressedKey(key) {
+function showPressedKey3(key) {
 if (canPressKeys) {
   if (gameStarted) {
     // Remove problem index and information message
@@ -134,13 +142,13 @@ if (canPressKeys) {
     // Check if the user's sequence length matches the expected sequence length
     if (userSequence.length === expectedSequence.length) {
       // Check the sequence after a short delay (e.g., 500 milliseconds)
-      setTimeout(checkSequence, 500);
+      setTimeout(checkSequence3, 500);
     }
   }
   }
 }
 
-function checkSequence() {
+function checkSequence3() {
   const userSequenceString = userSequence.join(' ');
   const expectedSequenceString = expectedSequence.join(' ');
 
@@ -227,7 +235,7 @@ function checkSequence() {
         userSequence = [];
 
         // Display the new problem
-        hideStartButton();
+        hideStartButton3();
         canPressKeys = true;
       } else {
 
@@ -267,7 +275,7 @@ function resetGame() {
   keyIndex = 1;
   userSequence = [];
   gameStarted = true; // Allow the user to press keys again
-  hideStartButton(); // Display the information message again
+  hideStartButton3(); // Display the information message again
   canPressKeys = true;
 }
 
@@ -277,14 +285,21 @@ function clearPressedKeys() {
 }
 
 document.addEventListener('keydown', (event) => {
-  if (gameStarted) {
-    if (event.key === 'ArrowLeft') {
-      showPressedKey('left');
-    } else if (event.key === 'ArrowRight') {
-      showPressedKey('right');
+  if (gameStarted && game3) {
+    if (event.key === 'q') {
+      showPressedKey3('q');
+    } else if (event.key === 'e') {
+      showPressedKey3('e');
+    } else if (event.key === 'w') {
+      showPressedKey3('w');
+    } else {
+      console.log('Key pressed:', event.key); // Add this for debugging
     }
   }
 });
+
+
+
 function removeContent() {
   const gameboardChildren = gameboard.children;
   for (let i = gameboardChildren.length - 1; i >= 0; i--) {
@@ -295,8 +310,8 @@ function removeContent() {
   }
 }
 startButton3.addEventListener('click', () => {
-  hideStartButton();
-set_variable();
+  hideStartButton3();
+set_variable2();
 });
 
 function sendScoreToBackend(score) {

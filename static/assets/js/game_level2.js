@@ -1,7 +1,8 @@
 const startButton2 = document.getElementById('startBtn2');
 //const gameboard = document.querySelector('.gameboard');
 const beepSound = new Audio('../static/assets/audio/beep.mp3');
-
+let userInput = [];
+let dev = 2.0
 function set_variable(){
     gameStarted = false;
     Completed = false;
@@ -10,7 +11,7 @@ function set_variable(){
     canPressKey = false;
     start_time = new Date()
     score = 0;
-    dev = 0.5;
+    dev = 2.0;
 }
 let keydownListener; // keydown 이벤트 리스너의 참조를 저장하는 변수
 
@@ -98,12 +99,12 @@ function showPressedKey2(key) {
     gameboard.appendChild(displayElement);
 
     // Add the key to the user's sequence
-    userInput.push(pressed_time.getTime());
+    userInput.push(pressed_time.getTime()); // Use userInput declared in the broader scope
+
     // Check if the user's sequence length matches the expected sequence length
     if (userInput.length === problem_list[problemIndex][2]) {
-      // Check the sequence after a short delay (e.g., 500 milliseconds)
       if (keydownListener) {
-        document.removeEventListener('keydown', keydownListener);   // 키 리스너 제거
+        document.removeEventListener('keydown', keydownListener);
       }
       setTimeout(checkSequence2, 500);
     }

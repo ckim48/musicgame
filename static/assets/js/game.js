@@ -6,7 +6,7 @@ let currentQuestion = 1;
 let gameStarted = false;
 let score = 1;
 let expectedSequences =generate_problem();
-
+game3 = false;
 function generate_problem(){
     let prob = []
     for (let i = 0; i < 50; i++){
@@ -66,7 +66,7 @@ function playSound(problem) {
 function hideStartButton() {
   startButton.style.display = 'none';
   gameStarted = true; // The game has started once the button is clicked
-
+  game1=true
   // Show problem index and information message on separate lines
   const problemInfoContainer = document.createElement('div');
   problemInfoContainer.classList.add('problem-info-container', 'text-center');
@@ -262,7 +262,7 @@ function clearPressedKeys() {
 }
 
 document.addEventListener('keydown', (event) => {
-  if (gameStarted) {
+  if (gameStarted && game1) {
     if (event.key === 'ArrowLeft') {
       showPressedKey('left');
     } else if (event.key === 'ArrowRight') {
