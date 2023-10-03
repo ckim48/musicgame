@@ -12,7 +12,7 @@ function set_variable(){
     check_flag = true
     start_time = new Date()
     score = 0;
-    dev = 0.5;
+    dev = 2;
 }
 
 //let currentQuestion = 1;
@@ -21,8 +21,8 @@ function set_variable(){
 
 
 const problem_list = [ // img, interval, showNum
-    ['Beep', [0, 1, 3], 3],
-    ['Clap', [0, 1, 2, 1], 4]
+//    ['Beep', [0, 1, 3], 3],
+    ['Beep', [0, 1, 2, 3], 3]
 ];
 
 startButton2.addEventListener('click', () => {
@@ -33,16 +33,23 @@ startButton2.addEventListener('click', () => {
 //    removeContent();
 });
 
+let keyInputListener;
+
 function wait_keyInput() {
-    document.addEventListener('keydown', (event) => {
-      if (gameStarted) {
-        if (canPressKey) {
-            if (event.key === 'Enter') {
-              showPressedKey2('Enter');
+    if (keyInputListener) {
+        document.removeEventListener('keydown', keyInputListener);
+    }
+
+    keyInputListener = (event) => {
+        if (gameStarted) {
+            if (canPressKey) {
+                if (event.key === 'Enter') {
+                    showPressedKey2('Enter');
+                }
             }
         }
-      }
-    });
+    };
+    document.addEventListener('keydown', keyInputListener);
 }
 
 function showProblem() {
@@ -66,6 +73,7 @@ function showProblem() {
     console.log(problemIndex, problem_list[problemIndex]);
     displayContent(problem_list[problemIndex]);
 //    displayContent(problem_list[problemIndex]);
+
     wait_keyInput()
 }
 
@@ -80,24 +88,13 @@ function displayContent(curr_problem) {
     var curr_interval = curr_problem[1];
 
     for (let i = 0; i < curr_problem[2]; i++) {
-//        if (i > 0) {
         setTimeout(() => {
             console.log(i)
             text += curr_problem[0];
-//            contentElement.textContent = text;
-//            contentElement.classList.add('content-element');
-//            gameboard.appendChild(contentElement);
             console.log('Play '+ curr_problem[0] + ' sound after ' + curr_interval[i-1]*1000 + 'seconds.');
             beepSound.play();
+//            beepSound.stop();
         }, curr_interval[i] * 1000);
-//            }
-//        else {
-//            text = curr_problem[0];
-//            contentElement.textContent = text;
-//            contentElement.classList.add('content-element');
-//            gameboard.appendChild(contentElement);
-//            beepSound.play();
-//        }
     }
     canPressKey = true;
 }
@@ -123,7 +120,7 @@ function showPressedKey2(key) {
     if (userInput.length === problem_list[problemIndex][2]) {
       // Check the sequence after a short delay (e.g., 500 milliseconds)
       canPressKey = false;
-      setTimeout(checkSequence2, 500);
+      setTimeout(checkSequence2, 2000);
     }
 }
 
@@ -218,12 +215,12 @@ function gameCompleted() {
 
 function resetGame2() {
   keyIndex = 1;
-  userInput = [0];
+  userInput = [];
   gameStarted = true;
   showProblem();
   problemIndex = 0;
   score = 0;
-  canPressKey = false;
+  canPressKey = true;
 }
 
 function clearPressedKeys() {
@@ -235,13 +232,30 @@ function clearPressedKeys() {
 
 function sendScoreToBackend(score) {
   const xhr = new XMLHttpRequest();
-
   const endpoint = '/update_score';
-
   const formData = new FormData();
   formData.append('score', score);
 
   xhr.open('POST', endpoint, true);
+
+  // Set up a function to handle the response from the server
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // Parse the response JSON
+        const response = JSON.parse(xhr.responseText);
+        const newScore = response.score;
+
+        // Update the score on the webpage
+        const currentScoreElement = document.getElementById('currentScore');
+        if (currentScoreElement) {
+          currentScoreElement.innerText = newScore;
+        }
+      } else {
+        console.error('Failed to update score: ' + xhr.status);
+      }
+    }
+  };
 
   // Send the FormData object
   xhr.send(formData);
