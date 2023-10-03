@@ -12,7 +12,6 @@ function set_variable(){
     check_flag = true
     start_time = new Date()
     score = 0;
-    tolerance = 0.4;
 }
 
 //let currentQuestion = 1;
@@ -21,8 +20,8 @@ function set_variable(){
 
 
 const problem_list = [ // img, interval, showNum
-    ['Beep', [1,2], 3],
-    ['Clap', [1, 2, 1], 4]
+    ['Beep', [0, 1, 3], 3],
+    ['Clap', [0, 1, 2, 1], 4]
 ];
 
 startButton2.addEventListener('click', () => {
@@ -64,8 +63,8 @@ function showProblem() {
     problemInfoContainer.appendChild(infoMessage);
 
     console.log(problemIndex, problem_list[problemIndex]);
-
     displayContent(problem_list[problemIndex]);
+//    displayContent(problem_list[problemIndex]);
     wait_keyInput()
 }
 
@@ -80,23 +79,24 @@ function displayContent(curr_problem) {
     var curr_interval = curr_problem[1];
 
     for (let i = 0; i < curr_problem[2]; i++) {
-        if (i==0) {
-            text = curr_problem[0];
+//        if (i > 0) {
+        setTimeout(() => {
+            console.log(i)
+            text += curr_problem[0];
             contentElement.textContent = text;
             contentElement.classList.add('content-element');
             gameboard.appendChild(contentElement);
+            console.log('Play '+ curr_problem[0] + ' sound after ' + curr_interval[i-1]*1000 + 'seconds.');
             beepSound.play();
-        }
-        else {
-            setTimeout(() => {
-                console.log(i)
-                text += curr_problem[0];
-                contentElement.textContent = text;
-                contentElement.classList.add('content-element');
-                gameboard.appendChild(contentElement);
-                console.log('Play '+ curr_problem[0] + ' sound after ' + curr_interval[i-1]*1000 + 'seconds.');
-                beepSound.play();
-            }, curr_interval[i-1] * 1000); }
+        }, curr_interval[i] * 1000);
+//            }
+//        else {
+//            text = curr_problem[0];
+//            contentElement.textContent = text;
+//            contentElement.classList.add('content-element');
+//            gameboard.appendChild(contentElement);
+//            beepSound.play();
+//        }
     }
     canPressKey = true;
 }
@@ -128,9 +128,9 @@ function showPressedKey2(key) {
 
 function checkSequence2() {
     if (check_flag) {
-        console.log(userInput[problemIndex])
+        console.log(userInput.length)
         clearPressedKeys();
-        var intervals = []
+        var intervals = [0]
         console.log(userInput);
         for (let i = 1; i < userInput.length; i++) {
             var timeDiff = Math.round((userInput[i] - userInput[i-1]) / 1000);
@@ -138,7 +138,6 @@ function checkSequence2() {
         }
         console.log(intervals);
         console.log(JSON.stringify(problem_list[problemIndex][1]), JSON.stringify(intervals));
-        console.log(problemIndex);
         const correct = JSON.stringify(problem_list[problemIndex][1]) === JSON.stringify(intervals);
         if (correct) {
             score++;
@@ -184,7 +183,7 @@ function checkSequence2() {
 
             // Clear the warning message, reset the game, and remove the retry button
             warningContainer.remove();
-            resetGame2();
+            resetGame();
         });
         warningContainer.appendChild(retryButton2);
         }
@@ -204,9 +203,9 @@ function gameCompleted() {
     resultContainer.appendChild(resultElement);
 }
 
-function resetGame2() {
+function resetGame() {
   keyIndex = 1;
-  userInput = [];
+  userInput = [0];
   gameStarted = true;
   showProblem();
   problemIndex = 0;
