@@ -149,7 +149,7 @@ def update_score():
 
         # Update the score in the database for the given username
         cursor.execute("UPDATE Users SET score = ? WHERE username = ?", (new_score, username))
-        today_date = datetime.date.today()
+        today_date = datetime.today()
 
         formatted_date = today_date.strftime('%Y/%m/%d')
         cursor.execute("Insert INTO Scores Values(?,?,?)", (formatted_date , 1, username))

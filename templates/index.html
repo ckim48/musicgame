@@ -158,16 +158,16 @@
         <div class="row mt-5" data-aos="fade-up" data-aos-delay="200">
             <div class="gameboard mx-auto d-flex justify-content-center align-items-center">
                 <div class="firework-container">
-
+                </div>
               {% if isLogin %}
-                              <button class="btn btn-danger mx-auto start-btn"  id="startBtn1"> Start</button>
-                                                  <button class="btn btn-danger mx-auto start-btn"  id="startBtn2"> Start</button>
+                              <button class="btn btn-danger mx-auto start-btn"  id="startBtn1" data-keep="true"> Start</button>
+                                                  <button class="btn btn-danger mx-auto start-btn"  id="startBtn2" data-keep="true"> Start</button>
 
               {% else %}
         <p class="">Please Login to Start the Game!</p><br>
 
                 {% endif %}
-            </div>
+
         </div>
     </div>
 
@@ -219,6 +219,7 @@
 <script>
 
             function changeContent(btnId) {
+            removeContent();
     var buttons = document.querySelectorAll('.btn');
     buttons.forEach(function(button) {
         button.classList.remove('active');

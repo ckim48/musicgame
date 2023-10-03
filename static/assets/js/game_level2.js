@@ -26,6 +26,8 @@ const problem_list = [ // img, interval, showNum
 
 startButton2.addEventListener('click', () => {
   startButton2.style.display = 'none';
+//  removeContent();
+
   set_variable()
   gameStarted = true; // The game has started once the button is clicked
   showProblem();
@@ -36,7 +38,7 @@ function wait_keyInput() {
       if (gameStarted) {
         if (canPressKey) {
             if (event.key === 'Enter') {
-              showPressedKey('Enter');
+              showPressedKey2('Enter');
             }
         }
       }
@@ -90,7 +92,7 @@ function displayContent(curr_problem) {
     }, curr_problem[1] * 1000);
 }
 
-function showPressedKey(key) {
+function showPressedKey2(key) {
     let end_time = new Date()
     let timeDiff = end_time.getTime() - start_time.getTime();
     console.log(timeDiff/1000)
@@ -105,10 +107,10 @@ function showPressedKey(key) {
     userInput.push(input);
     canPressKey = false;
 
-    setTimeout(checkSequence(), 3000);
+    setTimeout(checkSequence2(), 3000);
 }
 
-function checkSequence() {
+function checkSequence2() {
     if (check_flag) {
         console.log(userInput[problemIndex], problem_list[problemIndex][1])
         clearPressedKeys();
@@ -118,7 +120,7 @@ function checkSequence() {
             congratsElement.textContent = 'Congratulations!';
             congratsElement.classList.add('congratulations');
             gameboard.appendChild(congratsElement);
-            sendScoreToBackend(score);
+            sendScoreToBackend2(score);
 
             // Reset the game after a delay (e.g., 3 seconds)
             setTimeout(() => {
@@ -192,7 +194,7 @@ function clearPressedKeys() {
 
 
 
-function sendScoreToBackend(score) {
+function sendScoreToBackend2(score) {
   const xhr = new XMLHttpRequest();
 
   const endpoint = '/update_score';
