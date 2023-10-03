@@ -840,18 +840,50 @@ section {
   border: 1px solid #F7E5CD !important;
 }
 .gameboard{
-  border: 1px solid black;
-  width: 70%;
-  border-radius: 9px;
+  border: 2px solid #3498db;
+  width: 80%;
+  border-radius: 15px;
   height: 400px;
   overflow: auto;
+  background: linear-gradient(135deg, #DCF4FB, #C7EFFC);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  padding: 20px;
 }
-.start-btn{
+#startBtn1{
     display:block;
   background-color: #86F28B;
   border: 1px solid #40B645;
   color:black;
   padding: 15px 45px 15px  45px;
+}
+#startBtn1:hover{
+
+  background-color: #40B645;
+
+}
+#startBtn2:hover{
+
+  background-color: #EC67E2;
+
+}
+#startBtn2{
+    display:block;
+  background-color: #EE9FE8;
+  border: 1px solid #EC67E2;
+  color:black;
+  padding: 15px 45px 15px  45px;
+}
+#startBtn3{
+    display:none;
+  background-color: #7CCCE5;
+  border: 1px solid #3AB9E1;
+  color:black;
+  padding: 15px 45px 15px  45px;
+}
+#startBtn3:hover{
+
+  background-color: #3AB9E1;
+
 }
 .btn-retry{
   background-color: white;
@@ -875,10 +907,22 @@ section {
   cursor: pointer;
   margin-bottom: 10px;
   margin-right: 10px;
+  animation: key-animation 0.5s ease;
+}
+@keyframes key-animation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 .congratulations {
   font-size: 27px; 
-  color: #86F28B;
+  color: #2CD24D;
   text-align: center;
   font-weight: bold; 
  

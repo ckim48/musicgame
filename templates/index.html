@@ -108,7 +108,7 @@
           <div class="container mt-5">
         <h1 class="text-center" data-aos="fade-up" data-aos-delay="200">Sound Memory Game</h1>
               {% if isLogin %}
-              <h5 class="text-center" data-aos="fade-in" data-aos-delay="700">Your Points: <span id="currentScore">{{current_score}}</span></h5>
+              <h5 class="text-center" data-aos="fade-in" data-aos-delay="700"><strong>{{username}}</strong>'s Total Points: <span id="currentScore">{{current_score}}</span></h5>
               <ul class="ms-4 mt-5" data-aos="fade-in" data-aos-delay="700">
                   <li><strong>Interval:</strong> You Need at least <strong>20</strong> points to open this stage.</li>
 <!--                  <li class="mt-2"><strong>Pitch:</strong> You Need at least <strong>30</strong> points to open this stage.</li>-->
@@ -162,6 +162,7 @@
               {% if isLogin %}
                               <button class="btn btn-danger mx-auto start-btn"  id="startBtn1" data-keep="true"> Start</button>
                                                   <button class="btn btn-danger mx-auto start-btn"  id="startBtn2" data-keep="true"> Start</button>
+                                                  <button class="btn btn-danger mx-auto start-btn"  id="startBtn3" data-keep="true"> Start</button>
 
               {% else %}
         <p class="">Please Login to Start the Game!</p><br>
@@ -227,7 +228,7 @@
 
     var clickedButton = document.getElementById('btn' + btnId);
     clickedButton.classList.add('active');
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= 3; i++) {
  var button = document.getElementById('startBtn'+i);
         button.style.display = 'none';
 }

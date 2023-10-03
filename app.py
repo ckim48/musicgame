@@ -19,7 +19,7 @@ def index():
         cursor.execute("SELECT score FROM Users WHERE username = ?", (username,))
         current_score = cursor.fetchone()
 
-        return render_template('index.html', isLogin = True,current_score=current_score[0])
+        return render_template('index.html',username=username, isLogin = True,current_score=current_score[0])
     else:
         return render_template('index.html', isLogin = False,current_score=0)
 @app.route('/about', methods=['GET'])
