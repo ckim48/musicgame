@@ -6,6 +6,7 @@ let currentQuestion = 1;
 let gameStarted = false;
 let score = 1;
 let expectedSequences =generate_problem();
+let game1=true
 game3 = false;
 function generate_problem(){
     let prob = []

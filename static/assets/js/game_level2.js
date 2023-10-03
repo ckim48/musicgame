@@ -1,15 +1,13 @@
 const startButton2 = document.getElementById('startBtn2');
 //const gameboard = document.querySelector('.gameboard');
-<<<<<<< HEAD
+
 const beepSound = new Audio('../static/assets/audio/beep.mp3');
-let userInput = [];
-let dev = 2.0
-=======
+
 //const beepSound = new Audio('../static/assets/audio/beep.mp3');
 //const clapSound = new Audio('../static/assets/audio/clap.mp3')
 const soundDict = {'Clap': new Audio('../static/assets/audio/clap.mp3'), 'Beep': new Audio('../static/assets/audio/beep.mp3')};
 
->>>>>>> 69b88345918fd1975d1c922b179d168fca5cdbc3
+
 function set_variable(){
     gameStarted = false;
     Completed = false;
@@ -17,12 +15,11 @@ function set_variable(){
     canPressKey = false;
     start_time = new Date()
     score = 0;
-<<<<<<< HEAD
+
     dev = 2.0;
-=======
->>>>>>> 69b88345918fd1975d1c922b179d168fca5cdbc3
+
 }
-let dev = 1;
+let dev = 2;
 let userInput = []; // To store the user's key presses
 let keydownListener; // keydown 이벤트 리스너의 참조를 저장하는 변수
 
@@ -148,6 +145,56 @@ function checkSequence2() {
         congratsElement.textContent = 'Congratulations!';
         congratsElement.classList.add('congratulations');
         gameboard.appendChild(congratsElement);
+
+         const firework = document.createElement('div');
+    firework.classList.add('firework');
+    gameboard.appendChild(firework);
+
+
+            const firework2 = document.createElement('div');
+    firework2.classList.add('firework2');
+    gameboard.appendChild(firework2);
+
+                const firework3 = document.createElement('div');
+    firework3.classList.add('firework3');
+    gameboard.appendChild(firework3);
+
+                    const firework4 = document.createElement('div');
+    firework4.classList.add('firework4');
+    gameboard.appendChild(firework4);
+
+                        const firework5 = document.createElement('div');
+    firework5.classList.add('firework5');
+    gameboard.appendChild(firework5);
+
+                            const firework6 = document.createElement('div');
+    firework6.classList.add('firework6');
+    gameboard.appendChild(firework6);
+
+    // Remove the firework element after the animation
+    firework.addEventListener('animationend', () => {
+      firework.remove();
+    });
+        firework2.addEventListener('animationend', () => {
+      firework2.remove();
+    });
+
+
+        firework3.addEventListener('animationend', () => {
+      firework3.remove();
+    });
+
+        firework4.addEventListener('animationend', () => {
+      firework4.remove();
+    });
+
+            firework5.addEventListener('animationend', () => {
+      firework5.remove();
+    });
+            firework6.addEventListener('animationend', () => {
+      firework6.remove();
+    });
+    
         sendScoreToBackend(score);
 
         // Reset the game after a delay (e.g., 3 seconds)
