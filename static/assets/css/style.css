@@ -806,29 +806,38 @@ section {
 .btn-primary{
   width: 80%;
   margin-bottom:10px;
-  background-color: white;
+  background-color: white !important;
   font-size:14px;
-  border: 1px solid #EE9C38;
-  color: black;
+  border: 1px solid #EE9C38 !important;
+  color: black !important;
   padding: 0px 40px 0px  40px;
   height: 45px;
 }
+.btn-primary:hover{
+
+  background-color: #EE9C38 !important;
+
+  border: 1px solid #EE9C38 !important;
+  color: white !important;
+
+}
+
 .btn-primary.inactive{
-  background-color: lightgray;
-  border: 1px solid gray;
-  color: #8C8C8C;
+  background-color: lightgray !important;
+  border: 1px solid gray !important;
+  color: #8C8C8C !important;
   padding: 0px 40px 0px  40px;
   height: 45px;
 }
 
 .btn-primary.active {
-  background-color: #EE9C38;
-  border: 1px solid #F7E5CD;
-  color: white;
+  background-color: #EE9C38 !important;
+  border: 1px solid #F7E5CD !important;
+  color: white !important;
 }
 .btn-primary.active:hover{
-  background-color: #EE9C38;
-  border: 1px solid #F7E5CD;
+  background-color: #EE9C38 !important;
+  border: 1px solid #F7E5CD !important;
 }
 .gameboard{
   border: 1px solid black;

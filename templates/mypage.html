@@ -126,6 +126,7 @@
                       </div>
                 </div>
                   <div class="col-md-6">
+                        <canvas id="lineChart" width="400" height="200"></canvas>
 
                 </div>
             </div>
@@ -156,6 +157,76 @@
   <!-- Template Main JS File -->
   <script src="../static/assets/js/main.js"></script>
   <script src="../static/assets/js/game.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+   <script>
+    async function fetchData() {
+      const response = await fetch('/get_scores');
+      const data = await response.json();
+      return data;
+    }
+
+    async function createLineChart() {
+      const data = await fetchData();
+
+      const labels = data.map(item => item.date);
+      const scores = data.map(item => item.total_score);
+
+      const config = {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Scores',
+            data: scores,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2,
+            fill: false
+          }]
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: 'Achieved Score by date',
+              font: {
+                size: 16
+              }
+            }
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Date'
+              },
+              ticks: {
+                autoSkip: true,
+                maxTicksLimit: 6
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Score'
+              }
+            }
+          }
+        }
+      };
+
+      // Get the canvas element
+      const canvas = document.getElementById('lineChart');
+
+      // Create a new Chart instance
+      const ctx = canvas.getContext('2d');
+      const lineChart = new Chart(ctx, config);
+    }
+
+    // Call the function to create the line chart
+    createLineChart();
+
+  </script>
 
 </body>
 
