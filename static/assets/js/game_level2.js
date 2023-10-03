@@ -171,16 +171,16 @@ function checkSequence() {
             warningContainer.appendChild(warningElement);
 
             // Add a retry button with Bootstrap styles and center it
-            const retryButton = document.createElement('button');
-            retryButton.textContent = 'Retry';
-            retryButton.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
-            retryButton.addEventListener('click', () => {
+            const retryButton 2= document.createElement('button');
+            retryButton2.textContent = 'Retry';
+            retryButton2.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
+            retryButton2.addEventListener('click', () => {
 
             // Clear the warning message, reset the game, and remove the retry button
             warningContainer.remove();
             resetGame();
         });
-        warningContainer.appendChild(retryButton);
+        warningContainer.appendChild(retryButton2);
         }
 
     }

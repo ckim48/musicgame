@@ -5,12 +5,37 @@ let problemIndex = 0; // Keep track of the current problem
 let currentQuestion = 1;
 let gameStarted = false;
 let score = 1;
-let expectedSequences = [
-  ['left','left','right','left'], // Problem 1
-  ['right', 'left', 'left', 'right','left'], // Problem 2
-  ['right', 'left','right', 'left', 'right','right']
-  // Add more problems as needed
-];
+let expectedSequences =generate_problem();
+
+function generate_problem(){
+    let prob = []
+    for (let i = 0; i < 50; i++){
+        if (i < 3){
+            prob.push(generateProblem(4))
+        }
+        else if (i < 5){
+            prob.push(generateProblem(5))
+        }
+                else if (i < 10){
+            prob.push(generateProblem(6))
+        }
+                else if (i < 15){
+            prob.push(generateProblem(7))
+        }
+    }
+    return prob
+}
+function generateProblem(level) {
+  const problem = [];
+  const length = level;
+
+  for (let i = 0; i < length; i++) {
+    problem.push(Math.random() < 0.5 ? 'left' : 'right');
+  }
+
+  return problem;
+}
+
 let level1Completed = false;
 
 let userSequence = []; // To store the user's key presses
