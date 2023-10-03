@@ -8,12 +8,12 @@ function set_variable(){
     gameStarted = false;
     Completed = false;
     problemIndex = 0; // Keep track of the current problem
-    userInput = []; // To store the user's key presses
     canPressKey = false;
     start_time = new Date()
     score = 0;
-    dev = 1;
 }
+let dev = 1;
+let userInput = []; // To store the user's key presses
 let keydownListener; // keydown 이벤트 리스너의 참조를 저장하는 변수
 
 //let currentQuestion = 1;
@@ -198,8 +198,7 @@ function gameCompleted() {
 
 function resetGame2() {
   userInput = [];
-  gameStarted = true;
-  score = 0;
+//  gameStarted = true;
   showProblem();
 }
 
