@@ -1,6 +1,8 @@
 const startButton2 = document.getElementById('startBtn2');
 //const gameboard = document.querySelector('.gameboard');
-const beepSound = new Audio('../static/assets/audio/beep.mp3');
+//const beepSound = new Audio('../static/assets/audio/beep.mp3');
+//const clapSound = new Audio('../static/assets/audio/clap.mp3')
+const soundDict = {'Clap': new Audio('../static/assets/audio/clap.mp3'), 'Beep': new Audio('../static/assets/audio/beep.mp3')};
 
 function set_variable(){
     gameStarted = false;
@@ -10,7 +12,7 @@ function set_variable(){
     canPressKey = false;
     start_time = new Date()
     score = 0;
-    dev = 0.5;
+    dev = 1;
 }
 let keydownListener; // keydown 이벤트 리스너의 참조를 저장하는 변수
 
@@ -20,8 +22,8 @@ let keydownListener; // keydown 이벤트 리스너의 참조를 저장하는 �
 
 
 const problem_list = [ // img, interval, showNum
-    ['Beep', [0, 1, 3], 3],
-    ['Clap', [0, 1, 2, 1], 4]
+    ['Clap', [0, 0.3, 0.5, 0.3, 0.5], 5],
+    ['Beep', [0, 1, 2], 3]
 ];
 
 startButton2.addEventListener('click', () => {
@@ -72,15 +74,16 @@ function displayContent(curr_problem) {
 
     const contentElement = document.createElement('div');
     var text = '';
-    var curr_interval = curr_problem[1];
+    var curr_interval = 0;
 
     for (let i = 0; i < curr_problem[2]; i++) {
+        curr_interval += curr_problem[1][i]
         setTimeout(() => {
             console.log(i)
             text += curr_problem[0];
-            console.log('Play '+ curr_problem[0] + ' sound after ' + curr_interval[i]*1000 + 'seconds.');
-            beepSound.play();
-        }, curr_interval[i] * 1000);
+//            console.log('Play '+ curr_problem[0] + ' sound after ' + curr_interval*1000 + 'seconds.');
+            soundDict[curr_problem[0]].play();
+        }, curr_interval * 1000);
     }
     wait_keyInput()
 }
@@ -196,15 +199,8 @@ function gameCompleted() {
 function resetGame2() {
   userInput = [];
   gameStarted = true;
-  problemIndex = 0;
   score = 0;
-//  canPressKey = true;
   showProblem();
-
-
-//  if (keydownListener) {
-//        document.removeEventListener('keydown', keydownListener);
-//  }
 }
 
 function clearPressedKeys() {
