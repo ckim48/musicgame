@@ -2,6 +2,7 @@
 body {
   font-family: "Open Sans", sans-serif;
   color: #555555;
+
 }
 
 a {
@@ -14,7 +15,7 @@ a:hover {
   text-decoration: none;
 }
 
-h1{
+h1,p{
 font-family: 'Josefin Sans', sans-serif;
 }
 h2,
@@ -344,10 +345,14 @@ h6 {
 # Hero Section
 --------------------------------------------------------------*/
 #hero {
-  width: 100%;
-  height: 100vh;
-  background: url("../img/hero-bg.jpg");
   position: relative;
+  height: 100vh; /* Adjust the height as needed */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+    margin: 0;
+  padding: 0;
 }
 
 #hero .hero-container {
@@ -364,6 +369,28 @@ h6 {
   padding: 0 15px;
 }
 
+.video-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#hero video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Adjust the opacity (last value) for darkness */
+}
+
 #hero .hero-logo {
   margin-bottom: 30px;
 }
@@ -373,7 +400,7 @@ h6 {
   font-size: 48px;
   font-weight: 500;
   line-height: 56px;
-  color: #fff;
+  color: black;
 }
 
 #hero h2 {
@@ -777,7 +804,10 @@ section {
 }
 
 .btn-primary{
+  width: 80%;
+  margin-bottom:10px;
   background-color: white;
+  font-size:14px;
   border: 1px solid #EE9C38;
   color: black;
   padding: 0px 40px 0px  40px;
@@ -1071,3 +1101,121 @@ scale:1.04;
     flex-direction: column;
     justify-content: center;
 }
+
+@keyframes firework {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-200px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.firework {
+  width: 10px;
+  height: 100px;
+  background: rgba(255, 0, 0, 0.8);
+  position: absolute;
+  animation: firework 0.7s linear;
+}
+
+
+@keyframes firework2 {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100px) translateY(-200px) rotate(200deg);
+    opacity: 0;
+  }
+}
+
+.firework2 {
+  width: 10px;
+  height: 100px;
+  background: rgba(0, 255, 0, 0.8);
+  position: absolute;
+  animation: firework2 0.7s linear;
+}
+
+@keyframes firework3 {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-200px) translateY(-200px) rotate(200deg);
+    opacity: 0;
+  }
+}
+
+.firework3 {
+  width: 10px;
+  height: 100px;
+  background: rgba(0, 0, 255, 0.8);
+  position: absolute;
+  animation: firework3 0.7s linear;
+}
+
+
+@keyframes firework4 {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-200px) translateY(200px) rotate(200deg);
+    opacity: 0;
+  }
+}
+
+.firework4 {
+  width: 10px;
+  height: 100px;
+  background: rgba(200, 125, 255, 0.8);
+  position: absolute;
+  animation: firework4 0.7s linear;
+}
+
+@keyframes firework5 {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(200px) translateY(200px) rotate(200deg);
+    opacity: 0;
+  }
+}
+
+.firework5 {
+  width: 10px;
+  height: 100px;
+  background: rgba(100, 135, 145, 0.8);
+  position: absolute;
+  animation: firework5 0.7s linear;
+}
+
+
+@keyframes firework6 {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(200px) rotate(300deg);
+    opacity: 0;
+  }
+}
+
+.firework6 {
+  width: 10px;
+  height: 100px;
+  background: rgba(100, 135, 235, 0.8);
+  position: absolute;
+  animation: firework6 0.7s linear;
+}
+

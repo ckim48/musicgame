@@ -37,27 +37,32 @@
 
   <!-- ======= Hero Section ======= -->
   <section id="hero">
-    <div class="hero-container">
-<!--      <h1 data-aos="zoom-in">Welcome To Music Memory</h1>-->
-            <div class="wave">
-        <span style="--i:1">M</span>
-        <span style="--i:2">U</span>
-        <span style="--i:3">S</span>
-        <span style="--i:4">I</span>
-        <span style="--i:5">C</span>
-        <span style="--i:6">&nbsp;</span>
-        <span style="--i:7">M</span>
-        <span style="--i:8">E</span>
-        <span style="--i:9">M</span>
-        <span style="--i:10">O</span>
-        <span style="--i:11">R</span>
-                      <span style="--i:12">Y</span>
+    <div class="video-container">
+      <video autoplay loop muted playsinline>
+        <source src="../static/assets/img/video_back.mp4" type="video/mp4">
 
+      </video>
+        <div class="overlay"></div>
+      <div class="hero-container">
+        <div class="wave">
+          <span style="--i:1">M</span>
+          <span style="--i:2">U</span>
+          <span style="--i:3">S</span>
+          <span style="--i:4">I</span>
+          <span style="--i:5">C</span>
+          <span style="--i:6">&nbsp;</span>
+          <span style="--i:7">M</span>
+          <span style="--i:8">E</span>
+          <span style="--i:9">M</span>
+          <span style="--i:10">O</span>
+          <span style="--i:11">R</span>
+          <span style="--i:12">Y</span>
+        </div>
+        <h2 data-aos="fade-up">Enhance your memory by playing the game!</h2>
+        <a data-aos="fade-up" data-aos-delay="200" href="#game" class="btn-get-started scrollto">Get Started</a>
       </div>
-      <h2 data-aos="fade-up">Enhance your memory by playing game!</h2>
-      <a data-aos="fade-up" data-aos-delay="200" href="#game" class="btn-get-started scrollto">Get Started</a>
     </div>
-  </section><!-- End Hero -->
+  </section>
 
   <!-- ======= Header ======= -->
   <header id="header" class="d-flex align-items-center">
@@ -102,6 +107,14 @@
    <section id="game">
           <div class="container mt-5">
         <h1 class="text-center" data-aos="fade-up" data-aos-delay="200">Sound Memory Game</h1>
+              {% if isLogin %}
+              <h5 class="text-center" data-aos="fade-in" data-aos-delay="700">Your Score: <span id="currentScore">{{current_score}}</span></h5>
+              <ul class="ms-4 mt-5" data-aos="fade-in" data-aos-delay="700">
+                  <li><strong>Interval:</strong> You Need at least <strong>20</strong> points to open this stage.</li>
+                  <li class="mt-2"><strong>Pitch:</strong> You Need at least <strong>30</strong> points to open this stage.</li>
+                  <li class="mt-2"><strong>Mix & Mix:</strong> You Need at least <strong>50</strong> points to open this stage.</li>
+              </ul>
+              {% endif %}
 <!--            <ul>-->
 <!--              <li>Level1: </li>-->
 <!--              <li>Level2: </li>-->
@@ -110,20 +123,22 @@
 <!--            </ul>-->
           <div class="row text-center mx-auto mt-5" data-aos="fade-up" data-aos-delay="200">
             <div class="col-md-3">
-              <button class="btn btn-primary active" onclick="changeContent(1)" id="btn1">Level 1</button>
+              <button class="btn btn-primary active" onclick="changeContent(1)" id="btn1">Recognition</button>
             </div>
             <div class="col-md-3">
-              <button class="btn btn-primary inactive" onclick="changeContent(2)"id="btn2" disabled><i class="bi bi-lock"></i> Level  2</button>
+              <button class="btn btn-primary inactive" onclick="changeContent(2)"id="btn2" disabled><i class="bi bi-lock"></i> Interval</button>
             </div>
             <div class="col-md-3">
-              <button class="btn btn-primary inactive" onclick="changeContent(3)"id="btn3" disabled><i class="bi bi-lock"></i> Level 3</button>
+              <button class="btn btn-primary inactive" onclick="changeContent(3)"id="btn3" disabled><i class="bi bi-lock"></i> Pitch</button>
             </div>
             <div class="col-md-3">
-              <button class="btn btn-primary inactive" onclick="changeContent(4)"id="btn4" disabled><i class="bi bi-lock"></i> Level 4</button>
+              <button class="btn btn-primary inactive" onclick="changeContent(4)"id="btn4" disabled><i class="bi bi-lock"></i> Mix & Mix</button>
             </div>
           </div>
         <div class="row mt-5" data-aos="fade-up" data-aos-delay="200">
             <div class="gameboard mx-auto d-flex justify-content-center align-items-center">
+                <div class="firework-container">
+
               {% if isLogin %}
                               <button class="btn btn-danger mx-auto start-btn"  id="startBtn"> Start</button>
               {% else %}

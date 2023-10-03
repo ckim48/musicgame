@@ -112,9 +112,62 @@ function checkSequence() {
     const congratsElement = document.createElement('div');
     congratsElement.textContent = 'Congratulations!';
     congratsElement.classList.add('congratulations');
+
     gameboard.appendChild(congratsElement);
+
+        const firework = document.createElement('div');
+    firework.classList.add('firework');
+    gameboard.appendChild(firework);
+
+
+            const firework2 = document.createElement('div');
+    firework2.classList.add('firework2');
+    gameboard.appendChild(firework2);
+
+                const firework3 = document.createElement('div');
+    firework3.classList.add('firework3');
+    gameboard.appendChild(firework3);
+
+                    const firework4 = document.createElement('div');
+    firework4.classList.add('firework4');
+    gameboard.appendChild(firework4);
+
+                        const firework5 = document.createElement('div');
+    firework5.classList.add('firework5');
+    gameboard.appendChild(firework5);
+
+                            const firework6 = document.createElement('div');
+    firework6.classList.add('firework6');
+    gameboard.appendChild(firework6);
+
+    // Remove the firework element after the animation
+    firework.addEventListener('animationend', () => {
+      firework.remove();
+    });
+        firework2.addEventListener('animationend', () => {
+      firework2.remove();
+    });
+
+
+        firework3.addEventListener('animationend', () => {
+      firework3.remove();
+    });
+
+        firework4.addEventListener('animationend', () => {
+      firework4.remove();
+    });
+
+            firework5.addEventListener('animationend', () => {
+      firework5.remove();
+    });
+            firework6.addEventListener('animationend', () => {
+      firework6.remove();
+    });
     canPressKeys = false;
+
     sendScoreToBackend(score);
+
+
 
     // Reset the game after a delay (e.g., 3 seconds)
     setTimeout(() => {
@@ -199,13 +252,30 @@ startButton.addEventListener('click', () => {
 
 function sendScoreToBackend(score) {
   const xhr = new XMLHttpRequest();
-
   const endpoint = '/update_score';
-
   const formData = new FormData();
   formData.append('score', score);
 
   xhr.open('POST', endpoint, true);
+
+  // Set up a function to handle the response from the server
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // Parse the response JSON
+        const response = JSON.parse(xhr.responseText);
+        const newScore = response.score;
+
+        // Update the score on the webpage
+        const currentScoreElement = document.getElementById('currentScore');
+        if (currentScoreElement) {
+          currentScoreElement.innerText = newScore;
+        }
+      } else {
+        console.error('Failed to update score: ' + xhr.status);
+      }
+    }
+  };
 
   // Send the FormData object
   xhr.send(formData);
