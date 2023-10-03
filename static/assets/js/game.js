@@ -1,4 +1,4 @@
-const startButton = document.getElementById('startBtn');
+const startButton = document.getElementById('startBtn1');
 const gameboard = document.querySelector('.gameboard');
 let keyIndex = 1;
 let problemIndex = 0; // Keep track of the current problem

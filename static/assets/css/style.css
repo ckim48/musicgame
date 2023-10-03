@@ -1228,3 +1228,6 @@ scale:1.04;
   animation: firework6 0.7s linear;
 }
 
+#startBtn2{
+display: none;
+}
