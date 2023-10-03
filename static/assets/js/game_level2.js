@@ -1,16 +1,18 @@
-const startButton = document.getElementById('startBtn');
-const gameboard = document.querySelector('.gameboard');
+const startButton2 = document.getElementById('startBtn2');
+//const gameboard = document.querySelector('.gameboard');
 const beepSound = new Audio('../static/assets/audio/beep.mp3');
 
-let gameStarted = false;
-let Completed = false;
-let problemIndex = 0; // Keep track of the current problem
-let keyIndex = 1;
-let userInput = []; // To store the user's key presses
-let canPressKey = false;
-let check_flag = true
-let start_time = new Date()
-let score = 0;
+function set_variable(){
+    gameStarted = false;
+    Completed = false;
+    problemIndex = 0; // Keep track of the current problem
+    keyIndex = 1;
+    userInput = []; // To store the user's key presses
+    canPressKey = false;
+    check_flag = true
+    start_time = new Date()
+    score = 0;
+}
 
 //let currentQuestion = 1;
 //let incorrectCnt = 0;
@@ -22,10 +24,12 @@ const problem_list = [ // img, interval, showNum
     ['Clap', [1, 2, 1], 4]
 ];
 
-startButton.addEventListener('click', () => {
-  startButton.style.display = 'none';
+startButton2.addEventListener('click', () => {
+  startButton2.style.display = 'none';
+  set_variable()
   gameStarted = true; // The game has started once the button is clicked
   showProblem();
+    removeContent();
 });
 
 function wait_keyInput() {
@@ -33,7 +37,7 @@ function wait_keyInput() {
       if (gameStarted) {
         if (canPressKey) {
             if (event.key === 'Enter') {
-              showPressedKey('Enter');
+              showPressedKey2('Enter');
             }
         }
       }
@@ -96,7 +100,7 @@ function displayContent(curr_problem) {
     canPressKey = true;
 }
 
-function showPressedKey(key) {
+function showPressedKey2(key) {
     const problemInfoContainer = document.querySelector('.problem-info-container');
     if (problemInfoContainer) {
       problemInfoContainer.remove();
@@ -117,11 +121,11 @@ function showPressedKey(key) {
     if (userInput.length === problem_list[problemIndex][2]) {
       // Check the sequence after a short delay (e.g., 500 milliseconds)
       canPressKey = false;
-      setTimeout(checkSequence, 500);
+      setTimeout(checkSequence2, 500);
     }
 }
 
-function checkSequence() {
+function checkSequence2() {
     if (check_flag) {
         console.log(userInput[problemIndex])
         clearPressedKeys();
@@ -171,7 +175,7 @@ function checkSequence() {
             warningContainer.appendChild(warningElement);
 
             // Add a retry button with Bootstrap styles and center it
-            const retryButton 2= document.createElement('button');
+            const retryButton2= document.createElement('button');
             retryButton2.textContent = 'Retry';
             retryButton2.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
             retryButton2.addEventListener('click', () => {

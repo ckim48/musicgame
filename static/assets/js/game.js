@@ -281,7 +281,7 @@ function removeContent() {
 }
 startButton.addEventListener('click', () => {
   hideStartButton();
-//  removeContent();
+
 });
 
 function sendScoreToBackend(score) {
