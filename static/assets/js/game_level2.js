@@ -12,6 +12,7 @@ function set_variable(){
     check_flag = true
     start_time = new Date()
     score = 0;
+    tolerance = 0.4;
 }
 
 //let currentQuestion = 1;
@@ -20,7 +21,7 @@ function set_variable(){
 
 
 const problem_list = [ // img, interval, showNum
-    ['Beep', [1, 3], 3],
+    ['Beep', [1,2], 3],
     ['Clap', [1, 2, 1], 4]
 ];
 
@@ -137,6 +138,7 @@ function checkSequence2() {
         }
         console.log(intervals);
         console.log(JSON.stringify(problem_list[problemIndex][1]), JSON.stringify(intervals));
+        console.log(problemIndex);
         const correct = JSON.stringify(problem_list[problemIndex][1]) === JSON.stringify(intervals);
         if (correct) {
             score++;
@@ -182,7 +184,7 @@ function checkSequence2() {
 
             // Clear the warning message, reset the game, and remove the retry button
             warningContainer.remove();
-            resetGame();
+            resetGame2();
         });
         warningContainer.appendChild(retryButton2);
         }
@@ -202,7 +204,7 @@ function gameCompleted() {
     resultContainer.appendChild(resultElement);
 }
 
-function resetGame() {
+function resetGame2() {
   keyIndex = 1;
   userInput = [];
   gameStarted = true;
