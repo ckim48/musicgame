@@ -76,7 +76,7 @@
         <ul>
           {% if isLogin %}
              <li><a class="nav-link scrollto" href="{{url_for('about')}}">About</a></li>
-                      <li><a class="nav-link scrollto" href="{{url_for('scoreboard')}}">Scoreboard</a></li>
+                      <li><a class="nav-link scrollto" href="{{url_for('scoreboard')}}">Leaderboard</a></li>
 
                       <li><a class="nav-link scrollto" href="{{url_for('mypage')}}">My Page</a></li>
 
@@ -108,11 +108,11 @@
           <div class="container mt-5">
         <h1 class="text-center" data-aos="fade-up" data-aos-delay="200">Sound Memory Game</h1>
               {% if isLogin %}
-              <h5 class="text-center" data-aos="fade-in" data-aos-delay="700">Your Score: <span id="currentScore">{{current_score}}</span></h5>
+              <h5 class="text-center" data-aos="fade-in" data-aos-delay="700"><strong>{{username}}</strong>'s Total Points: <span id="currentScore">{{current_score}}</span></h5>
               <ul class="ms-4 mt-5" data-aos="fade-in" data-aos-delay="700">
                   <li><strong>Interval:</strong> You Need at least <strong>20</strong> points to open this stage.</li>
-                  <li class="mt-2"><strong>Pitch:</strong> You Need at least <strong>30</strong> points to open this stage.</li>
-                  <li class="mt-2"><strong>Mix & Mix:</strong> You Need at least <strong>50</strong> points to open this stage.</li>
+<!--                  <li class="mt-2"><strong>Pitch:</strong> You Need at least <strong>30</strong> points to open this stage.</li>-->
+                  <li class="mt-2"><strong>Pitch & Interval:</strong> You Need at least <strong>50</strong> points to open this stage.</li>
               </ul>
               {% endif %}
 <!--            <ul>-->
@@ -122,30 +122,53 @@
 <!--              <li>Level4: </li>-->
 <!--            </ul>-->
           <div class="row text-center mx-auto mt-5" data-aos="fade-up" data-aos-delay="200">
-            <div class="col-md-3">
+
+            <div class="col-md-4">
               <button class="btn btn-primary active" onclick="changeContent(1)" id="btn1">Recognition</button>
             </div>
-            <div class="col-md-3">
+
+              {% if current_score > 10 %}
+            <div class="col-md-4">
+              <button class="btn btn-primary " onclick="changeContent(2)"id="btn2">Interval</button>
+            </div>
+              {% else %}
+                    <div class="col-md-4">
               <button class="btn btn-primary inactive" onclick="changeContent(2)"id="btn2" disabled><i class="bi bi-lock"></i> Interval</button>
             </div>
-            <div class="col-md-3">
-              <button class="btn btn-primary inactive" onclick="changeContent(3)"id="btn3" disabled><i class="bi bi-lock"></i> Pitch</button>
+              {% endif %}
+              {% if current_score > 15 %}
+            <div class="col-md-4">
+              <button class="btn btn-primary" onclick="changeContent(3)"id="btn3"> Pitch & Interval</button>
             </div>
-            <div class="col-md-3">
-              <button class="btn btn-primary inactive" onclick="changeContent(4)"id="btn4" disabled><i class="bi bi-lock"></i> Mix & Mix</button>
+              {% else %}
+                          <div class="col-md-3">
+              <button class="btn btn-primary inactive" onclick="changeContent(3)"id="btn3" disabled><i class="bi bi-lock"></i>Pitch & Interval</button>
             </div>
+              {% endif %}
+<!--              {% if current_score > 20 %}-->
+<!--            <div class="col-md-3">-->
+<!--              <button class="btn btn-primary" onclick="changeContent(4)"id="btn4" > Mix & Mix</button>-->
+<!--            </div>-->
+<!--              {% else %}-->
+<!--                          <div class="col-md-3">-->
+<!--              <button class="btn btn-primary inactive" onclick="changeContent(4)"id="btn4" disabled><i class="bi bi-lock"></i> Mix & Mix</button>-->
+<!--                              {% endif %}-->
+<!--            </div>-->
           </div>
         <div class="row mt-5" data-aos="fade-up" data-aos-delay="200">
             <div class="gameboard mx-auto d-flex justify-content-center align-items-center">
                 <div class="firework-container">
-
+                </div>
               {% if isLogin %}
-                              <button class="btn btn-danger mx-auto start-btn"  id="startBtn"> Start</button>
+                              <button class="btn btn-danger mx-auto start-btn"  id="startBtn1" data-keep="true"> Start</button>
+                                                  <button class="btn btn-danger mx-auto start-btn"  id="startBtn2" data-keep="true"> Start</button>
+                                                  <button class="btn btn-danger mx-auto start-btn"  id="startBtn3" data-keep="true"> Start</button>
+
               {% else %}
         <p class="">Please Login to Start the Game!</p><br>
 
                 {% endif %}
-            </div>
+
         </div>
     </div>
 
@@ -192,9 +215,28 @@
 
   <!-- Template Main JS File -->
   <script src="../static/assets/js/main.js"></script>
-<!--  <script src="../static/assets/js/game.js"></script>-->
+  <script src="../static/assets/js/game.js"></script>
   <script src="../static/assets/js/game_level2.js"></script>
+<script>
 
+            function changeContent(btnId) {
+            removeContent();
+    var buttons = document.querySelectorAll('.btn');
+    buttons.forEach(function(button) {
+        button.classList.remove('active');
+    });
+
+    var clickedButton = document.getElementById('btn' + btnId);
+    clickedButton.classList.add('active');
+    for (let i = 1; i <= 3; i++) {
+ var button = document.getElementById('startBtn'+i);
+        button.style.display = 'none';
+}
+    var startButton = document.getElementById('startBtn'+btnId);
+
+    startButton.style.display = 'block';
+        }
+</script>
 
 </body>
 

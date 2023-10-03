@@ -1,4 +1,4 @@
-const startButton = document.getElementById('startBtn');
+const startButton = document.getElementById('startBtn1');
 const gameboard = document.querySelector('.gameboard');
 let keyIndex = 1;
 let problemIndex = 0; // Keep track of the current problem
@@ -245,9 +245,18 @@ document.addEventListener('keydown', (event) => {
     }
   }
 });
-
+function removeContent() {
+  const gameboardChildren = gameboard.children;
+  for (let i = gameboardChildren.length - 1; i >= 0; i--) {
+    const child = gameboardChildren[i];
+    if (!child.hasAttribute('data-keep')) {
+      child.remove();
+    }
+  }
+}
 startButton.addEventListener('click', () => {
   hideStartButton();
+//  removeContent();
 });
 
 function sendScoreToBackend(score) {

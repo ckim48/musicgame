@@ -1,13 +1,15 @@
 from flask import Flask, render_template, url_for, request, redirect,flash,session,jsonify
 import sqlite3
-from datetime import timedelta
-import datetime
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.secret_key = 'codingisfun'
 session = {}
 app.permanent_session_lifetime = timedelta(seconds=7200)
-
+sample_data = {
+    'dates': ['2023-09-25', '2023-09-26', '2023-09-27', '2023-09-28', '2023-09-29'],
+    'scores': [10, 15, 20, 18, 25]
+}
 @app.route('/', methods=['GET'])
 def index():
     if 'username' in session:
@@ -16,9 +18,10 @@ def index():
         cursor = conn.cursor()
         cursor.execute("SELECT score FROM Users WHERE username = ?", (username,))
         current_score = cursor.fetchone()
-        return render_template('index.html', isLogin = True,current_score=current_score[0])
+
+        return render_template('index.html',username=username, isLogin = True,current_score=current_score[0])
     else:
-        return render_template('index.html', isLogin = False)
+        return render_template('index.html', isLogin = False,current_score=0)
 @app.route('/about', methods=['GET'])
 def about():
     if 'username' in session:
@@ -87,8 +90,8 @@ def insert_user_data(username, password, age, country, email):
     conn = sqlite3.connect('static/assets/data/database.db')
     cursor = conn.cursor()
 
-    cursor.execute("INSERT INTO Users (username, password, age, country, email) VALUES (?, ?, ?, ?, ?)",
-                   (username, password, age, country, email))
+    cursor.execute("INSERT INTO Users (username, password, age, country, email,score) VALUES (?, ?, ?, ?, ?,?)",
+                   (username, password, age, country, email,0))
 
     conn.commit()
     conn.close()
@@ -114,17 +117,17 @@ def scoreboard():
     conn = sqlite3.connect('static/assets/data/database.db')
     cursor = conn.cursor()
 
-    cursor.execute("SELECT score FROM Users WHERE username = ?", (username,))
-    current_score = cursor.fetchone()
+    cursor.execute('SELECT username, score FROM Users ORDER BY score DESC LIMIT 10')
+    leaderboard_data = cursor.fetchall()
+    conn.close()
 
-    if current_score is None:
-        return 'User not found', 404
+
     if 'username' in session:
         isLogin = True
     else:
         isLogin = False
 
-    return render_template('scoreboard.html', title='Scoreboard',score = current_score[0], isLogin = isLogin)
+    return render_template('scoreboard.html',isLogin=isLogin, leaderboard_data=leaderboard_data)
 
 @app.route('/update_score', methods=['POST'])
 def update_score():
@@ -146,7 +149,7 @@ def update_score():
 
         # Update the score in the database for the given username
         cursor.execute("UPDATE Users SET score = ? WHERE username = ?", (new_score, username))
-        today_date = datetime.date.today()
+        today_date = datetime.today()
 
         formatted_date = today_date.strftime('%Y/%m/%d')
         cursor.execute("Insert INTO Scores Values(?,?,?)", (formatted_date , 1, username))
@@ -163,5 +166,52 @@ def update_score():
         cursor.close()
         conn.close()
 
+
+
+@app.route('/get_scores', methods=['GET', 'POST'])
+def get_scores_for_username():
+    username = session.get('username')
+    if username is None:
+        return "User not logged in", 401
+
+    conn = sqlite3.connect('static/assets/data/database.db')
+    cursor = conn.cursor()
+
+    seven_days_ago = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
+
+    query = """
+            SELECT Date, SUM(getScore)
+            FROM Scores
+            WHERE username = ? AND Date >= ?
+            GROUP BY Date
+            ORDER BY Date
+            """
+
+    cursor.execute(query, (username, seven_days_ago))
+    rows = cursor.fetchall()
+
+    conn.close()
+
+    # Convert the data to a list of dictionaries
+    result = [{'date': row[0], 'total_score': row[1]} for row in rows]
+
+    # Ensure there are entries for every date in the last 7 days and set score to 0 if not achieved
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=6)
+
+    date_set = set(item['date'] for item in result)
+    for single_date in (start_date + timedelta(n) for n in range(7)):
+        formatted_date = single_date.strftime('%Y-%m-%d')
+        if formatted_date not in date_set:
+            result.append({'date': formatted_date, 'total_score': 0})
+
+    # Sort the result by date
+    result.sort(key=lambda x: x['date'])
+
+    return jsonify(result)
+def prepare_data_for_graph(scores):
+    dates = [row[0] for row in scores]
+    scores = [row[1] for row in scores]
+    return dates, scores
 if __name__ == '__main__':
     app.run(debug=True)

@@ -83,38 +83,30 @@
      <div class="container">
       <div id="leaderboard mx-auto">
         <table class="tw mx-auto">
+<!--          <tr>-->
+<!--            <td class="number">1</td>-->
+<!--            <td class="name">scott</td>-->
+<!--            <td class="points">-->
+<!--              30 <img class="gold-medal" src="https://github.com/malunaridev/Challenges-iCodeThis/blob/master/4-leaderboard/assets/gold-medal.png?raw=true" alt="gold medal"/>-->
+<!--            </td>-->
+<!--          </tr>-->
+
+        {% for user in leaderboard_data %}
           <tr>
-            <td class="number">1</td>
-            <td class="name">scott</td>
-            <td class="points">
-              30 <img class="gold-medal" src="https://github.com/malunaridev/Challenges-iCodeThis/blob/master/4-leaderboard/assets/gold-medal.png?raw=true" alt="gold medal"/>
-            </td>
+            <td class="number">{{ loop.index}}</td>
+            <td class="name">{{ user[0] }}</td>
+
+            {% if loop.index == 1%}
+            <td class="points">{{ user[1] }}
+                       <img class="gold-medal" src="https://github.com/malunaridev/Challenges-iCodeThis/blob/master/4-leaderboard/assets/gold-medal.png?raw=true" alt="gold medal"/>
+
+              </td>
+            {% else %}
+            <td class="points">{{ user[1] }}</td>
+            {% endif %}
           </tr>
-          <tr>
-            <td class="number">2</td>
-            <td class="name">jason</td>
-            <td class="points">25</td>
-          </tr>
-          <tr>
-            <td class="number">3</td>
-            <td class="name">alice</td>
-            <td class="points">20</td>
-          </tr>
-          <tr>
-            <td class="number">4</td>
-            <td class="name">jy</td>
-            <td class="points">15</td>
-          </tr>
-          <tr>
-            <td class="number">5</td>
-            <td class="name">john</td>
-            <td class="points">10</td>
-          </tr>
-          <tr>
-            <td class="number">6</td>
-            <td class="name">test</td>
-            <td class="points">{{score}}</td>
-          </tr>
+
+        {% endfor %}
         </table>
 
       </div>
