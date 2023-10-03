@@ -6,14 +6,13 @@ function set_variable(){
     gameStarted = false;
     Completed = false;
     problemIndex = 0; // Keep track of the current problem
-    keyIndex = 1;
     userInput = []; // To store the user's key presses
     canPressKey = false;
-    check_flag = true
     start_time = new Date()
     score = 0;
-    dev = 2;
+    dev = 0.5;
 }
+let keydownListener; // keydown 이벤트 리스너의 참조를 저장하는 변수
 
 //let currentQuestion = 1;
 //let incorrectCnt = 0;
@@ -21,8 +20,8 @@ function set_variable(){
 
 
 const problem_list = [ // img, interval, showNum
-//    ['Beep', [0, 1, 3], 3],
-    ['Beep', [0, 1, 2, 3], 3]
+    ['Beep', [0, 1, 3], 3],
+    ['Clap', [0, 1, 2, 1], 4]
 ];
 
 startButton2.addEventListener('click', () => {
@@ -33,27 +32,18 @@ startButton2.addEventListener('click', () => {
 //    removeContent();
 });
 
-let keyInputListener;
-
 function wait_keyInput() {
-    if (keyInputListener) {
-        document.removeEventListener('keydown', keyInputListener);
-    }
-
-    keyInputListener = (event) => {
-        if (gameStarted) {
-            if (canPressKey) {
-                if (event.key === 'Enter') {
-                    showPressedKey2('Enter');
-                }
-            }
+    keydownListener = (event) => {
+      if (gameStarted) {
+        if (event.key === 'Enter') {
+            showPressedKey2('Enter');
         }
+      }
     };
-    document.addEventListener('keydown', keyInputListener);
+    document.addEventListener('keydown', keydownListener); // 이벤트 리스너 등록
 }
 
 function showProblem() {
-    canPressKey = false;
     // Show problem index and information message on separate lines
     const problemInfoContainer = document.createElement('div');
     problemInfoContainer.classList.add('problem-info-container', 'text-center');
@@ -72,9 +62,6 @@ function showProblem() {
 
     console.log(problemIndex, problem_list[problemIndex]);
     displayContent(problem_list[problemIndex]);
-//    displayContent(problem_list[problemIndex]);
-
-    wait_keyInput()
 }
 
 function displayContent(curr_problem) {
@@ -91,12 +78,11 @@ function displayContent(curr_problem) {
         setTimeout(() => {
             console.log(i)
             text += curr_problem[0];
-            console.log('Play '+ curr_problem[0] + ' sound after ' + curr_interval[i-1]*1000 + 'seconds.');
+            console.log('Play '+ curr_problem[0] + ' sound after ' + curr_interval[i]*1000 + 'seconds.');
             beepSound.play();
-//            beepSound.stop();
         }, curr_interval[i] * 1000);
     }
-    canPressKey = true;
+    wait_keyInput()
 }
 
 function showPressedKey2(key) {
@@ -111,94 +97,88 @@ function showPressedKey2(key) {
     displayElement.classList.add('pressed-key');
     gameboard.appendChild(displayElement);
 
-//    // Increment the index for the next key
-//    keyIndex++;
-
     // Add the key to the user's sequence
     userInput.push(pressed_time.getTime());
     // Check if the user's sequence length matches the expected sequence length
     if (userInput.length === problem_list[problemIndex][2]) {
       // Check the sequence after a short delay (e.g., 500 milliseconds)
-      canPressKey = false;
-      setTimeout(checkSequence2, 2000);
+      if (keydownListener) {
+        document.removeEventListener('keydown', keydownListener);   // 키 리스너 제거
+      }
+      setTimeout(checkSequence2, 500);
     }
 }
 
 function checkSequence2() {
-    if (check_flag) {
-        console.log(userInput.length)
-        clearPressedKeys();
-        var intervals = [0]
-        console.log(userInput);
-        for (let i = 1; i < userInput.length; i++) {
-            var timeDiff = (userInput[i] - userInput[i-1]) / 1000;
-            intervals.push(timeDiff);
-        }
-        console.log(intervals);
-        var correct = true;
-        for (var i = 0; i < intervals.length; i++) {
-            if (correct) {
-                min_dev = problem_list[problemIndex][1][i] - dev;
-                max_dev = problem_list[problemIndex][1][i] + dev;
-                console.log(min_dev, max_dev)
-                if (intervals[i] <= min_dev || intervals[i] >= max_dev) {
-                    correct = false;
-                }
-            }
-        }
-
+    clearPressedKeys();
+    var intervals = [0]
+    for (let i = 1; i < userInput.length; i++) {
+        var timeDiff = (userInput[i] - userInput[i-1]) / 1000;
+        intervals.push(timeDiff);
+    }
+    console.log(intervals);
+    var correct = true;
+    for (var i = 0; i < intervals.length; i++) {
         if (correct) {
-            score++;
-            const congratsElement = document.createElement('div');
-            congratsElement.textContent = 'Congratulations!';
-            congratsElement.classList.add('congratulations');
-            gameboard.appendChild(congratsElement);
-            sendScoreToBackend(score);
-
-            // Reset the game after a delay (e.g., 3 seconds)
-            setTimeout(() => {
-            // Remove the "Congratulations" message
-            congratsElement.remove();
-
-            // Progress to the next problem
-            problemIndex++;
-            if (problemIndex < problem_list.length) {
-//                keyIndex = 1;
-                userInput = [];
-                showProblem();
+            min_dev = problem_list[problemIndex][1][i] - dev;
+            max_dev = problem_list[problemIndex][1][i] + dev;
+            console.log(min_dev, max_dev)
+            if (intervals[i] <= min_dev || intervals[i] >= max_dev) {
+                correct = false;
             }
-            else {
-                gameCompleted();
-            }}, 3000);
+        }
+    }
+
+    if (correct) {
+        score++;
+        const congratsElement = document.createElement('div');
+        congratsElement.textContent = 'Congratulations!';
+        congratsElement.classList.add('congratulations');
+        gameboard.appendChild(congratsElement);
+        sendScoreToBackend(score);
+
+        // Reset the game after a delay (e.g., 3 seconds)
+        setTimeout(() => {
+        // Remove the "Congratulations" message
+        congratsElement.remove();
+
+        // Progress to the next problem
+        problemIndex++;
+        if (problemIndex < problem_list.length) {
+            userInput = [];
+            showProblem();
         }
         else {
-            // Create a container for the warning message and retry button
-            const warningContainer = document.createElement('div');
-            warningContainer.classList.add('warning-container', 'text-center'); // Center align content
-            gameboard.appendChild(warningContainer);
+            gameCompleted();
+        }}, 3000);
+    }
+    else {
+        // Create a container for the warning message and retry button
+        const warningContainer = document.createElement('div');
+        warningContainer.classList.add('warning-container', 'text-center'); // Center align content
+        gameboard.appendChild(warningContainer);
 
-            // Show a warning message
-            const warningElement = document.createElement('div');
-            warningElement.textContent = 'Wrong answer! Try again.';
-            warningElement.classList.add('warning');
-            warningContainer.appendChild(warningElement);
+        // Show a warning message
+        const warningElement = document.createElement('div');
+        warningElement.textContent = 'Wrong answer! Try again.';
+        warningElement.classList.add('warning');
+        warningContainer.appendChild(warningElement);
 
-            // Add a retry button with Bootstrap styles and center it
-            const retryButton2= document.createElement('button');
-            retryButton2.textContent = 'Retry';
-            retryButton2.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
-            retryButton2.addEventListener('click', () => {
+        // Add a retry button with Bootstrap styles and center it
+        const retryButton2= document.createElement('button');
+        retryButton2.textContent = 'Retry';
+        retryButton2.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
+        retryButton2.addEventListener('click', () => {
 
-            // Clear the warning message, reset the game, and remove the retry button
-            warningContainer.remove();
+        // Clear the warning message, reset the game, and remove the retry button
+        warningContainer.remove();
 //            const problemInfoContainer = document.querySelector('.pressed-key');
 //            problemInfoContainer.remove();
-            resetGame2();
-        });
-        warningContainer.appendChild(retryButton2);
-        }
-
+        resetGame2();
+    });
+    warningContainer.appendChild(retryButton2);
     }
+
 }
 
 function gameCompleted() {
@@ -214,13 +194,17 @@ function gameCompleted() {
 }
 
 function resetGame2() {
-  keyIndex = 1;
   userInput = [];
   gameStarted = true;
-  showProblem();
   problemIndex = 0;
   score = 0;
-  canPressKey = true;
+//  canPressKey = true;
+  showProblem();
+
+
+//  if (keydownListener) {
+//        document.removeEventListener('keydown', keydownListener);
+//  }
 }
 
 function clearPressedKeys() {
@@ -232,30 +216,13 @@ function clearPressedKeys() {
 
 function sendScoreToBackend(score) {
   const xhr = new XMLHttpRequest();
+
   const endpoint = '/update_score';
+
   const formData = new FormData();
   formData.append('score', score);
 
   xhr.open('POST', endpoint, true);
-
-  // Set up a function to handle the response from the server
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
-        // Parse the response JSON
-        const response = JSON.parse(xhr.responseText);
-        const newScore = response.score;
-
-        // Update the score on the webpage
-        const currentScoreElement = document.getElementById('currentScore');
-        if (currentScoreElement) {
-          currentScoreElement.innerText = newScore;
-        }
-      } else {
-        console.error('Failed to update score: ' + xhr.status);
-      }
-    }
-  };
 
   // Send the FormData object
   xhr.send(formData);
