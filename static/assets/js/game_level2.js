@@ -6,18 +6,19 @@ let gameStarted = false;
 let Completed = false;
 let problemIndex = 0; // Keep track of the current problem
 let keyIndex = 1;
-let userSequence = []; // To store the user's key presses
+let userInput = []; // To store the user's key presses
 let canPressKey = false;
-
+let check_flag = true
+let start_time = new Date()
+let score = 0;
 
 //let currentQuestion = 1;
-//let score = 0;
 //let incorrectCnt = 0;
 //const incorrectLimit = 5;
 
-const expectedSequences = [ // img, interval, showNum
+const problem_list = [ // img, interval, showNum
     ['Beep', 1, 3],
-    ['Beep', 2, 4]
+    ['Clap', 2, 4]
 ];
 
 startButton.addEventListener('click', () => {
@@ -39,28 +40,27 @@ function wait_keyInput() {
 }
 
 function showProblem() {
-  // Show problem index and information message on separate lines
-  const problemInfoContainer = document.createElement('div');
-  problemInfoContainer.classList.add('problem-info-container', 'text-center');
-  gameboard.appendChild(problemInfoContainer);
+    // Show problem index and information message on separate lines
+    const problemInfoContainer = document.createElement('div');
+    problemInfoContainer.classList.add('problem-info-container', 'text-center');
+    gameboard.appendChild(problemInfoContainer);
 
-  // Add left and right arrow icons using Bootstrap Icons
-  const problemIndexElement = document.createElement('div');
-  problemIndexElement.innerHTML = `Problem ${problemIndex + 1}`;
-  problemIndexElement.classList.add('problem-index');
-  problemInfoContainer.appendChild(problemIndexElement);
+    // Add left and right arrow icons using Bootstrap Icons
+    const problemIndexElement = document.createElement('div');
+    problemIndexElement.innerHTML = `Problem ${problemIndex + 1}`;
+    problemIndexElement.classList.add('problem-index');
+    problemInfoContainer.appendChild(problemIndexElement);
 
-  const infoMessage = document.createElement('div');
-  infoMessage.textContent = 'Listen to the sounds and Press the \'Enter\' key in time interval.';
-  infoMessage.classList.add('info-message');
-  problemInfoContainer.appendChild(infoMessage);
+    const infoMessage = document.createElement('div');
+    infoMessage.textContent = 'Listen to the sounds and Press the \'Enter\' key in time interval.';
+    infoMessage.classList.add('info-message');
+    problemInfoContainer.appendChild(infoMessage);
 
-  console.log(expectedSequences[problemIndex]);
-  displayContent(expectedSequences[problemIndex]);
-  wait_keyInput()
-
+    console.log(problem_list[problemIndex]);
+    displayContent(problem_list[problemIndex]);
+    wait_keyInput()
 }
-let start_time = new Date()
+
 function displayContent(curr_problem) {
     const problemInfoContainer = document.querySelector('.problem-info-container');
     if (problemInfoContainer) {
@@ -74,10 +74,11 @@ function displayContent(curr_problem) {
         count++;
         text += curr_problem[0];
         contentElement.textContent = text;
+        contentElement.classList.add('content-element');
         gameboard.appendChild(contentElement);
-        console.log("Play beep sound");
+        console.log('Play '+ curr_problem[0] + ' sound.');
         beepSound.play();
-        if (count === curr_problem[2]) {
+        if (count === (curr_problem[2])) {
             clearInterval(display_interval);
             canPressKey = true
             start_time = new Date();
@@ -88,6 +89,7 @@ function displayContent(curr_problem) {
 function showPressedKey(key) {
     let end_time = new Date()
     let timeDiff = end_time.getTime() - start_time.getTime();
+    console.log(timeDiff/1000)
 
     const displayElement = document.createElement('div');
     displayElement.textContent = `${key}` + ' ' + timeDiff/1000 + 'seconds';
@@ -95,91 +97,93 @@ function showPressedKey(key) {
     gameboard.appendChild(displayElement);
 
     // Add the key to the user's sequence
-    userSequence.push(key);
+    const input = Math.round(timeDiff/1000)
+    userInput.push(input);
     canPressKey = false;
+
+    setTimeout(checkSequence(), 3000);
 }
 
 function checkSequence() {
-  const userSequenceString = userSequence.join(' ');
-  const expectedSequenceString = expectedSequence.join(' ');
+    if (check_flag) {
+        console.log(userInput[problemIndex], problem_list[problemIndex][1])
+        clearPressedKeys();
+        if (Math.round(userInput[problemIndex]) === problem_list[problemIndex][1]) {
+            score++;
+            const congratsElement = document.createElement('div');
+            congratsElement.textContent = 'Congratulations!';
+            congratsElement.classList.add('congratulations');
+            gameboard.appendChild(congratsElement);
+            sendScoreToBackend(score);
 
-  // Check if the user's sequence matches the expected sequence
-  if (userSequenceString === expectedSequenceString) {
-    // If the sequences match, hide the displayed keys and show "Congratulations"
-    clearPressedKeys();
+            // Reset the game after a delay (e.g., 3 seconds)
+            setTimeout(() => {
+            // Remove the "Congratulations" message
+            congratsElement.remove();
 
-    const congratsElement = document.createElement('div');
-    congratsElement.textContent = 'Congratulations!';
-    congratsElement.classList.add('congratulations');
-    gameboard.appendChild(congratsElement);
-    canPressKeys = false;
-    sendScoreToBackend(score);
+            // Progress to the next problem
+            problemIndex++;
+            if (problemIndex < problem_list.length) {
+                keyIndex = 1;
+                showProblem();
+            }
+            else {
+                gameCompleted();
+            }}, 3000);
+        }
+        else {
+            // Create a container for the warning message and retry button
+            const warningContainer = document.createElement('div');
+            warningContainer.classList.add('warning-container', 'text-center'); // Center align content
+            gameboard.appendChild(warningContainer);
 
-    // Reset the game after a delay (e.g., 3 seconds)
-    setTimeout(() => {
-      // Remove the "Congratulations" message
-      congratsElement.remove();
+            // Show a warning message
+            const warningElement = document.createElement('div');
+            warningElement.textContent = 'Wrong answer! Try again.';
+            warningElement.classList.add('warning');
+            warningContainer.appendChild(warningElement);
 
-      // Progress to the next problem
-      problemIndex++;
+            // Add a retry button with Bootstrap styles and center it
+            const retryButton = document.createElement('button');
+            retryButton.textContent = 'Retry';
+            retryButton.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
+            retryButton.addEventListener('click', () => {
 
-      // Check if there are more problems
-      if (problemIndex < expectedSequences.length) {
-        // Set the expected sequence for the next problem
-        expectedSequence = expectedSequences[problemIndex];
+            // Clear the warning message, reset the game, and remove the retry button
+            warningContainer.remove();
+            resetGame();
+        });
+        warningContainer.appendChild(retryButton);
+        }
 
-        // Reset keyIndex and userSequence for the new problem
-        keyIndex = 1;
-        userSequence = [];
+    }
+}
 
-        // Display the new problem
-        hideStartButton();
-        canPressKeys = true;
-      } else {
-
-        // If all problems are completed, show a final message or perform other actions
-        gameCompleted();
-      }
-    }, 3000);
-  } else {
-    // If the sequences don't match, clear the displayed keys
-    clearPressedKeys();
-
-    // Create a container for the warning message and retry button
-    const warningContainer = document.createElement('div');
-    warningContainer.classList.add('warning-container', 'text-center'); // Center align content
-    gameboard.appendChild(warningContainer);
+function gameCompleted() {
+    const resultContainer = document.createElement('div');
+    resultContainer.classList.add('result-container', 'text-center'); // Center align content
+    gameboard.appendChild(resultContainer);
 
     // Show a warning message
-    const warningElement = document.createElement('div');
-    warningElement.textContent = 'Wrong answer! Try again.';
-    warningElement.classList.add('warning');
-    warningContainer.appendChild(warningElement);
-    canPressKeys = false;
-    // Add a retry button with Bootstrap styles and center it
-    const retryButton = document.createElement('button');
-    retryButton.textContent = 'Retry';
-    retryButton.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
-    retryButton.addEventListener('click', () => {
-      // Clear the warning message, reset the game, and remove the retry button
-      warningContainer.remove();
-      resetGame();
-    });
-    warningContainer.appendChild(retryButton);
-  }
+    const resultElement = document.createElement('div');
+    resultElement.textContent = 'SCORE ' + score;
+    resultElement.classList.add('result');
+    resultContainer.appendChild(resultElement);
 }
 
 function resetGame() {
   keyIndex = 1;
-  userSequence = [];
-  gameStarted = true; // Allow the user to press keys again
-  hideStartButton(); // Display the information message again
-  canPressKeys = true;
+  userInput = [];
+  gameStarted = true;
+  showProblem();
+  problemIndex = 0;
+  score = 0;
+  canPressKey = false;
 }
 
 function clearPressedKeys() {
-  const pressedKeys = document.querySelectorAll('.pressed-key');
-  pressedKeys.forEach((key) => key.remove());
+    const pressedKeys = document.querySelectorAll('.pressed-key');
+    pressedKeys.forEach((key) => key.remove());
 }
 
 
