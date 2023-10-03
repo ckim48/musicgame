@@ -29,7 +29,7 @@ startButton2.addEventListener('click', () => {
   set_variable()
   gameStarted = true; // The game has started once the button is clicked
   showProblem();
-    removeContent();
+//    removeContent();
 });
 
 function wait_keyInput() {
@@ -83,9 +83,9 @@ function displayContent(curr_problem) {
         setTimeout(() => {
             console.log(i)
             text += curr_problem[0];
-            contentElement.textContent = text;
-            contentElement.classList.add('content-element');
-            gameboard.appendChild(contentElement);
+//            contentElement.textContent = text;
+//            contentElement.classList.add('content-element');
+//            gameboard.appendChild(contentElement);
             console.log('Play '+ curr_problem[0] + ' sound after ' + curr_interval[i-1]*1000 + 'seconds.');
             beepSound.play();
         }, curr_interval[i] * 1000);
@@ -183,7 +183,9 @@ function checkSequence2() {
 
             // Clear the warning message, reset the game, and remove the retry button
             warningContainer.remove();
-            resetGame();
+//            const problemInfoContainer = document.querySelector('.pressed-key');
+//            problemInfoContainer.remove();
+            resetGame2();
         });
         warningContainer.appendChild(retryButton2);
         }
@@ -203,7 +205,7 @@ function gameCompleted() {
     resultContainer.appendChild(resultElement);
 }
 
-function resetGame() {
+function resetGame2() {
   keyIndex = 1;
   userInput = [0];
   gameStarted = true;
