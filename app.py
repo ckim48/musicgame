@@ -95,7 +95,13 @@ def insert_user_data(username, password, age, country, email):
 
     conn.commit()
     conn.close()
-
+def is_username_exists(username):
+    conn = sqlite3.connect('static/assets/data/database.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM USERS WHERE username = ?', (username,))
+    result = cursor.fetchone()
+    conn.close()
+    return result is not None
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -106,11 +112,20 @@ def register():
         country = request.form.get('country')
         email = request.form.get('email')
 
-        insert_user_data(username, password, age, country, email)
-
-        return redirect(url_for('login'))
+        if is_username_exists(username):
+            flash('Username already exists. Please choose a different username.', 'error')
+        else:
+            conn = sqlite3.connect('user_database.db')
+            cursor = conn.cursor()
+            cursor.execute('INSERT INTO users (username, password, age, country, email) VALUES (?, ?, ?, ?, ?)',
+                           (username, password, age, country, email))
+            conn.commit()
+            conn.close()
+            flash('Registration successful. You can now log in.', 'success')
+            return redirect(url_for('login'))
 
     return render_template('register.html', title='Register')
+
 @app.route('/scoreboard', methods=['GET', 'POST'])
 def scoreboard():
     username = session['username']  # Assuming you have a way to get the username

@@ -871,6 +871,19 @@ color:darkgray;
   background-color: #EC67E2;
 
 }
+.color-green{
+color:orange !important;
+background-color: white;
+border: 1px solid #EE9C38;
+padding: 10px 25px 10px 25px !important;
+border-radius:30px;
+margin-right:10px;
+font-weight:700;
+}
+.color-green:hover{
+color:white !important;
+background-color:darkred !important;
+}
 #startBtn2{
     display:block;
   background-color: #EE9FE8;

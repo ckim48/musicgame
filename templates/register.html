@@ -35,6 +35,15 @@
       <div class="col-md-6 mx-auto">
         <div class="login-container">
           <h2 class="text-center mb-4">Sign Up</h2>
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+                                            <div class="alert alert-danger" role="alert">
+                             Username already exists
+                            </div>
+              {% endfor %}
+          {% endif %}
+        {% endwith %}
           <form action="/register" method="POST">
             <div class="form-group">
               <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
