@@ -121,7 +121,7 @@ def register():
                            (username, password, age, country, email,0))
             conn.commit()
             conn.close()
-            flash('Registration successful. You can now log in.', 'success')
+            # flash('Registration successful. You can now log in.', 'success')
             return redirect(url_for('login'))
 
     return render_template('register.html', title='Register')
