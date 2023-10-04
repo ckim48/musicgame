@@ -98,7 +98,7 @@ def insert_user_data(username, password, age, country, email):
 def is_username_exists(username):
     conn = sqlite3.connect('static/assets/data/database.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM USERS WHERE username = ?', (username,))
+    cursor.execute('SELECT * FROM Users WHERE username = ?', (username,))
     result = cursor.fetchone()
     conn.close()
     return result is not None
@@ -117,7 +117,7 @@ def register():
         else:
             conn = sqlite3.connect('user_database.db')
             cursor = conn.cursor()
-            cursor.execute('INSERT INTO USERS (username, password, age, country, email,score) VALUES (?, ?, ?, ?, ?,?)',
+            cursor.execute('INSERT INTO Users(username, password, age, country, email,score) VALUES (?, ?, ?, ?, ?,?)',
                            (username, password, age, country, email,0))
             conn.commit()
             conn.close()
