@@ -1,3 +1,8 @@
+const num_prob = 50;
+const max_interval = 2.0;
+const max_soundNum = 5;
+const dev = 1.0;
+
 
 (function() {
   "use strict";
