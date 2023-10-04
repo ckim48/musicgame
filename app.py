@@ -67,8 +67,8 @@ def validate_login(username, password):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+        username = request.form.get('username').lower().strip()
+        password = request.form.get('password').lower().strip()
 
         # Validate the login credentials
         user = validate_login(username, password)
