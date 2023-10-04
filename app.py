@@ -115,7 +115,7 @@ def register():
         if is_username_exists(username):
             flash('Username already exists. Please choose a different username.', 'error')
         else:
-            conn = sqlite3.connect('user_database.db')
+            conn = sqlite3.connect('static/assets/data/database.db')
             cursor = conn.cursor()
             cursor.execute('INSERT INTO Users(username, password, age, country, email,score) VALUES (?, ?, ?, ?, ?,?)',
                            (username, password, age, country, email,0))
