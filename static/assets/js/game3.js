@@ -1,169 +1,243 @@
 const startButton3 = document.getElementById('startBtn3');
 //const gameboard = document.querySelector('.gameboard');
+
 const miSound = new Audio('../static/assets/audio/mi.mp3');
 const solSound = new Audio('../static/assets/audio/sol.mp3');
 const faSound = new Audio('../static/assets/audio/fa.mp3');
-let processingProblem = false;
-let expectedSequences2 =generate_problem2();
+const keyToSound = {
+    'q': miSound,
+    'w': faSound,
+    'e': solSound
+};
+//const beepSound = new Audio('../static/assets/audio/beep.mp3');
+//const clapSound = new Audio('../static/assets/audio/clap.mp3')
+//const soundDict = {'Clap': new Audio('../static/assets/audio/clap.mp3'), 'Beep': new Audio('../static/assets/audio/beep.mp3')};
+
+
 function set_variable2(){
-    keyIndex = 1;
+    gameStarted = false;
+    Completed = false;
     problemIndex = 0; // Keep track of the current problem
-    currentQuestion = 1;
-    gameStarted = true;
-    game3 = true;
-    game1=false;
-    game2=false;
-    score = 1;
-//    let expectedSequences2 =generate_problem2();
-    console.log(expectedSequences2);
-    level1Completed = false;
-    canPressKeys = true;
-    userSequence = []; // To store the user's key presses
+    canPressKey = false;
+    start_time = new Date()
+    score = 0;
+
+    dev2 = 1.0;
+
 }
-function generate_problem2(){
-    let prob = []
-    for (let i = 0; i < 50; i++){
-        if (i < 3){
-            prob.push(generateProblem2(4))
+let dev2 = 1;
+let userInput2 = []; // To store the user's key presses
+let keydownListener2; // keydown 이벤트 리스너의 참조를 저장하는 변수
+let userSequence3 = []
+//let currentQuestion = 1;
+//let incorrectCnt = 0;
+//const incorrectLimit = 5;
+
+
+//let problem_list2 = generate_problem3()
+//console.log(problem_list2)
+//[
+//  // Problem 1
+//  ['Clap', [0, 0.3, 0.5, 0.3, 0.5], 5, ['q', 'q','q','q','q']],
+//
+//  // Problem 2
+//  ['Beep', [0, 1, 2], 3, ['q', 'w', 'e']],
+//];
+const max_soundNum = 3;
+const max_interval = 3;
+
+function generate_problem3() {
+    let num_prob = 50;
+    let problem_list2 = [];
+
+    for (let i = 0; i < num_prob; i++) {
+        let prob = [];
+
+        for (let j = 0; j < 1; j++) {
+            let sound_idx = Math.floor(Math.random() * problem_list2.length);
+
+
+            let sound = 'Sound' + i; // You can replace this with your sound generation logic.
+            prob.push(sound);
+            let inter = []
+            let expected_sequence_length = Math.floor(Math.random() * 4) + 4; // Generates values from 4 to 7.
+                    for (let j = 0; j < expected_sequence_length; j++) {
+
+                    let random_interval = Math.random() * max_interval + 0.1;
+    inter.push(random_interval);
         }
-        else if (i < 5){
-            prob.push(generateProblem2(5))
+        prob.push(inter)
+
+            prob.push(expected_sequence_length); // Push the expected sequence length
+        let soundSequence = [];
+        for (let j = 0; j < expected_sequence_length; j++) {
+            let randomValue = Math.random();
+            if (randomValue < 0.33) {
+                soundSequence.push('q');
+            } else if (randomValue < 0.67) {
+                soundSequence.push('w');
+            } else {
+                soundSequence.push('e');
+            }
         }
-                else if (i < 10){
-            prob.push(generateProblem2(6))
+        prob.push(soundSequence);
         }
-                else if (i < 15){
-            prob.push(generateProblem2(7))
-        }
+
+        problem_list2.push(prob);
     }
-    return prob
-}
-function generateProblem2(level) {
-  const problem = [];
-  const length = level;
 
-  for (let i = 0; i < length; i++) {
-    const randomValue = Math.random();
-    if (randomValue < 0.33) {
-      problem.push('q');
-    } else if (randomValue < 0.67) {
-      problem.push('e');
-    } else {
-      problem.push('w');
-    }
-  }
-
-  return problem;
+    return problem_list2;
 }
 
-
-
-//const dogBarkSound = new Audio('../static/assets/audio/dog.mp3');
-//const catMeowSound = new Audio('../static/assets/audio/cat.mp3');
-
-function playSound3(problem) {
-  for (let i = 0; i < problem.length; i++) {
-    if (problem[i] == 'q') {
-      setTimeout(() => {
-          miSound.play();
-        console.log("Play q sound");
-      }, i * 1200);
-    } else if (problem[i] == 'e') {
-      setTimeout(() => {
-      faSound.play();
-        console.log("Play e sound");
-      }, i * 1200);
-    } else if (problem[i] == 'w') {
-      setTimeout(() => {
-        solSound.play();
-        console.log("Play up sound");
-      }, i * 1200);
-    }
-  }
-}
+let problem_list2 = generate_problem3();
+console.log(problem_list2); // This will show the generated problem_list2 array.
 
 
 
 
-
-function hideStartButton3() {
+startButton3.addEventListener('click', () => {
   startButton3.style.display = 'none';
+  set_variable2()
   gameStarted = true; // The game has started once the button is clicked
+  showProblem2();
 
-  // Show problem index and information message on separate lines
-  const problemInfoContainer = document.createElement('div');
-  problemInfoContainer.classList.add('problem-info-container', 'text-center');
-  gameboard.appendChild(problemInfoContainer);
+});
 
-  // Add left and right arrow icons using Bootstrap Icons
-  const problemIndexElement = document.createElement('div');
-  problemIndexElement.innerHTML = `Problem ${problemIndex + 1}`;
-  problemIndexElement.classList.add('problem-index');
-  problemInfoContainer.appendChild(problemIndexElement);
-
-
-  playSound3(expectedSequences2[problemIndex]) // Play the sound for the current problem
-
-  const infoMessage = document.createElement('div');
-  infoMessage.textContent = 'Listen to the sounds and Press the correct keys in order.';
-  infoMessage.classList.add('info-message');
-  problemInfoContainer.appendChild(infoMessage);
-
-
-  const infoMessage2 = document.createElement('div');
-infoMessage2.innerHTML = '<strong> \'q\' </strong> Key for Lowest Pitch, <strong>\'w\'</strong> Key for Middle Pitch, and <strong>\'e\'</span></strong> Key for Highest Pitch';
-  infoMessage2.classList.add('info-message');
-  problemInfoContainer.appendChild(infoMessage2);
-
-  // Set the expected sequence for the current problem
-  expectedSequence = expectedSequences2[problemIndex];
+function wait_keyInput() {
+    keydownListener2 = (event) => {
+      if (gameStarted) {
+        if (event.key === 'q') {
+            showPressedKey2('q');
+            userSequence3.push('q')
+        }
+        else if (event.key === 'w') {
+            showPressedKey2('w');
+            userSequence3.push('w')
+        }
+        else if (event.key === 'e') {
+            showPressedKey2('e');
+            userSequence3.push('e')
+        }
+      }
+    };
+    document.addEventListener('keydown', keydownListener2); // 이벤트 리스너 등록
 }
 
-function showPressedKey3(key) {
-if (canPressKeys) {
-  if (gameStarted) {
-    // Remove problem index and information message
+function showProblem2() {
+    // Show problem index and information message on separate lines
+    const problemInfoContainer = document.createElement('div');
+    problemInfoContainer.classList.add('problem-info-container', 'text-center');
+    gameboard.appendChild(problemInfoContainer);
+
+    // Add left and right arrow icons using Bootstrap Icons
+    const problemIndexElement = document.createElement('div');
+    problemIndexElement.innerHTML = `Problem ${problemIndex + 1}`;
+    problemIndexElement.classList.add('problem-index');
+    problemInfoContainer.appendChild(problemIndexElement);
+
+    const infoMessage2 = document.createElement('div');
+    infoMessage2.innerHTML = '<strong> \'q\' </strong> Key for Lowest Pitch, <strong>\'w\'</strong> Key for Middle Pitch, and <strong>\'e\'</span></strong> Key for Highest Pitch';
+    infoMessage2.classList.add('info-message');
+    problemInfoContainer.appendChild(infoMessage2);
+
+    const infoMessage3 = document.createElement('div');
+    infoMessage3.innerHTML = 'Make sure you press the key in the right time interval!';
+    infoMessage3.classList.add('info-message');
+    problemInfoContainer.appendChild(infoMessage3);
+
+    console.log(problemIndex, problem_list2[problemIndex]);
+    displayContent(problem_list2[problemIndex]);
+}
+
+function displayContent(curr_problem) {
+    const contentElement = document.createElement('div');
+    var text = '';
+    var curr_interval = 0;
+
+    for (let i = 0; i < curr_problem[2]; i++) {
+        const keyInput = curr_problem[3][i];
+        const soundToPlay = keyToSound[keyInput]; // Get the corresponding sound
+
+        if (soundToPlay) {
+            curr_interval += curr_problem[1][i];
+            setTimeout(() => {
+                console.log(i);
+                text += keyInput;
+                soundToPlay.play(); // Play the corresponding sound
+            }, curr_interval * 1000);
+        } else {
+            console.log(`No sound found for key input: ${keyInput}`);
+        }
+    }
+    wait_keyInput();
+}
+
+
+function showPressedKey2(key) {
     const problemInfoContainer = document.querySelector('.problem-info-container');
     if (problemInfoContainer) {
       problemInfoContainer.remove();
     }
 
+    let pressed_time = new Date()
     const displayElement = document.createElement('div');
     displayElement.textContent = `${key}`;
     displayElement.classList.add('pressed-key');
     gameboard.appendChild(displayElement);
 
-    // Increment the index for the next key
-    keyIndex++;
-
     // Add the key to the user's sequence
-    userSequence.push(key);
+    userInput2.push(pressed_time.getTime()); // Use userInput declared in the broader scope
 
     // Check if the user's sequence length matches the expected sequence length
-    if (userSequence.length === expectedSequence.length) {
-      // Check the sequence after a short delay (e.g., 500 milliseconds)
+    if (userInput2.length === problem_list2[problemIndex][2]) {
+      if (keydownListener2) {
+        document.removeEventListener('keydown', keydownListener2);
+      }
       setTimeout(checkSequence3, 500);
     }
-  }
-  }
 }
 
 function checkSequence3() {
-  const userSequenceString = userSequence.join(' ');
-  const expectedSequenceString = expectedSequence.join(' ');
-
-  // Check if the user's sequence matches the expected sequence
-  if (userSequenceString === expectedSequenceString) {
-    // If the sequences match, hide the displayed keys and show "Congratulations"
     clearPressedKeys();
+    var intervals = [0]
+    for (let i = 1; i < userInput2.length; i++) {
+        var timeDiff = (userInput2[i] - userInput2[i-1]) / 1000;
+        intervals.push(timeDiff);
+    }
+    console.log(intervals);
+    var correct = true;
+    var isInterval = true;
+    var isorder = true
+    for (var i = 0; i < intervals.length; i++) {
+        if (correct) {
+            min_dev = problem_list2[problemIndex][1][i] - dev2;
+            max_dev = problem_list2[problemIndex][1][i] + dev2;
+            console.log(min_dev, max_dev)
+            if (intervals[i] <= min_dev || intervals[i] >= max_dev) {
+                correct = false;
+                isInterval = false;
+            }
+        }
+    }
+    const expectedSequence = problem_list2[problemIndex][3];
 
-    const congratsElement = document.createElement('div');
-    congratsElement.textContent = 'Congratulations!';
-    congratsElement.classList.add('congratulations');
+    const userSequenceString = userSequence3.join(' ');
+    const expectedSequenceString = expectedSequence.join(' ');
 
-    gameboard.appendChild(congratsElement);
+    console.log("AAAAA"+userSequenceString);
+    console.log("BBBBB"+expectedSequenceString);
+    if (userSequenceString != expectedSequenceString) {
+                 correct = false;
+                isorder = false;
+    }
+    if (correct) {
+        score++;
+        const congratsElement = document.createElement('div');
+        congratsElement.textContent = 'Congratulations!';
+        congratsElement.classList.add('congratulations');
+        gameboard.appendChild(congratsElement);
 
-        const firework = document.createElement('div');
+         const firework = document.createElement('div');
     firework.classList.add('firework');
     gameboard.appendChild(firework);
 
@@ -211,135 +285,139 @@ function checkSequence3() {
             firework6.addEventListener('animationend', () => {
       firework6.remove();
     });
-    canPressKeys = false;
 
-    sendScoreToBackend(score);
+        sendScoreToBackend(score);
 
+        // Reset the game after a delay (e.g., 3 seconds)
+        setTimeout(() => {
+        // Remove the "Congratulations" message
+        congratsElement.remove();
 
+        // Progress to the next problem
+        problemIndex++;
+        if (problemIndex < problem_list2.length) {
+            userInput2 = [];
+            showProblem2();
+        }
+        else {
+            gameCompleted();
+        }}, 3000);
+    }
+    else {
+        if (isInterval==false && isorder == false) {
+        // Create a container for the warning message and retry button
+        const warningContainer = document.createElement('div');
+        warningContainer.classList.add('warning-container', 'text-center'); // Center align content
+        gameboard.appendChild(warningContainer);
 
-    // Reset the game after a delay (e.g., 3 seconds)
-    setTimeout(() => {
-      // Remove the "Congratulations" message
-      congratsElement.remove();
+        // Show a warning message
+        const warningElement = document.createElement('div');
+        warningElement.textContent = 'Wrong order and interval! Try again.';
+        warningElement.classList.add('warning');
+        warningContainer.appendChild(warningElement);
 
-      // Progress to the next problem
-      problemIndex++;
+        // Add a retry button with Bootstrap styles and center it
+        const retryButton2= document.createElement('button');
+        retryButton2.textContent = 'Retry';
+        retryButton2.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
+        retryButton2.addEventListener('click', () => {
 
-      // Check if there are more problems
-      if (problemIndex < expectedSequences.length) {
-        // Set the expected sequence for the next problem
-        expectedSequence = expectedSequences[problemIndex];
-
-        // Reset keyIndex and userSequence for the new problem
-        keyIndex = 1;
-        userSequence = [];
-
-        // Display the new problem
-        hideStartButton3();
-        canPressKeys = true;
-      } else {
-
-        // If all problems are completed, show a final message or perform other actions
-        gameCompleted();
-      }
-    }, 3000);
-  } else {
-    // If the sequences don't match, clear the displayed keys
-    clearPressedKeys();
-
-    // Create a container for the warning message and retry button
-    const warningContainer = document.createElement('div');
-    warningContainer.classList.add('warning-container', 'text-center'); // Center align content
-    gameboard.appendChild(warningContainer);
-
-    // Show a warning message
-    const warningElement = document.createElement('div');
-    warningElement.textContent = 'Wrong answer! Try again.';
-    warningElement.classList.add('warning');
-    warningContainer.appendChild(warningElement);
-    canPressKeys = false;
-    // Add a retry button with Bootstrap styles and center it
-    const retryButton = document.createElement('button');
-    retryButton.textContent = 'Retry';
-    retryButton.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
-    retryButton.addEventListener('click', () => {
-      // Clear the warning message, reset the game, and remove the retry button
-      warningContainer.remove();
-      resetGame();
+        // Clear the warning message, reset the game, and remove the retry button
+        warningContainer.remove();
+//            const problemInfoContainer = document.querySelector('.pressed-key');
+//            problemInfoContainer.remove();
+        resetGame3();
     });
-    warningContainer.appendChild(retryButton);
-  }
+    warningContainer.appendChild(retryButton2);
+    }
+    else if(isInterval==false){
+                const warningContainer = document.createElement('div');
+        warningContainer.classList.add('warning-container', 'text-center'); // Center align content
+        gameboard.appendChild(warningContainer);
+
+        // Show a warning message
+        const warningElement = document.createElement('div');
+        warningElement.textContent = 'Wrong Interval! Try again.';
+        warningElement.classList.add('warning');
+        warningContainer.appendChild(warningElement);
+
+        // Add a retry button with Bootstrap styles and center it
+        const retryButton2= document.createElement('button');
+        retryButton2.textContent = 'Retry';
+        retryButton2.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
+        retryButton2.addEventListener('click', () => {
+
+        // Clear the warning message, reset the game, and remove the retry button
+        warningContainer.remove();
+//            const problemInfoContainer = document.querySelector('.pressed-key');
+//            problemInfoContainer.remove();
+        resetGame3();
+    });
+    warningContainer.appendChild(retryButton2);
+    }else{
+                        const warningContainer = document.createElement('div');
+        warningContainer.classList.add('warning-container', 'text-center'); // Center align content
+        gameboard.appendChild(warningContainer);
+
+        // Show a warning message
+        const warningElement = document.createElement('div');
+        warningElement.textContent = 'Wrong order! Try again.';
+        warningElement.classList.add('warning');
+        warningContainer.appendChild(warningElement);
+
+        // Add a retry button with Bootstrap styles and center it
+        const retryButton2= document.createElement('button');
+        retryButton2.textContent = 'Retry';
+        retryButton2.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
+        retryButton2.addEventListener('click', () => {
+
+        // Clear the warning message, reset the game, and remove the retry button
+        warningContainer.remove();
+//            const problemInfoContainer = document.querySelector('.pressed-key');
+//            problemInfoContainer.remove();
+        resetGame3();
+    });
+    warningContainer.appendChild(retryButton2);
+    }
+
+}
 }
 
-function resetGame() {
-  keyIndex = 1;
-  userSequence = [];
-  gameStarted = true; // Allow the user to press keys again
-  hideStartButton3(); // Display the information message again
-  canPressKeys = true;
+function gameCompleted() {
+    const resultContainer = document.createElement('div');
+    resultContainer.classList.add('result-container', 'text-center'); // Center align content
+    gameboard.appendChild(resultContainer);
+
+    // Show a warning message
+    const resultElement = document.createElement('div');
+    resultElement.textContent = 'SCORE ' + score;
+    resultElement.classList.add('result');
+    resultContainer.appendChild(resultElement);
+}
+
+function resetGame3() {
+  userInput2 = [];
+  userSequence3 = [];
+//  gameStarted = true;
+  showProblem2();
 }
 
 function clearPressedKeys() {
-  const pressedKeys = document.querySelectorAll('.pressed-key');
-  pressedKeys.forEach((key) => key.remove());
+    const pressedKeys = document.querySelectorAll('.pressed-key');
+    pressedKeys.forEach((key) => key.remove());
 }
 
-document.addEventListener('keydown', (event) => {
-  if (gameStarted && game3) {
-    if (event.key === 'q') {
-      showPressedKey3('q');
-    } else if (event.key === 'e') {
-      showPressedKey3('e');
-    } else if (event.key === 'w') {
-      showPressedKey3('w');
-    } else {
-      console.log('Key pressed:', event.key); // Add this for debugging
-    }
-  }
-});
 
-
-
-function removeContent() {
-  const gameboardChildren = gameboard.children;
-  for (let i = gameboardChildren.length - 1; i >= 0; i--) {
-    const child = gameboardChildren[i];
-    if (!child.hasAttribute('data-keep')) {
-      child.remove();
-    }
-  }
-}
-startButton3.addEventListener('click', () => {
-  hideStartButton3();
-set_variable2();
-});
 
 function sendScoreToBackend(score) {
   const xhr = new XMLHttpRequest();
+
   const endpoint = '/update_score';
+
   const formData = new FormData();
   formData.append('score', score);
 
   xhr.open('POST', endpoint, true);
-
-  // Set up a function to handle the response from the server
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
-        // Parse the response JSON
-        const response = JSON.parse(xhr.responseText);
-        const newScore = response.score;
-
-        // Update the score on the webpage
-        const currentScoreElement = document.getElementById('currentScore');
-        if (currentScoreElement) {
-          currentScoreElement.innerText = newScore;
-        }
-      } else {
-        console.error('Failed to update score: ' + xhr.status);
-      }
-    }
-  };
 
   // Send the FormData object
   xhr.send(formData);

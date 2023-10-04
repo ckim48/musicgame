@@ -127,7 +127,7 @@ function checkSequence2() {
         intervals.push(timeDiff);
     }
     console.log(intervals);
-    var correct = true;
+
     for (var i = 0; i < intervals.length; i++) {
         if (correct) {
             min_dev = problem_list[problemIndex][1][i] - dev;
@@ -135,9 +135,11 @@ function checkSequence2() {
             console.log(min_dev, max_dev)
             if (intervals[i] <= min_dev || intervals[i] >= max_dev) {
                 correct = false;
+
             }
         }
     }
+
 
     if (correct) {
         score++;
