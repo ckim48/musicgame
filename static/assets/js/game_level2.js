@@ -6,6 +6,7 @@ const beepSound = new Audio('../static/assets/audio/beep.mp3');
 //const beepSound = new Audio('../static/assets/audio/beep.mp3');
 //const clapSound = new Audio('../static/assets/audio/clap.mp3')
 const soundDict = {'Clap': new Audio('../static/assets/audio/clap.mp3'), 'Beep': new Audio('../static/assets/audio/beep.mp3')};
+const keyList = Object.keys(soundDict)
 
 
 function set_variable(){
@@ -22,16 +23,37 @@ function set_variable(){
 let dev = 2;
 let userInput = []; // To store the user's key presses
 let keydownListener; // keydown 이벤트 리스너의 참조를 저장하는 변수
+let problem_list = [];
+const num_prob = 50;
+const max_interval = 5;
+const max_soundNum = 3;
+generate_problem()
 
 //let currentQuestion = 1;
 //let incorrectCnt = 0;
 //const incorrectLimit = 5;
 
 
-const problem_list = [ // img, interval, showNum
-    ['Clap', [0, 0.3, 0.5, 0.3, 0.5], 5],
-    ['Beep', [0, 1, 2], 3]
-];
+//const problem_list = [ // img, interval, showNum
+//    ['Clap', [0, 0.3, 0.5, 0.3, 0.5], 5],
+//    ['Beep', [0, 1, 2], 3]
+//];
+
+function generate_problem() {
+    for (let i = 0; i < num_prob; i++){
+      var shownum = Math.floor(Math.random() * max_soundNum) + 2;
+      let sound_idx = Math.floor(Math.random() * keyList.length);
+      let prob = [0];
+      for (let j = 0; j < shownum-1; j++) {
+        let random_interval = Math.floor(Math.random() * max_interval) + 0.1;
+        prob.push(random_interval);
+      }
+//      console.log(prob);
+      problem_list.push([keyList[sound_idx], prob, shownum]);
+    }
+    console.log(problem_list)
+}
+
 
 startButton2.addEventListener('click', () => {
   startButton2.style.display = 'none';
