@@ -1,8 +1,78 @@
 const num_prob = 50;
-const max_interval = 2.0;
-const max_soundNum = 5;
+const max_interval = 2;
+const max_soundNum = 4;
 const dev = 1.0;
+var game1=false;
+var game2=false;
+var game3=false;
 
+const recogButton = document.getElementById('btn1');
+const interButton = document.getElementById('btn2');
+const pitchButton = document.getElementById('btn3');
+recogButton.addEventListener('click', () => {
+  stopGame2();
+  stopGame3()
+});
+interButton.addEventListener('click', () => {
+  stopGame1();
+  stopGame3()
+});
+pitchButton.addEventListener('click', () => {
+  stopGame1();
+  stopGame2()
+});
+function stopGame1() {
+    console.log("stopGame1");
+  keyIndex = 1;
+  problemIndex = 0;
+  currentQuestion = 1;
+  gameStarted = false;
+  score = 1;
+  expectedSequences = generate_problem();
+  level1Completed = false;
+  userSequence = [];
+  canPressKeys = true;
+
+  clearPressedKeys();
+  removeContent();
+
+//  startButton.style.display = 'block';
+
+
+  dogBarkSound.pause();
+  dogBarkSound.currentTime = 0;
+  catMeowSound.pause();
+  catMeowSound.currentTime = 0;
+}
+function stopGame2() {
+    console.log("stopGame2");
+  problemIndex = 0;
+  score = 0;
+  userInput = [];
+  canPressKey = false;
+
+
+  clearPressedKeys();
+  removeContent();
+
+//  startButton2.style.display = 'block';
+
+}
+function stopGame3() {
+    console.log("stopGame3");
+  problemIndex = 0;
+  score = 0;
+  userInput2 = [];
+  userSequence3 = [];
+  canPressKey = false;
+
+  clearPressedKeys3();
+  removeContent();
+
+
+//  startButton3.style.display = 'block';
+
+}
 
 (function() {
   "use strict";

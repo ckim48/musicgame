@@ -5,7 +5,7 @@ const beepSound = new Audio('../static/assets/audio/beep.mp3');
 
 //const beepSound = new Audio('../static/assets/audio/beep.mp3');
 //const clapSound = new Audio('../static/assets/audio/clap.mp3')
-const soundDict = {'Do': new Audio('../static/assets/audio/clap_back.mp3')};
+const soundDict = {'Do': new Audio('../static/assets/audio/clap.mp3')};
 const keyDict = {'Do': 'Spacebar'};
 const keyList = Object.keys(soundDict)
 
@@ -30,7 +30,7 @@ function gen_prob2() {
       var sound_idx = Math.floor(Math.random() * keyList.length);
       var prob = [0];
       for (let j = 0; j < showNum-1; j++) {
-        var random_interval = Math.random() * max_interval + 0.1;
+        var random_interval = Math.random() * max_interval + 0.3;
         prob.push(random_interval);
       }
 //      console.log(prob);
@@ -44,24 +44,39 @@ startButton2.addEventListener('click', () => {
   startButton2.style.display = 'none';
   set_variable();
   gen_prob2();
+//  stopGame1();
+//  stopGame3()
   setTimeout(showProblem, 500);
+  game1=false;
+    game2=true;
+    game3=false;
+
 });
 
 
 function wait_keyInput() {
     keydownListener = (event) => {
     console.log(event.key);
-      if (canPressKey) {
-        showPressedKey2('Spacebar');
+      if (canPressKey && game2) {
+          if (event.key === ' ') {
+            showPressedKey2('Spacebar');
+            }
+      }else{
+        console.log("can't press key");
       }};
     document.addEventListener('keydown', keydownListener); // 이벤트 리스너 등록
 }
 
 function showProblem() {
+
     if (keydownListener) {
         canPressKey = false;
         document.removeEventListener('keydown', keydownListener);
     }
+      if (game1 == true || game3 == true){
+
+    return;
+  }
     // Show problem index and information message on separate lines
     const problemInfoContainer = document.createElement('div');
     problemInfoContainer.classList.add('problem-info-container', 'text-center');
@@ -85,7 +100,7 @@ function showProblem() {
 function displayContent(curr_problem) {
     var curr_interval = 0;
 
-    for (let i = 0; i < curr_problem[0].length; i++) {
+    for (let i = 0; i < curr_problem[1].length; i++) {
         curr_interval += curr_problem[1][i]
         setTimeout(() => {
             soundDict[curr_problem[0]].play();
@@ -157,6 +172,7 @@ function checkSequence2() {
             }}, 3000);
     } else {
         console.log("Incorrect")
+        canPressKey = false;
         // Create a container for the warning message and retry button
         const warningContainer = document.createElement('div');
         warningContainer.classList.add('warning-container', 'text-center'); // Center align content

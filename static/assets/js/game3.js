@@ -90,6 +90,8 @@ startButton3.addEventListener('click', () => {
   game1=false;
     game3 = true;
   game2 = false;
+//  stopGame1();
+//  stopGame2()
   gameStarted2 = true; // The game has started once the button is clicked
   showProblem2();
 
@@ -97,7 +99,7 @@ startButton3.addEventListener('click', () => {
 
 function wait_keyInput2() {
     keydownListener2 = (event) => {
-      if (gameStarted2) {
+      if (gameStarted2 && game3) {
         if (event.key === 'q') {
             showPressedKey3('q');
             userSequence3.push('q')
@@ -116,6 +118,9 @@ function wait_keyInput2() {
 }
 
 function showProblem2() {
+  if (game1 == true || game2 == true){
+    return;
+  }
     // Show problem index and information message on separate lines
     const problemInfoContainer = document.createElement('div');
     problemInfoContainer.classList.add('problem-info-container', 'text-center');

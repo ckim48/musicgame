@@ -6,9 +6,7 @@ let currentQuestion = 1;
 let gameStarted = false;
 let score = 1;
 let expectedSequences =generate_problem();
-let game1=true
-let game3 = false;
-let game2 = false;
+
 function generate_problem(){
     let prob = []
     for (let i = 0; i < 50; i++){
@@ -68,7 +66,10 @@ function playSound(problem) {
 function hideStartButton() {
   startButton.style.display = 'none';
   gameStarted = true; // The game has started once the button is clicked
-  game1=true
+//  game1=true
+//  if (game2 == true || game3 == true){
+//    return;
+//  }
   // Show problem index and information message on separate lines
   const problemInfoContainer = document.createElement('div');
   problemInfoContainer.classList.add('problem-info-container', 'text-center');
@@ -283,7 +284,11 @@ function removeContent() {
 }
 startButton.addEventListener('click', () => {
   hideStartButton();
-
+//  stopGame2();
+//  stopGame3()
+   game1=true;
+    game2 = false;
+    game3 = false;
 });
 
 function sendScoreToBackend(score) {
