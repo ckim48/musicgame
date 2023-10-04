@@ -15,6 +15,7 @@ function set_variable(){
     problemIndex = 0; // Keep track of the current problem
     start_time = new Date()
     score = 0;
+    document.removeEventListener('keydown', keydownListener2);
 
     dev = 1.0;
 
@@ -60,8 +61,9 @@ startButton2.addEventListener('click', () => {
     game1=false;
     game3 = false;
   game2 = true;
-  gameStarted3 = true; // The game has started once the button is clicked
+  gameStarted3 = false; // The game has started once the button is clicked
   showProblem();
+  gameStarted3= true;
 //    removeContent();
 });
 
@@ -97,6 +99,7 @@ function showProblem() {
 
     console.log(problemIndex, problem_list[problemIndex]);
     displayContent(problem_list[problemIndex]);
+
 }
 
 function displayContent(curr_problem) {
@@ -284,8 +287,9 @@ function gameCompleted() {
 
 function resetGame2() {
   userInput = [];
-  gameStarted = true;
+//  gameStarted = true;
   showProblem();
+  gameStarted3= true;
 }
 
 function clearPressedKeys() {
@@ -295,16 +299,3 @@ function clearPressedKeys() {
 
 
 
-function sendScoreToBackend(score) {
-  const xhr = new XMLHttpRequest();
-
-  const endpoint = '/update_score';
-
-  const formData = new FormData();
-  formData.append('score', score);
-
-  xhr.open('POST', endpoint, true);
-
-  // Send the FormData object
-  xhr.send(formData);
-}

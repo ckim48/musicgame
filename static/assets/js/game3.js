@@ -28,7 +28,7 @@ function set_variable2(){
     canPressKey = false;
     start_time = new Date()
     score = 0;
-
+    document.removeEventListener('keydown', keydownListener);
     dev2 = 1.0;
 
 }
@@ -401,16 +401,3 @@ function clearPressedKeys3() {
 
 
 
-function sendScoreToBackend(score) {
-  const xhr = new XMLHttpRequest();
-
-  const endpoint = '/update_score';
-
-  const formData = new FormData();
-  formData.append('score', score);
-
-  xhr.open('POST', endpoint, true);
-
-  // Send the FormData object
-  xhr.send(formData);
-}
