@@ -194,7 +194,7 @@ function checkSequence2() {
             firework6.addEventListener('animationend', () => {
       firework6.remove();
     });
-    
+
         sendScoreToBackend(score);
 
         // Reset the game after a delay (e.g., 3 seconds)

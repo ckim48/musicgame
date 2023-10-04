@@ -61,7 +61,7 @@ function generateProblem2(level) {
 //const dogBarkSound = new Audio('../static/assets/audio/dog.mp3');
 //const catMeowSound = new Audio('../static/assets/audio/cat.mp3');
 
-function playSound(problem) {
+function playSound3(problem) {
   for (let i = 0; i < problem.length; i++) {
     if (problem[i] == 'q') {
       setTimeout(() => {
@@ -102,7 +102,7 @@ function hideStartButton3() {
   problemInfoContainer.appendChild(problemIndexElement);
 
 
-  playSound(expectedSequences2[problemIndex]) // Play the sound for the current problem
+  playSound3(expectedSequences2[problemIndex]) // Play the sound for the current problem
 
   const infoMessage = document.createElement('div');
   infoMessage.textContent = 'Listen to the sounds and Press the correct keys in order.';
