@@ -30,6 +30,8 @@ def about():
         return render_template('about.html', isLogin = False)
 @app.route('/mypage', methods=['GET'])
 def mypage():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     if 'username' in session:
         username = session['username']  # Assuming you have a way to get the username
         conn = sqlite3.connect('static/assets/data/database.db')
@@ -65,8 +67,8 @@ def validate_login(username, password):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+        username = request.form.get('username').lower().strip()
+        password = request.form.get('password').lower().strip()
 
         # Validate the login credentials
         user = validate_login(username, password)
@@ -95,7 +97,13 @@ def insert_user_data(username, password, age, country, email):
 
     conn.commit()
     conn.close()
-
+def is_username_exists(username):
+    conn = sqlite3.connect('static/assets/data/database.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM Users WHERE username = ?', (username,))
+    result = cursor.fetchone()
+    conn.close()
+    return result is not None
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -106,13 +114,24 @@ def register():
         country = request.form.get('country')
         email = request.form.get('email')
 
-        insert_user_data(username, password, age, country, email)
-
-        return redirect(url_for('login'))
+        if is_username_exists(username):
+            flash('Username already exists. Please choose a different username.', 'error')
+        else:
+            conn = sqlite3.connect('static/assets/data/database.db')
+            cursor = conn.cursor()
+            cursor.execute('INSERT INTO Users(username, password, age, country, email,score) VALUES (?, ?, ?, ?, ?,?)',
+                           (username, password, age, country, email,0))
+            conn.commit()
+            conn.close()
+            # flash('Registration successful. You can now log in.', 'success')
+            return redirect(url_for('login'))
 
     return render_template('register.html', title='Register')
+
 @app.route('/scoreboard', methods=['GET', 'POST'])
 def scoreboard():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     username = session['username']  # Assuming you have a way to get the username
     conn = sqlite3.connect('static/assets/data/database.db')
     cursor = conn.cursor()
