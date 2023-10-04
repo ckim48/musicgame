@@ -110,9 +110,9 @@
               {% if isLogin %}
               <h5 class="text-center" data-aos="fade-in" data-aos-delay="700"><strong>{{username}}</strong>'s Total Points: <span id="currentScore">{{current_score}}</span></h5>
               <ul class="ms-4 mt-5" data-aos="fade-in" data-aos-delay="700">
-                  <li><strong>Interval:</strong> You Need at least <strong>20</strong> points to open this stage.</li>
+                  <li><strong>Interval:</strong> You Need at least <strong>10</strong> points to open this stage.</li>
 <!--                  <li class="mt-2"><strong>Pitch:</strong> You Need at least <strong>30</strong> points to open this stage.</li>-->
-                  <li class="mt-2"><strong>Pitch & Interval:</strong> You Need at least <strong>50</strong> points to open this stage.</li>
+                  <li class="mt-2"><strong>Pitch & Interval:</strong> You Need at least <strong>15</strong> points to open this stage.</li>
               </ul>
               {% endif %}
 <!--            <ul>-->
@@ -127,7 +127,7 @@
               <button class="btn btn-primary active" onclick="changeContent(1)" id="btn1"><i class="bi bi-unlock"></i> Recognition</button>
             </div>
 
-              {% if current_score > 10 %}
+              {% if current_score >= 10 %}
             <div class="col-md-4">
               <button class="btn btn-primary " onclick="changeContent(2)"id="btn2"><i class="bi bi-unlock"></i> Interval</button>
             </div>
@@ -136,7 +136,7 @@
               <button class="btn btn-primary inactive" onclick="changeContent(2)"id="btn2" disabled><i class="bi bi-lock"></i> Interval</button>
             </div>
               {% endif %}
-              {% if current_score > 15 %}
+              {% if current_score >= 15 %}
             <div class="col-md-4">
               <button class="btn btn-primary" onclick="changeContent(3)"id="btn3"><i class="bi bi-unlock"></i> Pitch & Interval</button>
             </div>
