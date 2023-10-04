@@ -7,7 +7,8 @@ let gameStarted = false;
 let score = 1;
 let expectedSequences =generate_problem();
 let game1=true
-game3 = false;
+let game3 = false;
+let game2 = false;
 function generate_problem(){
     let prob = []
     for (let i = 0; i < 50; i++){

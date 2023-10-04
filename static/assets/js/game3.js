@@ -9,13 +9,20 @@ const keyToSound = {
     'w': faSound,
     'e': solSound
 };
+let dev2 = 1;
+let userInput2 = []; // To store the user's key presses
+let keydownListener2; // keydown 이벤트 리스너의 참조를 저장하는 변수
+let userSequence3 = []
+
+const max_interval2 = 1.7;
+let problem_list2 = generate_problem3();
 //const beepSound = new Audio('../static/assets/audio/beep.mp3');
 //const clapSound = new Audio('../static/assets/audio/clap.mp3')
 //const soundDict = {'Clap': new Audio('../static/assets/audio/clap.mp3'), 'Beep': new Audio('../static/assets/audio/beep.mp3')};
 
 
 function set_variable2(){
-    gameStarted = false;
+    gameStarted2 = true;
     Completed = false;
     problemIndex = 0; // Keep track of the current problem
     canPressKey = false;
@@ -25,25 +32,7 @@ function set_variable2(){
     dev2 = 1.0;
 
 }
-let dev2 = 1;
-let userInput2 = []; // To store the user's key presses
-let keydownListener2; // keydown 이벤트 리스너의 참조를 저장하는 변수
-let userSequence3 = []
-//let currentQuestion = 1;
-//let incorrectCnt = 0;
-//const incorrectLimit = 5;
 
-
-//let problem_list2 = generate_problem3()
-//console.log(problem_list2)
-//[
-//  // Problem 1
-//  ['Clap', [0, 0.3, 0.5, 0.3, 0.5], 5, ['q', 'q','q','q','q']],
-//
-//  // Problem 2
-//  ['Beep', [0, 1, 2], 3, ['q', 'w', 'e']],
-//];
-const max_interval2 = 1.7;
 
 function generate_problem3() {
     let num_prob = 50;
@@ -60,7 +49,8 @@ function generate_problem3() {
             prob.push(sound);
             let inter = []
 let expected_sequence_length = Math.floor(Math.random() * 4) + 3; // Generates values from 3 to 6.
-                    for (let j = 0; j < expected_sequence_length; j++) {
+inter.push(0);
+                    for (let j = 1; j < expected_sequence_length; j++) {
 
                     let random_interval = Math.random() * max_interval2 + 0.1;
     inter.push(random_interval);
@@ -88,7 +78,7 @@ let expected_sequence_length = Math.floor(Math.random() * 4) + 3; // Generates v
     return problem_list2;
 }
 
-let problem_list2 = generate_problem3();
+
 console.log(problem_list2); // This will show the generated problem_list2 array.
 
 
@@ -97,14 +87,17 @@ console.log(problem_list2); // This will show the generated problem_list2 array.
 startButton3.addEventListener('click', () => {
   startButton3.style.display = 'none';
   set_variable2()
-  gameStarted = true; // The game has started once the button is clicked
+  game1=false;
+    game3 = true;
+  game2 = false;
+  gameStarted2 = true; // The game has started once the button is clicked
   showProblem2();
 
 });
 
-function wait_keyInput() {
+function wait_keyInput2() {
     keydownListener2 = (event) => {
-      if (gameStarted) {
+      if (gameStarted2) {
         if (event.key === 'q') {
             showPressedKey2('q');
             userSequence3.push('q')
@@ -145,10 +138,10 @@ function showProblem2() {
     problemInfoContainer.appendChild(infoMessage3);
 
     console.log(problemIndex, problem_list2[problemIndex]);
-    displayContent(problem_list2[problemIndex]);
+    displayContent2(problem_list2[problemIndex]);
 }
 
-function displayContent(curr_problem) {
+function displayContent2(curr_problem) {
     const contentElement = document.createElement('div');
     var text = '';
     var curr_interval = 0;
@@ -168,7 +161,7 @@ function displayContent(curr_problem) {
             console.log(`No sound found for key input: ${keyInput}`);
         }
     }
-    wait_keyInput();
+    wait_keyInput2();
 }
 
 
@@ -197,7 +190,7 @@ function showPressedKey2(key) {
 }
 
 function checkSequence3() {
-    clearPressedKeys();
+    clearPressedKeys3();
     var intervals = [0]
     for (let i = 1; i < userInput2.length; i++) {
         var timeDiff = (userInput2[i] - userInput2[i-1]) / 1000;
@@ -299,7 +292,7 @@ function checkSequence3() {
             showProblem2();
         }
         else {
-            gameCompleted();
+            gameCompleted3();
         }}, 3000);
     }
     else {
@@ -382,7 +375,7 @@ function checkSequence3() {
 }
 }
 
-function gameCompleted() {
+function gameCompleted3() {
     const resultContainer = document.createElement('div');
     resultContainer.classList.add('result-container', 'text-center'); // Center align content
     gameboard.appendChild(resultContainer);
@@ -397,11 +390,11 @@ function gameCompleted() {
 function resetGame3() {
   userInput2 = [];
   userSequence3 = [];
-//  gameStarted = true;
+  gameStarted2 = true;
   showProblem2();
 }
 
-function clearPressedKeys() {
+function clearPressedKeys3() {
     const pressedKeys = document.querySelectorAll('.pressed-key');
     pressedKeys.forEach((key) => key.remove());
 }

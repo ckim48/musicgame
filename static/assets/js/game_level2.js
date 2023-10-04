@@ -10,10 +10,9 @@ const keyList = Object.keys(soundDict)
 
 
 function set_variable(){
-    gameStarted = false;
+    gameStarted3 = false;
     Completed = false;
     problemIndex = 0; // Keep track of the current problem
-    canPressKey = false;
     start_time = new Date()
     score = 0;
 
@@ -58,14 +57,19 @@ function generate_problem() {
 startButton2.addEventListener('click', () => {
   startButton2.style.display = 'none';
   set_variable()
-  gameStarted = true; // The game has started once the button is clicked
+    game1=false;
+    game3 = false;
+  game2 = true;
+  gameStarted3 = true; // The game has started once the button is clicked
   showProblem();
 //    removeContent();
 });
 
 function wait_keyInput() {
+console.log("test");
     keydownListener = (event) => {
-      if (gameStarted) {
+    console.log(event.key);
+      if (gameStarted3) {
         if (event.key === 'Enter') {
             showPressedKey2('Enter');
         }
@@ -279,7 +283,7 @@ function gameCompleted() {
 
 function resetGame2() {
   userInput = [];
-//  gameStarted = true;
+  gameStarted = true;
   showProblem();
 }
 
