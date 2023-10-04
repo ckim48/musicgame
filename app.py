@@ -30,6 +30,8 @@ def about():
         return render_template('about.html', isLogin = False)
 @app.route('/mypage', methods=['GET'])
 def mypage():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     if 'username' in session:
         username = session['username']  # Assuming you have a way to get the username
         conn = sqlite3.connect('static/assets/data/database.db')
@@ -128,6 +130,8 @@ def register():
 
 @app.route('/scoreboard', methods=['GET', 'POST'])
 def scoreboard():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     username = session['username']  # Assuming you have a way to get the username
     conn = sqlite3.connect('static/assets/data/database.db')
     cursor = conn.cursor()
