@@ -15,12 +15,12 @@ let keydownListener2; // keydown 이벤트 리스너의 참조를 저장하는 �
 let userSequence3 = []
 
 const max_interval2 = 1.7;
-let problem_list2 = generate_problem3();
+
 //const beepSound = new Audio('../static/assets/audio/beep.mp3');
 //const clapSound = new Audio('../static/assets/audio/clap.mp3')
 //const soundDict = {'Clap': new Audio('../static/assets/audio/clap.mp3'), 'Beep': new Audio('../static/assets/audio/beep.mp3')};
 
-
+let problem_list2 = generate_problem3();
 function set_variable2(){
     gameStarted2 = true;
     Completed = false;
@@ -79,12 +79,12 @@ inter.push(0);
 }
 
 
-console.log(problem_list2); // This will show the generated problem_list2 array.
 
 
 
 
 startButton3.addEventListener('click', () => {
+    console.log("CHEKC")
   startButton3.style.display = 'none';
   set_variable2()
   game1=false;
@@ -99,15 +99,15 @@ function wait_keyInput2() {
     keydownListener2 = (event) => {
       if (gameStarted2) {
         if (event.key === 'q') {
-            showPressedKey2('q');
+            showPressedKey3('q');
             userSequence3.push('q')
         }
         else if (event.key === 'w') {
-            showPressedKey2('w');
+            showPressedKey3('w');
             userSequence3.push('w')
         }
         else if (event.key === 'e') {
-            showPressedKey2('e');
+            showPressedKey3('e');
             userSequence3.push('e')
         }
       }
@@ -165,7 +165,7 @@ function displayContent2(curr_problem) {
 }
 
 
-function showPressedKey2(key) {
+function showPressedKey3(key) {
     const problemInfoContainer = document.querySelector('.problem-info-container');
     if (problemInfoContainer) {
       problemInfoContainer.remove();
@@ -309,10 +309,10 @@ function checkSequence3() {
         warningContainer.appendChild(warningElement);
 
         // Add a retry button with Bootstrap styles and center it
-        const retryButton2= document.createElement('button');
-        retryButton2.textContent = 'Retry';
-        retryButton2.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
-        retryButton2.addEventListener('click', () => {
+        const retryButton3= document.createElement('button');
+        retryButton3.textContent = 'Retry';
+        retryButton3.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2','game3'); // Center using mx-auto
+        retryButton3.addEventListener('click', () => {
 
         // Clear the warning message, reset the game, and remove the retry button
         warningContainer.remove();
@@ -320,7 +320,7 @@ function checkSequence3() {
 //            problemInfoContainer.remove();
         resetGame3();
     });
-    warningContainer.appendChild(retryButton2);
+    warningContainer.appendChild(retryButton3);
     }
     else if(isInterval==false){
                 const warningContainer = document.createElement('div');
@@ -334,10 +334,10 @@ function checkSequence3() {
         warningContainer.appendChild(warningElement);
 
         // Add a retry button with Bootstrap styles and center it
-        const retryButton2= document.createElement('button');
-        retryButton2.textContent = 'Retry';
-        retryButton2.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
-        retryButton2.addEventListener('click', () => {
+        const retryButton3= document.createElement('button');
+        retryButton3.textContent = 'Retry';
+        retryButton3.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
+        retryButton3.addEventListener('click', () => {
 
         // Clear the warning message, reset the game, and remove the retry button
         warningContainer.remove();
@@ -345,7 +345,7 @@ function checkSequence3() {
 //            problemInfoContainer.remove();
         resetGame3();
     });
-    warningContainer.appendChild(retryButton2);
+    warningContainer.appendChild(retryButton3);
     }else{
                         const warningContainer = document.createElement('div');
         warningContainer.classList.add('warning-container', 'text-center'); // Center align content
@@ -358,10 +358,10 @@ function checkSequence3() {
         warningContainer.appendChild(warningElement);
 
         // Add a retry button with Bootstrap styles and center it
-        const retryButton2= document.createElement('button');
-        retryButton2.textContent = 'Retry';
-        retryButton2.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
-        retryButton2.addEventListener('click', () => {
+        const retryButton3= document.createElement('button');
+        retryButton3.textContent = 'Retry';
+        retryButton3.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
+        retryButton3.addEventListener('click', () => {
 
         // Clear the warning message, reset the game, and remove the retry button
         warningContainer.remove();
@@ -369,7 +369,7 @@ function checkSequence3() {
 //            problemInfoContainer.remove();
         resetGame3();
     });
-    warningContainer.appendChild(retryButton2);
+    warningContainer.appendChild(retryButton3);
     }
 
 }

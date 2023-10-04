@@ -16,10 +16,10 @@ function set_variable(){
     start_time = new Date()
     score = 0;
 
-    dev = 2.0;
+    dev = 1.0;
 
 }
-let dev = 2;
+let dev = 1;
 let userInput = []; // To store the user's key presses
 let keydownListener; // keydown 이벤트 리스너의 참조를 저장하는 변수
 let problem_list = [];
@@ -153,7 +153,7 @@ function checkSequence2() {
         intervals.push(timeDiff);
     }
     console.log(intervals);
-
+    var correct = true;
     for (var i = 0; i < intervals.length; i++) {
         if (correct) {
             min_dev = problem_list[problemIndex][1][i] - dev;
@@ -241,6 +241,7 @@ function checkSequence2() {
         }}, 3000);
     }
     else {
+    console.log("ABCDEFGS")
         // Create a container for the warning message and retry button
         const warningContainer = document.createElement('div');
         warningContainer.classList.add('warning-container', 'text-center'); // Center align content
@@ -255,10 +256,10 @@ function checkSequence2() {
         // Add a retry button with Bootstrap styles and center it
         const retryButton2= document.createElement('button');
         retryButton2.textContent = 'Retry';
-        retryButton2.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2'); // Center using mx-auto
+        retryButton2.classList.add('btn', 'btn-retry', 'mx-auto', 'mt-2','game2'); // Center using mx-auto
         retryButton2.addEventListener('click', () => {
 
-        // Clear the warning message, reset the game, and remove the retry button
+        // Clear the warning messㄷage, reset the game, and remove the retry button
         warningContainer.remove();
 //            const problemInfoContainer = document.querySelector('.pressed-key');
 //            problemInfoContainer.remove();
