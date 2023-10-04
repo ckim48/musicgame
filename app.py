@@ -117,8 +117,8 @@ def register():
         else:
             conn = sqlite3.connect('user_database.db')
             cursor = conn.cursor()
-            cursor.execute('INSERT INTO users (username, password, age, country, email) VALUES (?, ?, ?, ?, ?)',
-                           (username, password, age, country, email))
+            cursor.execute('INSERT INTO USERS (username, password, age, country, email,score) VALUES (?, ?, ?, ?, ?,?)',
+                           (username, password, age, country, email,0))
             conn.commit()
             conn.close()
             flash('Registration successful. You can now log in.', 'success')
