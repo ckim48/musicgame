@@ -85,7 +85,7 @@ function hideStartButton() {
   playSound(expectedSequences[problemIndex]) // Play the sound for the current problem
 
   const infoMessage = document.createElement('div');
-  infoMessage.textContent = 'Listen to the sounds and Press the correct keys in order.';
+  infoMessage.innerHTML = '<strong> Please listen and wait </strong> until the sounds have finished. Then, press the correct keys in order.';
   infoMessage.classList.add('info-message');
   problemInfoContainer.appendChild(infoMessage);
 
@@ -142,7 +142,7 @@ function checkSequence() {
     congratsElement.classList.add('congratulations');
 
     gameboard.appendChild(congratsElement);
-
+    correctSound.play();
         const firework = document.createElement('div');
     firework.classList.add('firework');
     gameboard.appendChild(firework);
@@ -237,6 +237,7 @@ function checkSequence() {
     warningElement.textContent = 'Wrong answer! Try again.';
     warningElement.classList.add('warning');
     warningContainer.appendChild(warningElement);
+       wrongSound.play();
     canPressKeys = false;
     // Add a retry button with Bootstrap styles and center it
     const retryButton = document.createElement('button');

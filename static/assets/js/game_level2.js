@@ -89,7 +89,7 @@ function showProblem() {
     problemInfoContainer.appendChild(problemIndexElement);
 
     const infoMessage = document.createElement('div');
-    infoMessage.textContent = 'Listen to the sounds and Press the \'Spacebar\' key in time interval.';
+    infoMessage.innerHTML = '<strong> Please listen and wait</strong> until the sounds have finished.Then, press the \'Spacebar\' key in time interval.';
     infoMessage.classList.add('info-message');
     problemInfoContainer.appendChild(infoMessage);
 
@@ -156,6 +156,7 @@ function checkSequence2() {
         congratsElement.textContent = 'Congratulations!';
         congratsElement.classList.add('congratulations');
         gameboard.appendChild(congratsElement);
+        correctSound.play();
         show_firework();
         sendScoreToBackend(score);
         setTimeout(() => {
@@ -183,6 +184,7 @@ function checkSequence2() {
         warningElement.textContent = 'Wrong answer! Try again.';
         warningElement.classList.add('warning');
         warningContainer.appendChild(warningElement);
+        wrongSound.play();
 
         // Add a retry button with Bootstrap styles and center it
         const retryButton2= document.createElement('button');

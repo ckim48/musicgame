@@ -138,7 +138,7 @@ function showProblem2() {
     problemInfoContainer.appendChild(infoMessage2);
 
     const infoMessage3 = document.createElement('div');
-    infoMessage3.innerHTML = 'Make sure you press the key in the right time interval!';
+    infoMessage3.innerHTML = 'Make sure you listen and wait until the sounds have finished. Then, press the key in the correct order and time interval!';
     infoMessage3.classList.add('info-message');
     problemInfoContainer.appendChild(infoMessage3);
 
@@ -233,7 +233,7 @@ function checkSequence3() {
         congratsElement.textContent = 'Congratulations!';
         congratsElement.classList.add('congratulations');
         gameboard.appendChild(congratsElement);
-
+        correctSound.play();
          const firework = document.createElement('div');
     firework.classList.add('firework');
     gameboard.appendChild(firework);
@@ -312,7 +312,7 @@ function checkSequence3() {
         warningElement.textContent = 'Wrong order and interval! Try again.';
         warningElement.classList.add('warning');
         warningContainer.appendChild(warningElement);
-
+        wrongSound.play();
         // Add a retry button with Bootstrap styles and center it
         const retryButton3= document.createElement('button');
         retryButton3.textContent = 'Retry';
@@ -337,7 +337,7 @@ function checkSequence3() {
         warningElement.textContent = 'Wrong Interval! Try again.';
         warningElement.classList.add('warning');
         warningContainer.appendChild(warningElement);
-
+        wrongSound.play();
         // Add a retry button with Bootstrap styles and center it
         const retryButton3= document.createElement('button');
         retryButton3.textContent = 'Retry';
@@ -361,7 +361,7 @@ function checkSequence3() {
         warningElement.textContent = 'Wrong order! Try again.';
         warningElement.classList.add('warning');
         warningContainer.appendChild(warningElement);
-
+        wrongSound.play();
         // Add a retry button with Bootstrap styles and center it
         const retryButton3= document.createElement('button');
         retryButton3.textContent = 'Retry';

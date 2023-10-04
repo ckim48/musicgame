@@ -43,8 +43,8 @@
                             <input type="password" class="form-control mt-3" id="password" name="password" placeholder="Password">
                         </div>
                            <div class="text-center">
-                                    <a class="mt-3 mx-auto voice-recog" onclick="startVoiceRecognition('username')">Start Voice Recognition for your username</a>
-                                 <a class="mt-3 mx-auto voice-recog" onclick="startVoiceRecognition('password')">Start Voice Recognition for your password</a>
+                                    <a class="mt-3 mx-auto voice-recog" onclick="startVoiceRecognition()">Start Voice Recognition for your username</a>
+                                 <a class="mt-3 mx-auto voice-recog" onclick="startVoiceRecognition2()">Start Voice Recognition for your password</a>
 
                             </div>
                          <div>
@@ -72,16 +72,36 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
+  const completeSound= new Audio('../static/assets/audio/complete.mp3');
+
     function startVoiceRecognition() {
       const recognition = new webkitSpeechRecognition();
       // const recognition = new SpeechRecognition();
 
       recognition.lang = 'en-US';
 
-      recognition.onresult = function (event) {
-        const result = event.results[0][0].transcript;
-        document.getElementById('username').value = result;
-      };
+  recognition.onresult = function (event) {
+    const result = event.results[0][0].transcript;
+    const formattedResult = result.toLowerCase().replace(/\s/g, '');
+    document.getElementById('username').value = formattedResult;
+    completeSound.play();
+  };
+
+      recognition.start();
+    }
+
+        function startVoiceRecognition2() {
+      const recognition = new webkitSpeechRecognition();
+      // const recognition = new SpeechRecognition();
+
+      recognition.lang = 'en-US';
+
+  recognition.onresult = function (event) {
+    const result = event.results[0][0].transcript;
+    const formattedResult = result.toLowerCase().replace(/\s/g, '');
+    document.getElementById('password').value = formattedResult;
+    completeSound.play();
+  };
 
       recognition.start();
     }

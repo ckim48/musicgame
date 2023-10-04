@@ -152,7 +152,9 @@ h6 {
   white-space: nowrap;
   transition: 0.3s;
 }
-
+.underline{
+text-decoration: underline;
+}
 .navbar a i,
 .navbar a:focus i {
   font-size: 12px;

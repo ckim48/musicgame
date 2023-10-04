@@ -5,6 +5,8 @@ const dev = 1.0;
 var game1=false;
 var game2=false;
 var game3=false;
+const correctSound = new Audio('../static/assets/audio/correct.mp3');
+const wrongSound = new Audio('../static/assets/audio/wrong.mp3');
 
 const recogButton = document.getElementById('btn1');
 const interButton = document.getElementById('btn2');
