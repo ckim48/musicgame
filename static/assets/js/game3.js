@@ -43,8 +43,7 @@ let userSequence3 = []
 //  // Problem 2
 //  ['Beep', [0, 1, 2], 3, ['q', 'w', 'e']],
 //];
-const max_soundNum = 3;
-const max_interval = 3;
+const max_interval2 = 1.7;
 
 function generate_problem3() {
     let num_prob = 50;
@@ -60,10 +59,10 @@ function generate_problem3() {
             let sound = 'Sound' + i; // You can replace this with your sound generation logic.
             prob.push(sound);
             let inter = []
-            let expected_sequence_length = Math.floor(Math.random() * 4) + 4; // Generates values from 4 to 7.
+let expected_sequence_length = Math.floor(Math.random() * 4) + 3; // Generates values from 3 to 6.
                     for (let j = 0; j < expected_sequence_length; j++) {
 
-                    let random_interval = Math.random() * max_interval + 0.1;
+                    let random_interval = Math.random() * max_interval2 + 0.1;
     inter.push(random_interval);
         }
         prob.push(inter)

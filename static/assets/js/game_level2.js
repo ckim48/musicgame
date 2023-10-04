@@ -25,7 +25,7 @@ let userInput = []; // To store the user's key presses
 let keydownListener; // keydown 이벤트 리스너의 참조를 저장하는 변수
 let problem_list = [];
 const num_prob = 50;
-const max_interval = 5;
+const max_interval = 1.7;
 const max_soundNum = 3;
 generate_problem()
 
