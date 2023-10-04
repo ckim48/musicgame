@@ -69,6 +69,7 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username').lower().strip()
         password = request.form.get('password').lower().strip()
+        username = username.replace(" ", "")
 
         # Validate the login credentials
         user = validate_login(username, password)
