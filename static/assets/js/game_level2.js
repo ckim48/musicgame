@@ -6,7 +6,7 @@ const beepSound = new Audio('../static/assets/audio/beep.mp3');
 //const beepSound = new Audio('../static/assets/audio/beep.mp3');
 //const clapSound = new Audio('../static/assets/audio/clap.mp3')
 const soundDict = {'Do': new Audio('../static/assets/audio/clap.mp3')};
-const keyDict = {'Do': 'Spacebar'};
+const keyDict = {'Do': 'Enter'};
 const keyList = Object.keys(soundDict)
 
 
@@ -89,7 +89,7 @@ function showProblem() {
     problemInfoContainer.appendChild(problemIndexElement);
 
     const infoMessage = document.createElement('div');
-    infoMessage.innerHTML = '<strong> Please listen and wait</strong> until the sounds have finished.Then, press the \'Spacebar\' key in time interval.';
+    infoMessage.innerHTML = '<strong> Please listen and wait</strong> until the sounds have finished.Then, press the \'Enter\' key in time interval.';
     infoMessage.classList.add('info-message');
     problemInfoContainer.appendChild(infoMessage);
 
