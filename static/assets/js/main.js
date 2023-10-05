@@ -1,5 +1,5 @@
 const num_prob = 50;
-const max_interval = 2;
+const max_interval = 1.6;
 const max_soundNum = 4;
 const dev = 1.0;
 var game1=false;

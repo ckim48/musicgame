@@ -52,7 +52,7 @@ let expected_sequence_length = Math.floor(Math.random() * 4) + 3; // Generates v
 inter.push(0);
                     for (let j = 1; j < expected_sequence_length; j++) {
 
-                    let random_interval = Math.random() * max_interval2 + 0.1;
+                    let random_interval = Math.random() * max_interval2 + 0.5;
     inter.push(random_interval);
         }
         prob.push(inter)

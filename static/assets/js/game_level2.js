@@ -30,7 +30,7 @@ function gen_prob2() {
       var sound_idx = Math.floor(Math.random() * keyList.length);
       var prob = [0];
       for (let j = 0; j < showNum-1; j++) {
-        var random_interval = Math.random() * max_interval + 0.3;
+        var random_interval = Math.random() * max_interval + 0.5;
         prob.push(random_interval);
       }
 //      console.log(prob);
@@ -58,8 +58,8 @@ function wait_keyInput() {
     keydownListener = (event) => {
     console.log(event.key);
       if (canPressKey && game2) {
-          if (event.key === ' ') {
-            showPressedKey2('Spacebar');
+          if (event.key === 'Enter') {
+            showPressedKey2('Enter');
             }
       }else{
         console.log("can't press key");
