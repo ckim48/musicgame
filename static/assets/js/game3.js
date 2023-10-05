@@ -62,10 +62,13 @@ inter.push(0);
         for (let j = 0; j < expected_sequence_length; j++) {
             let randomValue = Math.random();
             if (randomValue < 0.33) {
+
                 soundSequence.push('q');
             } else if (randomValue < 0.67) {
+
                 soundSequence.push('w');
             } else {
+
                 soundSequence.push('e');
             }
         }
@@ -101,14 +104,17 @@ function wait_keyInput2() {
     keydownListener2 = (event) => {
       if (gameStarted2 && game3) {
         if (event.key === 'q') {
+            miSound.play();
             showPressedKey3('q');
             userSequence3.push('q')
         }
         else if (event.key === 'w') {
+            faSound.play();
             showPressedKey3('w');
             userSequence3.push('w')
         }
         else if (event.key === 'e') {
+            solSound.play();
             showPressedKey3('e');
             userSequence3.push('e')
         }

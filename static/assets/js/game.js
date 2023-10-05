@@ -282,8 +282,10 @@ function clearPressedKeys() {
 document.addEventListener('keydown', (event) => {
   if (gameStarted && game1) {
     if (event.key === 'ArrowLeft') {
+    dogBarkSound.play();
       showPressedKey('left');
     } else if (event.key === 'ArrowRight') {
+    catMeowSound.play();
       showPressedKey('right');
     }
   }

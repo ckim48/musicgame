@@ -59,6 +59,7 @@ function wait_keyInput() {
     console.log(event.key);
       if (canPressKey && game2) {
           if (event.key === 'Enter') {
+            soundDict[problem_list[problemIndex][0]].play();
             showPressedKey2('Enter');
             }
       }else{
