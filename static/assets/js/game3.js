@@ -48,11 +48,11 @@ function generate_problem3() {
             let sound = 'Sound' + i; // You can replace this with your sound generation logic.
             prob.push(sound);
             let inter = []
-let expected_sequence_length = Math.floor(Math.random() * 4) + 3; // Generates values from 3 to 6.
+let expected_sequence_length = Math.floor(Math.random() * 3) + 2; // Generates values from 2 to 4.
 inter.push(0);
                     for (let j = 1; j < expected_sequence_length; j++) {
 
-                    let random_interval = Math.random() * max_interval2 + 0.5;
+                    let random_interval = Math.random() * max_interval2 + 0.9;
     inter.push(random_interval);
         }
         prob.push(inter)
