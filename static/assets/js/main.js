@@ -8,21 +8,7 @@ var game3=false;
 const correctSound = new Audio('../static/assets/audio/correct.mp3');
 const wrongSound = new Audio('../static/assets/audio/wrong.mp3');
 
-const recogButton = document.getElementById('btn1');
-const interButton = document.getElementById('btn2');
-const pitchButton = document.getElementById('btn3');
-recogButton.addEventListener('click', () => {
-  stopGame2();
-  stopGame3()
-});
-interButton.addEventListener('click', () => {
-  stopGame1();
-  stopGame3()
-});
-pitchButton.addEventListener('click', () => {
-  stopGame1();
-  stopGame2()
-});
+
 function stopGame1() {
     console.log("stopGame1");
   keyIndex = 1;

@@ -6,7 +6,21 @@ let currentQuestion = 1;
 let gameStarted = false;
 let score = 1;
 let expectedSequences =generate_problem();
-
+const recogButton = document.getElementById('btn1');
+const interButton = document.getElementById('btn2');
+const pitchButton = document.getElementById('btn3');
+recogButton.addEventListener('click', () => {
+  stopGame2();
+  stopGame3()
+});
+interButton.addEventListener('click', () => {
+  stopGame1();
+  stopGame3()
+});
+pitchButton.addEventListener('click', () => {
+  stopGame1();
+  stopGame2()
+});
 function generate_problem(){
     let prob = []
     for (let i = 0; i < 50; i++){
