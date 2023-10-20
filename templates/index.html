@@ -76,11 +76,12 @@
         <ul>
           {% if isLogin %}
              <li><a class="nav-link scrollto" href="{{url_for('about')}}">About</a></li>
-                      <li><a class="nav-link scrollto" href="{{url_for('scoreboard')}}">Leaderboard</a></li>
+                      <li><a class="nav-link scrollto" href="{{url_for('scoreboard')}}">Statistics</a></li>
 
 <!--                      <li><a class="nav-link scrollto" href="{{url_for('mypage')}}">My Page</a></li>-->
 
             <li><a class="nav-link scrollto" href="{{url_for('logout')}}">Logout</a></li>
+
 <!--                <li class="dropdown"><a href="#"><span>MY</span> <i class="bi bi-chevron-down"></i></a>-->
 <!--                  <ul>-->
 <!--                    <li><a href="#">My Info</a></li>-->
@@ -114,6 +115,8 @@
                             <div class="card mx-auto" style="width: 18rem;">
                                 <div class="card-body">
                                         <h5 class="card-title mb-4">Recognition</h5>
+                                                                                                            <img class="img-fluid half-img mb-4"  src="../static/assets/img/recognition.png">
+
                                         <h6 class="card-subtitle mb-4 text-muted">Please <strong>listen and wait</strong> until the sounds have finished. Then, press the correct keys in order.
                                             <strong>'Left Arrow' Key </strong> for Dog <strong> 'Right Arrow' Key </strong> for Cat</h6>
                                                                                                                               <p>You need <strong>0</strong> points to unlock.</p>
@@ -130,6 +133,8 @@
                             <div class="card mx-auto" style="width: 18rem;">
                                 <div class="card-body">
                                         <h5 class="card-title mb-4">Interval</h5>
+                                                                        <img class="img-fluid half-img mb-4"  src="../static/assets/img/interval.png">
+
                                     <h6 class="card-subtitle mb-4 text-muted"> Please <strong> listen and wait </strong>until the sounds have finished.Then, press the <strong>'Enter' key </strong> in time interval.<br></h6>
                                                                                      <br>
                                                                                           <p>You need <strong>10</strong> points to unlock.</p>
@@ -145,14 +150,15 @@
                             <div class="card mx-auto" style="width: 18rem;">
                                 <div class="card-body">
                                         <h5 class="card-title mb-4">Interval</h5>
+                                                                        <img class="img-fluid half-img mb-4"  src="../static/assets/img/interval.png">
+
                                     <h6 class="card-subtitle mb-4 text-muted"> Please <strong> listen and wait </strong>until the sounds have finished.Then, press the <strong>'Enter' key </strong> in time interval.<br> </h6>
                                     <br>
 
 </h6>
-                                    <br>
                                                                                           <p>You need <strong>10</strong> points to unlock.</p>
 
-                                                                        <button class="btn btn-primary" onclick="changeContent(2)" id="btn2">
+                                                                        <button class="btn btn-primary" onclick="changeContent(2)">
 
                                     <i class="bi bi-lock"></i> Interval
                                     </button>
@@ -166,6 +172,7 @@
                             <div class="card mx-auto" style="width: 18rem;">
                                 <div class="card-body">
                                                                             <h5 class="card-title mb-4">Pitch & Interval</h5>
+                                    <img class="img-fluid half-img mb-4"  src="../static/assets/img/pitch.png">
                                     <h6 class="card-subtitle mb-4 text-muted"> <strong> 'q' </strong> Key for Lowest Pitch, <strong> 'w' </strong> Key for Middle Pitch, and 'e' Key for Highest Pitch.
 Press the key in the correct order and time interval!.
 </h6>
@@ -182,12 +189,14 @@ Press the key in the correct order and time interval!.
                             <div class="card mx-auto" style="width: 18rem;">
                                 <div class="card-body">
  <h5 class="card-title mb-4">Pitch & Interval</h5>
+                                                                        <img class="img-fluid half-img mb-4"  src="../static/assets/img/pitch.png">
+
                                     <h6 class="card-subtitle mb-4 text-muted"> <strong> 'q' </strong> Key for Lowest Pitch, <strong> 'w' </strong> Key for Middle Pitch, and 'e' Key for Highest Pitch.
 Press the key in the correct order and time interval!.
 </h6>
                                                                                                                               <p>You need <strong>15</strong> points to unlock.</p>
 
-                                    <button class="btn btn-primary" onclick="changeContent(3)" id="btn3">
+                                    <button class="btn btn-primary" onclick="changeContent(3)">
                                         <i class="bi bi-unlock"></i> Play
                                     </button>
                                 </div>
@@ -207,26 +216,27 @@ Press the key in the correct order and time interval!.
 <!--            </div>-->
           </div>
         <div class="row mt-5" data-aos="fade-up" data-aos-delay="200">
-<div class="gameboard mx-auto d-flex flex-column justify-content-center" style="position: relative;">
-    <h5 data-aos="fade-in" data-aos-delay="700" style="position: absolute; top: 20px; left: 20px;">
+
+
+                <h5 id="point" data-aos="fade-in" data-aos-delay="700" class="text-center mb-3">
         <strong>Total Points:</strong> <span id="currentScore">{{current_score}}</span>
     </h5>
 
-    <div class="firework-container"></div>
 
-    <div class="button-container text-center mymar-bottom">
-        {% if isLogin %}
-            <button class="btn btn-danger mx-auto start-btn" id="startBtn1" data-keep="true">Start</button>
-            <button class="btn btn-danger mx-auto start-btn" id="startBtn2" data-keep="true">Start</button>
-            <button class="btn btn-danger mx-auto start-btn" id="startBtn3" data-keep="true">Start</button>
-        {% else %}
-            <a class="color-black" href="{{url_for('login')}}"><p class="">Please Login to Start the Game!</p></a><br>
-        {% endif %}
-    </div>
+<div class="gameboard mx-auto d-flex justify-content-center align-items-center">
+  <div class="firework-container"></div>
+
+    {% if isLogin %}
+    <button class="btn btn-danger mx-auto start-btn" id="startBtn1" data-keep="true">Start</button>
+    <button class="btn btn-danger mx-auto start-btn" id="startBtn2" data-keep="true">Start</button>
+    <button class="btn btn-danger mx-auto start-btn" id="startBtn3" data-keep="true">Start</button>
+    {% else %}
+    <a class="color-black" href="{{url_for('login')}}"><p class="">Please Login to Start the Game!</p></a><br>
+    {% endif %}
 </div>
 
 
-    </div>
+
 
    </section>
 
@@ -269,32 +279,39 @@ Press the key in the correct order and time interval!.
   <script src="../static/assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="../static/assets/vendor/php-email-form/validate.js"></script>
 
+<script>
+function changeContent(btnId) {
+    removeContent();
+    var buttons = document.querySelectorAll('.btn');
+    buttons.forEach(function (button) {
+        button.classList.remove('active');
+    });
+
+    var clickedButton = document.getElementById('btn' + btnId);
+    clickedButton.classList.add('active');
+
+    for (let i = 1; i <= 3; i++) {
+        var button = document.getElementById('startBtn' + i);
+        if (button) {
+            button.style.display = 'none';
+        }
+    }
+
+    var startButton = document.getElementById('startBtn' + btnId);
+    if (startButton) {
+        startButton.style.display = 'block';
+        window.scrollBy(0, 450);
+    }
+
+}
+
+</script>
   <!-- Template Main JS File -->
   <script src="../static/assets/js/main.js"></script>
   <script src="../static/assets/js/game.js"></script>
   <script src="../static/assets/js/game_level2.js"></script>
   <script src="../static/assets/js/game3.js"></script>
 
-<script>
-
-            function changeContent(btnId) {
-            removeContent();
-    var buttons = document.querySelectorAll('.btn');
-    buttons.forEach(function(button) {
-        button.classList.remove('active');
-    });
-
-    var clickedButton = document.getElementById('btn' + btnId);
-    clickedButton.classList.add('active');
-    for (let i = 1; i <= 3; i++) {
- var button = document.getElementById('startBtn'+i);
-        button.style.display = 'none';
-}
-    var startButton = document.getElementById('startBtn'+btnId);
-
-    startButton.style.display = 'block';
-        }
-</script>
 
 </body>
 

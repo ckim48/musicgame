@@ -51,7 +51,7 @@
                                    <li><a class="nav-link scrollto active color-green" href="{{url_for('index')}}#game">Start Game</a></li>
 
              <li><a class="nav-link scrollto" href="{{url_for('about')}}">About</a></li>
-                      <li><a class="nav-link scrollto active" href="{{url_for('scoreboard')}}">Leaderboard</a></li>
+                      <li><a class="nav-link scrollto active" href="{{url_for('scoreboard')}}">Statistics</a></li>
 
 <!--                      <li><a class="nav-link scrollto" href="{{url_for('mypage')}}">My Page</a></li>-->
 
@@ -79,7 +79,7 @@
   <main id="main">
 
    <section id="scoreboard">
-        <div class="text-center mb-5">
+                    <div class="section-title" data-aos="fade-up">
         <h2>Ranking</h2>
       </div>
      <div class="container">
@@ -120,6 +120,9 @@
 <!--          <h2>My Information</h2>-->
         </div>
             <div class="row"  data-aos="fade-in" data-aos-delay="600">
+                    <div class="section-title" data-aos="fade-up">
+        <h2>My Information</h2>
+      </div>
                 <div class="col-md-6">
                   <div class="row d-flex justify-content-center align-items-center h-100">
                         <div class="col col-md-12 mb-4 mb-lg-0">
@@ -165,7 +168,57 @@
                       </div>
                 </div>
                   <div class="col-md-6">
-                        <canvas id="lineChart" width="400" height="200"></canvas>
+
+                      <div class="card info-card px-3 py-3">
+                          <div class="card-body">
+                                                      <canvas id="lineChart" width="400" height="200"></canvas>
+
+                          </div>
+
+                      </div>
+
+                </div>
+            </div>
+          </div>
+        </section>
+
+
+      <section style="background-color: white;">
+          <div class="container h-100">
+                    <div class="section-title" data-aos="fade-up">
+        <h2>Sentiment Analysis</h2>
+        </div>
+              <h2 data-aos="fade-up">How you Feel About our Website?</h2>
+<button data-aos="fade-up" class="btn btn-success mt-4 pt-2 ms-2" onclick="startVoiceRecognition()">Start Voice Recognition</button>
+<p id="recognitionMessage" style="display: none">Voice recognition is complete!</p>
+
+            <div class="row">
+                  <h2 class="mt-5 mb-5" data-aos="fade-up">Result of Sentiment Analysis</h2>
+
+                <div class="col-md-6">
+
+                         <div class="card info-card px-3 py-3 data-card">
+
+                                               <h5 class="" data-aos="fade-up">Sentiments of the users</h5>
+
+                          <div class="card-body">
+                              <canvas  data-aos="fade-in" id="sentimentPieChart" width="200" height="3"></canvas>
+
+                          </div>
+
+                      </div>
+                </div>
+                  <div class="col-md-6">
+                      <div class="card info-card px-3 py-3 data-card">
+                          <div class="card-body">
+                                                                             <h5 class="" data-aos="fade-up">The most frequent words in reviews</h5>
+
+    <canvas   data-aos="fade-in" id="wordChart" width="400" height="200"></canvas>
+
+                          </div>
+
+                      </div>
+
 
                 </div>
             </div>
@@ -177,21 +230,7 @@
   <!-- ======= Footer ======= -->
   <footer id="footer">
 
-<!--     <div class="footer-top">
 
-      <div class="container">
-
-        <div class="row justify-content-center">
-          <div class="col-lg-6">
-            <h3>Music Memory</h3>
-            <p>Et aut eum quis fuga eos sunt ipsa nihil. Labore corporis magni eligendi fuga maxime saepe commodi placeat.</p>
-          </div>
-        </div>
-
-
-
-      </div>
-    </div> -->
 
     <div class="container footer-bottom clearfix">
       <div class="copyright">
@@ -283,6 +322,115 @@
     createLineChart();
 
   </script>
+<script>
+function startVoiceRecognition() {
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = 'en-US';
+
+  recognition.onresult = function (event) {
+    const result = event.results[0][0].transcript;
+    const formattedResult = result.toLowerCase().replace(/\s/g, '');
+    document.getElementById('username').value = formattedResult;
+    completeSound.play();
+
+    // Hide the button
+    const button = document.querySelector('.btn-success');
+    if (button) {
+      button.style.display = 'none';
+    }
+
+    // Display the message
+    const message = document.getElementById('recognitionMessage');
+    if (message) {
+      message.style.display = 'block';
+    }
+
+    // Send the result to Flask for sentiment analysis
+    sendResultForSentimentAnalysis(formattedResult);
+  };
+
+  recognition.start();
+}
+
+function sendResultForSentimentAnalysis(result) {
+  // Create an AJAX request
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/sentiment-analysis', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  // Define a callback function to handle the response
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      // Handle the response from Flask here
+      console.log(xhr.responseText);
+    } else {
+      console.error('Sentiment analysis request failed');
+    }
+  };
+
+  // Send the result to Flask
+  xhr.send(JSON.stringify({ text: result }));
+}
+
+
+</script>
+
+<script>
+    // Extract sentiment values and counts from the Flask template
+    var sentimentData = {{ sentiment_counts | tojson }};
+
+    // Initialize data for the pie chart
+    var labels = sentimentData.map(item => item[0]);
+    var counts = sentimentData.map(item => item[1]);
+
+var ctx = document.getElementById('sentimentPieChart').getContext('2d');
+var chart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: counts,
+            backgroundColor: ['#D3704E', '#4EA8D3', '#4ED362'],
+        }]
+    },
+    options: {
+        title: {
+            display: true,
+            text: 'Sentiment Analysis Pie Chart',
+        },
+        responsive: true, // This makes the chart responsive
+        maintainAspectRatio: false, // Set this to false to allow manual sizing
+        aspectRatio: 1, // Adjust this value to control the chart's aspect ratio
+    }
+});
+
+</script>
+<script>
+        var ctx = document.getElementById('wordChart').getContext('2d');
+        var words = {{ top_words|tojson }};
+        var labels = words.map(item => item[0]);
+        var data = words.map(item => item[1]);
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Word Count',
+                    data: data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

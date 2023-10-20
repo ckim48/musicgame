@@ -1,7 +1,11 @@
 from flask import Flask, render_template, url_for, request, redirect,flash,session,jsonify
 import sqlite3
 from datetime import datetime, timedelta
-
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from collections import Counter
+from textblob import TextBlob
 app = Flask(__name__)
 app.secret_key = 'codingisfun'
 session = {}
@@ -10,6 +14,8 @@ sample_data = {
     'dates': ['2023-09-25', '2023-09-26', '2023-09-27', '2023-09-28', '2023-09-29'],
     'scores': [10, 15, 20, 18, 25]
 }
+stop_words = set(stopwords.words('english'))
+
 @app.route('/', methods=['GET'])
 def index():
     if 'username' in session:
@@ -154,6 +160,22 @@ def scoreboard():
     age = age[0]
     cursor.execute('SELECT username, score FROM Users ORDER BY score DESC LIMIT 10')
     leaderboard_data = cursor.fetchall()
+
+    cursor.execute("SELECT sentiment, COUNT(*) FROM Sentiments GROUP BY sentiment")
+    sentiment_counts = cursor.fetchall()
+    cursor.execute("SELECT context FROM Sentiments")
+    data = cursor.fetchall()
+
+    # Tokenize and process the text
+    words = []
+    for row in data:
+        text = row[0]
+        tokens = word_tokenize(text)
+        words.extend([word.lower() for word in tokens if word.isalpha() and word.lower() not in stop_words])
+
+    # Get the top 10 most frequent words
+    word_count = Counter(words)
+    top_words = word_count.most_common(10)
     conn.close()
 
 
@@ -162,7 +184,7 @@ def scoreboard():
     else:
         isLogin = False
 
-    return render_template('scoreboard.html',isLogin=isLogin, leaderboard_data=leaderboard_data,score=score,email=email,username=username,age=age,country=country)
+    return render_template('scoreboard.html',top_words=top_words,sentiment_counts=sentiment_counts,isLogin=isLogin, leaderboard_data=leaderboard_data,score=score,email=email,username=username,age=age,country=country)
 
 @app.route('/update_score', methods=['POST'])
 def update_score():
@@ -248,6 +270,38 @@ def prepare_data_for_graph(scores):
     dates = [row[0] for row in scores]
     scores = [row[1] for row in scores]
     return dates, scores
+
+    return render_template('scoreboard.html', sentiment_counts=sentiment_counts)
+
+
+
+@app.route('/sentiment-analysis', methods=['POST'])
+def sentiment_analysis():
+    data = request.get_json()
+    text = data.get('text')
+
+    if text:
+        analysis = TextBlob(text)
+        sentiment_score = analysis.sentiment.polarity
+
+        # Determine sentiment based on polarity score
+        if sentiment_score > 0:
+            sentiment = 'positive'
+        elif sentiment_score < 0:
+            sentiment = 'negative'
+        else:
+            sentiment = 'neutral'
+        conn = sqlite3.connect('static/assets/data/database.db')
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO Sentiments (sentiment,context) VALUES (?, ?)",
+                           (sentiment, text))
+        conn.commit()
+        conn.close()
+        # Return the sentiment result as JSON
+        return jsonify({'sentiment': sentiment})
+
+    return jsonify({'error': 'Invalid request'})
+
 
 if __name__ == '__main__':
     app.run(debug=True)

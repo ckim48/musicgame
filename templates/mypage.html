@@ -230,6 +230,41 @@
 
   </script>
 
+<script>
+  const completeSound= new Audio('../static/assets/audio/complete.mp3');
+
+    function startVoiceRecognition() {
+      const recognition = new webkitSpeechRecognition();
+      // const recognition = new SpeechRecognition();
+
+      recognition.lang = 'en-US';
+
+  recognition.onresult = function (event) {
+    const result = event.results[0][0].transcript;
+    const formattedResult = result.toLowerCase().replace(/\s/g, '');
+    document.getElementById('username').value = formattedResult;
+    completeSound.play();
+  };
+
+      recognition.start();
+    }
+
+        function startVoiceRecognition2() {
+      const recognition = new webkitSpeechRecognition();
+      // const recognition = new SpeechRecognition();
+
+      recognition.lang = 'en-US';
+
+  recognition.onresult = function (event) {
+    const result = event.results[0][0].transcript;
+    const formattedResult = result.toLowerCase().replace(/\s/g, '');
+    document.getElementById('password').value = formattedResult;
+    completeSound.play();
+  };
+
+      recognition.start();
+    }
+  </script>
 </body>
 
 </html>

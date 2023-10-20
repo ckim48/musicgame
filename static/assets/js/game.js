@@ -78,6 +78,9 @@ function playSound(problem) {
 
 
 function hideStartButton() {
+//  startMessage = document.getElementById('startMessage1');
+//  startMessage.style.display = 'none'
+
   startButton.style.display = 'none';
   gameStarted = true; // The game has started once the button is clicked
 //  game1=true

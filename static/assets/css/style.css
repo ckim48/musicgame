@@ -26,6 +26,9 @@ h6 {
   font-family: 'PT Sans', sans-serif;
 
 }
+.message {
+    display: none;
+}
 
 /*--------------------------------------------------------------
 # Back to top button
@@ -990,6 +993,9 @@ scale:1.05;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+.half-img{
+width:35%;
+}
 .voice-recog{
     cursor:pointer;
     display:block;
@@ -998,7 +1004,10 @@ scale:1.05;
 .voice-recog:hover{
     color: orange;
 }
-
+.data-card{
+width:500px;
+height:300px;
+}
 #leaderboard {
   width: 40%  !important;
   position: relative;
@@ -1304,3 +1313,4 @@ scale:1.04;
 #startBtn2{
 display: none;
 }
+
