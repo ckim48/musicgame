@@ -85,7 +85,7 @@ function showProblem() {
 
     // Add left and right arrow icons using Bootstrap Icons
     const problemIndexElement = document.createElement('div');
-    problemIndexElement.innerHTML = `Problem ${problemIndex + 1}`;
+    problemIndexElement.innerHTML = `Stage ${problemIndex + 1}`;
     problemIndexElement.classList.add('problem-index');
     problemInfoContainer.appendChild(problemIndexElement);
 

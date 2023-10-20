@@ -53,7 +53,7 @@
              <li><a class="nav-link scrollto" href="{{url_for('about')}}">About</a></li>
                       <li><a class="nav-link scrollto active" href="{{url_for('scoreboard')}}">Leaderboard</a></li>
 
-                      <li><a class="nav-link scrollto" href="{{url_for('mypage')}}">My Page</a></li>
+<!--                      <li><a class="nav-link scrollto" href="{{url_for('mypage')}}">My Page</a></li>-->
 
             <li><a class="nav-link scrollto" href="{{url_for('logout')}}">Logout</a></li>
 <!--                <li class="dropdown"><a href="#"><span>MY</span> <i class="bi bi-chevron-down"></i></a>-->
@@ -114,7 +114,63 @@
       </div>
      </div>
    </section>
+ <section class="vh-100" style="background-color: #f4f5f7;">
+          <div class="container h-100">
+                    <div class="section-title" data-aos="fade-up">
+<!--          <h2>My Information</h2>-->
+        </div>
+            <div class="row"  data-aos="fade-in" data-aos-delay="600">
+                <div class="col-md-6">
+                  <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col col-md-12 mb-4 mb-lg-0">
+                          <div class="card mb-3 info-card" style="border-radius: .5rem;">
+                            <div class="row g-0">
+                              <div class="col-md-4 gradient-custom text-center text-white d-flex flex-column justify-content-center"
+                                  style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                                  <h5>{{username}}</h5>
+                              </div>
 
+                              <div class="col-md-8">
+                                <div class="card-body p-4">
+                                  <h6>Information</h6>
+                                  <hr class="mt-0 mb-4">
+                                  <div class="row pt-1">
+                                    <div class="col-7 mb-3">
+                                      <h6>Email</h6>
+                                      <p class="text-muted">{{email}}</p>
+                                    </div>
+                                    <div class="col-5 mb-3">
+                                      <h6>Age</h6>
+                                      <p class="text-muted">{{age}}</p>
+                                    </div>
+                                  </div>
+<!--                                  <h6>Score</h6>-->
+                                  <hr class="mt-0 mb-4">
+                                  <div class="row pt-1">
+                                    <div class="col-7 mb-3">
+                                           <h6>Country</h6>
+                                      <p class="text-muted">{{country}}</p>
+
+                                    </div>
+                                    <div class="col-5 mb-3">
+                                    <h6>Score</h6>
+                                      <p class="text-muted">{{score}}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+                  <div class="col-md-6">
+                        <canvas id="lineChart" width="400" height="200"></canvas>
+
+                </div>
+            </div>
+          </div>
+        </section>
 
   </main><!-- End #main -->
 
@@ -157,7 +213,76 @@
   <!-- Template Main JS File -->
   <script src="../static/assets/js/main.js"></script>
   <script src="../static/assets/js/game.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script>
+    async function fetchData() {
+      const response = await fetch('/get_scores');
+      const data = await response.json();
+      return data;
+    }
 
+    async function createLineChart() {
+      const data = await fetchData();
+
+      const labels = data.map(item => item.date);
+      const scores = data.map(item => item.total_score);
+
+      const config = {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Scores',
+            data: scores,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2,
+            fill: false
+          }]
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: 'Achieved Score by date',
+              font: {
+                size: 16
+              }
+            }
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Date'
+              },
+              ticks: {
+                autoSkip: true,
+                maxTicksLimit: 6
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Score'
+              }
+            }
+          }
+        }
+      };
+
+      // Get the canvas element
+      const canvas = document.getElementById('lineChart');
+
+      // Create a new Chart instance
+      const ctx = canvas.getContext('2d');
+      const lineChart = new Chart(ctx, config);
+    }
+
+    // Call the function to create the line chart
+    createLineChart();
+
+  </script>
 </body>
 
 </html>

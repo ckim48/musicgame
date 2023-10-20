@@ -136,7 +136,22 @@ def scoreboard():
     username = session['username']  # Assuming you have a way to get the username
     conn = sqlite3.connect('static/assets/data/database.db')
     cursor = conn.cursor()
+    username = session['username']  # Assuming you have a way to get the username
+    conn = sqlite3.connect('static/assets/data/database.db')
+    cursor = conn.cursor()
 
+    cursor.execute("SELECT score FROM Users WHERE username = ?", (username,))
+    current_score = cursor.fetchone()
+    score = current_score[0]
+    cursor.execute("SELECT email FROM Users WHERE username = ?", (username,))
+    email = cursor.fetchone()
+    email = email[0]
+    cursor.execute("SELECT country FROM Users WHERE username = ?", (username,))
+    country = cursor.fetchone()
+    country = country[0]
+    cursor.execute("SELECT age FROM Users WHERE username = ?", (username,))
+    age = cursor.fetchone()
+    age = age[0]
     cursor.execute('SELECT username, score FROM Users ORDER BY score DESC LIMIT 10')
     leaderboard_data = cursor.fetchall()
     conn.close()
@@ -147,7 +162,7 @@ def scoreboard():
     else:
         isLogin = False
 
-    return render_template('scoreboard.html',isLogin=isLogin, leaderboard_data=leaderboard_data)
+    return render_template('scoreboard.html',isLogin=isLogin, leaderboard_data=leaderboard_data,score=score,email=email,username=username,age=age,country=country)
 
 @app.route('/update_score', methods=['POST'])
 def update_score():

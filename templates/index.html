@@ -58,7 +58,7 @@
           <span style="--i:11">R</span>
           <span style="--i:12">Y</span>
         </div>
-        <h2 data-aos="fade-up">Enhance your memory by playing the game!</h2>
+        <h2 data-aos="fade-up" class="margin-sub">Enhance your memory by playing the game!</h2>
         <a data-aos="fade-up" data-aos-delay="200" href="#game" class="btn-get-started scrollto">Get Started</a>
       </div>
     </div>
@@ -78,7 +78,7 @@
              <li><a class="nav-link scrollto" href="{{url_for('about')}}">About</a></li>
                       <li><a class="nav-link scrollto" href="{{url_for('scoreboard')}}">Leaderboard</a></li>
 
-                      <li><a class="nav-link scrollto" href="{{url_for('mypage')}}">My Page</a></li>
+<!--                      <li><a class="nav-link scrollto" href="{{url_for('mypage')}}">My Page</a></li>-->
 
             <li><a class="nav-link scrollto" href="{{url_for('logout')}}">Logout</a></li>
 <!--                <li class="dropdown"><a href="#"><span>MY</span> <i class="bi bi-chevron-down"></i></a>-->
@@ -115,36 +115,76 @@
                   <li class="mt-2"><strong>Pitch & Interval:</strong> You need at least <strong>15</strong> points to open this stage.</li>
               </ul>
               {% endif %}
-<!--            <ul>-->
-<!--              <li>Level1: </li>-->
-<!--              <li>Level2: </li>-->
-<!--              <li>Level3: </li>-->
-<!--              <li>Level4: </li>-->
-<!--            </ul>-->
-          <div class="row text-center mx-auto mt-5" data-aos="fade-up" data-aos-delay="200">
 
-            <div class="col-md-4">
-              <button class="btn btn-primary active" onclick="changeContent(1)" id="btn1"><i class="bi bi-unlock"></i> Recognition</button>
-            </div>
+                    <div class="row text-center mx-auto mt-5" data-aos="fade-up" data-aos-delay="200">
+                        <div class="col-lg-4">
+                            <div class="card mx-auto" style="width: 18rem;">
+                                <div class="card-body">
+                                        <h5 class="card-title mb-4">Recognition</h5>
+                                        <h6 class="card-subtitle mb-4 text-muted">Please <strong>listen and wait</strong> until the sounds have finished. Then, press the correct keys in order.
+                                            <strong>'Left Arrow' Key </strong> for Dog <strong> 'Right Arrow' Key </strong> for Cat</h6>
+                                    <button class="btn btn-primary active" onclick="changeContent(1)" id="btn1">
+                                        <i class="bi bi-unlock"></i> Play
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
 
-              {% if current_score >= 10 %}
-            <div class="col-md-4">
-              <button class="btn btn-primary " onclick="changeContent(2)"id="btn2"><i class="bi bi-unlock"></i> Interval</button>
-            </div>
-              {% else %}
-                    <div class="col-md-4">
-              <button class="btn btn-primary inactive" onclick="changeContent(2)"id="btn2" disabled><i class="bi bi-lock"></i> Interval</button>
-            </div>
-              {% endif %}
-              {% if current_score >= 15 %}
-            <div class="col-md-4">
-              <button class="btn btn-primary" onclick="changeContent(3)"id="btn3"><i class="bi bi-unlock"></i> Pitch & Interval</button>
-            </div>
-              {% else %}
-                          <div class="col-md-4">
-              <button class="btn btn-primary inactive" onclick="changeContent(3)"id="btn3" disabled><i class="bi bi-lock"></i>Pitch & Interval</button>
-            </div>
-              {% endif %}
+                        {% if current_score >= 10 %}
+                        <div class="col-lg-4">
+                            <div class="card mx-auto" style="width: 18rem;">
+                                <div class="card-body">
+                                        <h5 class="card-title mb-4">Interval</h5>
+                                    <h6 class="card-subtitle mb-4 text-muted"> Please <strong> listen and wait </strong>until the sounds have finished.Then, press the <strong>'Enter' key </strong> in time interval.<br></h6>
+                                    <br>
+</h6>
+                                    <button class="btn btn-primary" onclick="changeContent(2)" id="btn2">
+                                        <i class="bi bi-unlock"></i> Play
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="col-lg-4">
+                            <div class="card mx-auto" style="width: 18rem;">
+                                <div class="card-body">
+                                        <h5 class="card-title mb-4">Interval</h5>
+                                    <h6 class="card-subtitle mb-4 text-muted"> Please <strong> listen and wait </strong>until the sounds have finished.Then, press the <strong>'Enter' key </strong> in time interval.<br> </h6>
+                                    <br>
+</h6>                                        <i class="bi bi-lock"></i> Interval
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if current_score >= 15 %}
+                        <div class="col-lg-4">
+                            <div class="card mx-auto" style="width: 18rem;">
+                                <div class="card-body">
+                                                                            <h5 class="card-title mb-4">Pitch & Interval</h5>
+                                    <h6 class="card-subtitle mb-4 text-muted"> <strong> 'q' </strong> Key for Lowest Pitch, <strong> 'w' </strong> Key for Middle Pitch, and 'e' Key for Highest Pitch.
+Press the key in the correct order and time interval!.
+</h6>
+                                    <button class="btn btn-primary" onclick="changeContent(3)" id="btn3">
+                                        <i class="bi bi-unlock"></i> Play
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="col-lg-4">
+                            <div class="card mx-auto" style="width: 18rem;">
+                                <div class="card-body">
+                                    <button class="btn btn-primary inactive" onclick="changeContent(3)" id="btn3" disabled>
+                                        <i class="bi bi-lock"></i> Pitch & Interval
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+
 <!--              {% if current_score > 20 %}-->
 <!--            <div class="col-md-3">-->
 <!--              <button class="btn btn-primary" onclick="changeContent(4)"id="btn4" > Mix & Mix</button>-->

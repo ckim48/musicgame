@@ -424,15 +424,15 @@ text-decoration: underline;
   padding: 14px 30px;
   border-radius: 3px;
   margin: 10px;
-  color: black;
-  background: white;
+  color: white;
+  background: #EE9C38;
 }
 
 #hero .btn-get-started:hover {
   transition: 0.3s;
-  background: black;
-  border:1px solid white;
-  color: white;
+  background: white;
+  border:1px solid black;
+  color: black;
 }
 
 @media (min-width: 1024px) {
@@ -848,7 +848,7 @@ color:darkgray;
 }
 .gameboard{
   border: 2px solid #3498db;
-  width: 80%;
+  width: 85%;
   border-radius: 15px;
   height: 400px;
   overflow: auto;
@@ -1161,6 +1161,9 @@ list-style:none;
 }
 .user-card:hover{
 scale:1.05;
+}
+.margin-sub{
+margin-top: 70px !important;
 }
 .gradient-custom {
 background: #f6d365;
