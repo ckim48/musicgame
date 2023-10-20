@@ -427,7 +427,9 @@ text-decoration: underline;
   color: white;
   background: #EE9C38;
 }
-
+.mytext-right{
+text-align:right !important;
+}
 #hero .btn-get-started:hover {
   transition: 0.3s;
   background: white;
@@ -856,6 +858,7 @@ color:darkgray;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   padding: 20px;
 }
+
 #startBtn1{
     display:block;
   background-color: #86F28B;

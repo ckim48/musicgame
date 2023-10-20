@@ -107,14 +107,7 @@
    <section id="game">
           <div class="container mt-5">
         <h1 class="text-center" data-aos="fade-up" data-aos-delay="200">Sound Memory Game</h1>
-              {% if isLogin %}
-              <h5 class="text-center" data-aos="fade-in" data-aos-delay="700"><strong>{{username}}</strong>'s Total Points: <span id="currentScore">{{current_score}}</span></h5>
-              <ul class="ms-4 mt-5" data-aos="fade-in" data-aos-delay="700">
-                  <li><strong>Interval:</strong> You need at least <strong>10</strong> points to open this stage.</li>
-<!--                  <li class="mt-2"><strong>Pitch:</strong> You Need at least <strong>30</strong> points to open this stage.</li>-->
-                  <li class="mt-2"><strong>Pitch & Interval:</strong> You need at least <strong>15</strong> points to open this stage.</li>
-              </ul>
-              {% endif %}
+
 
                     <div class="row text-center mx-auto mt-5" data-aos="fade-up" data-aos-delay="200">
                         <div class="col-lg-4">
@@ -123,6 +116,8 @@
                                         <h5 class="card-title mb-4">Recognition</h5>
                                         <h6 class="card-subtitle mb-4 text-muted">Please <strong>listen and wait</strong> until the sounds have finished. Then, press the correct keys in order.
                                             <strong>'Left Arrow' Key </strong> for Dog <strong> 'Right Arrow' Key </strong> for Cat</h6>
+                                                                                                                              <p>You need <strong>0</strong> points to unlock.</p>
+
                                     <button class="btn btn-primary active" onclick="changeContent(1)" id="btn1">
                                         <i class="bi bi-unlock"></i> Play
                                     </button>
@@ -136,8 +131,9 @@
                                 <div class="card-body">
                                         <h5 class="card-title mb-4">Interval</h5>
                                     <h6 class="card-subtitle mb-4 text-muted"> Please <strong> listen and wait </strong>until the sounds have finished.Then, press the <strong>'Enter' key </strong> in time interval.<br></h6>
-                                    <br>
-</h6>
+                                                                                     <br>
+                                                                                          <p>You need <strong>10</strong> points to unlock.</p>
+
                                     <button class="btn btn-primary" onclick="changeContent(2)" id="btn2">
                                         <i class="bi bi-unlock"></i> Play
                                     </button>
@@ -151,7 +147,14 @@
                                         <h5 class="card-title mb-4">Interval</h5>
                                     <h6 class="card-subtitle mb-4 text-muted"> Please <strong> listen and wait </strong>until the sounds have finished.Then, press the <strong>'Enter' key </strong> in time interval.<br> </h6>
                                     <br>
-</h6>                                        <i class="bi bi-lock"></i> Interval
+
+</h6>
+                                    <br>
+                                                                                          <p>You need <strong>10</strong> points to unlock.</p>
+
+                                                                        <button class="btn btn-primary" onclick="changeContent(2)" id="btn2">
+
+                                    <i class="bi bi-lock"></i> Interval
                                     </button>
                                 </div>
                             </div>
@@ -166,6 +169,8 @@
                                     <h6 class="card-subtitle mb-4 text-muted"> <strong> 'q' </strong> Key for Lowest Pitch, <strong> 'w' </strong> Key for Middle Pitch, and 'e' Key for Highest Pitch.
 Press the key in the correct order and time interval!.
 </h6>
+                                                                                                                              <p>You need <strong>15</strong> points to unlock.</p>
+
                                     <button class="btn btn-primary" onclick="changeContent(3)" id="btn3">
                                         <i class="bi bi-unlock"></i> Play
                                     </button>
@@ -176,8 +181,14 @@ Press the key in the correct order and time interval!.
                         <div class="col-lg-4">
                             <div class="card mx-auto" style="width: 18rem;">
                                 <div class="card-body">
-                                    <button class="btn btn-primary inactive" onclick="changeContent(3)" id="btn3" disabled>
-                                        <i class="bi bi-lock"></i> Pitch & Interval
+ <h5 class="card-title mb-4">Pitch & Interval</h5>
+                                    <h6 class="card-subtitle mb-4 text-muted"> <strong> 'q' </strong> Key for Lowest Pitch, <strong> 'w' </strong> Key for Middle Pitch, and 'e' Key for Highest Pitch.
+Press the key in the correct order and time interval!.
+</h6>
+                                                                                                                              <p>You need <strong>15</strong> points to unlock.</p>
+
+                                    <button class="btn btn-primary" onclick="changeContent(3)" id="btn3">
+                                        <i class="bi bi-unlock"></i> Play
                                     </button>
                                 </div>
                             </div>
@@ -196,20 +207,25 @@ Press the key in the correct order and time interval!.
 <!--            </div>-->
           </div>
         <div class="row mt-5" data-aos="fade-up" data-aos-delay="200">
-            <div  class="gameboard mx-auto d-flex justify-content-center align-items-center">
-                <div class="firework-container">
-                </div>
-              {% if isLogin %}
-                              <button class="btn btn-danger mx-auto start-btn"  id="startBtn1" data-keep="true"> Start</button>
-                                                  <button class="btn btn-danger mx-auto start-btn"  id="startBtn2" data-keep="true"> Start</button>
-                                                  <button class="btn btn-danger mx-auto start-btn"  id="startBtn3" data-keep="true"> Start</button>
+<div class="gameboard mx-auto d-flex flex-column justify-content-center" style="position: relative;">
+    <h5 data-aos="fade-in" data-aos-delay="700" style="position: absolute; top: 20px; left: 20px;">
+        <strong>Total Points:</strong> <span id="currentScore">{{current_score}}</span>
+    </h5>
 
-              {% else %}
-        <a class="color-black" href="{{url_for('login')}}"><p class="">Please Login to Start the Game!</p></a><br>
+    <div class="firework-container"></div>
 
-                {% endif %}
+    <div class="button-container text-center mymar-bottom">
+        {% if isLogin %}
+            <button class="btn btn-danger mx-auto start-btn" id="startBtn1" data-keep="true">Start</button>
+            <button class="btn btn-danger mx-auto start-btn" id="startBtn2" data-keep="true">Start</button>
+            <button class="btn btn-danger mx-auto start-btn" id="startBtn3" data-keep="true">Start</button>
+        {% else %}
+            <a class="color-black" href="{{url_for('login')}}"><p class="">Please Login to Start the Game!</p></a><br>
+        {% endif %}
+    </div>
+</div>
 
-        </div>
+
     </div>
 
    </section>
