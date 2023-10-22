@@ -77,25 +77,115 @@
   </header><!-- End Header -->
 
   <main id="main">
+ <section style="background-color: #FEFEF6;">
+          <div class="container h-100">
+                    <div class="section-title" data-aos="fade-up">
+        <h2>User Activity Log</h2>
+        </div>
 
+            <div class="row">
+
+                <div class="col-md-6">
+
+                         <div class="card mx-auto info-card px-3 py-3 data-card">
+
+                                               <h5 class="" data-aos="fade-up">Number of Users</h5>
+
+                          <div class="card-body">
+                              <canvas  data-aos="fade-in" id="userCountChart"  width="400" height="200"></canvas>
+
+                          </div>
+
+                      </div>
+                </div>
+                  <div class="col-md-6">
+                      <div class="card mx-auto info-card px-3 py-3 data-card">
+                          <div class="card-body">
+                               <h5 class="" data-aos="fade-up">Solved Questions</h5>
+
+                                                <canvas   data-aos="fade-in" id="userCountChart2" width="400" height="200"></canvas>
+
+                          </div>
+
+                      </div>
+
+                </div>
+            </div>
+
+          </section>
 
       <section style="background-color: white;">
           <div class="container h-100">
                     <div class="section-title" data-aos="fade-up">
         <h2>Sentiment Analysis</h2>
         </div>
-              <h2 data-aos="fade-up">How you Feel About our Website?</h2>
-<button data-aos="fade-up" class="btn btn-success mt-4 pt-2 ms-2" onclick="startVoiceRecognition()">Start Voice Recognition</button>
-<p id="recognitionMessage" style="display: none">Voice recognition is complete!</p>
 
             <div class="row">
-                  <h2 class="mt-5 mb-5" data-aos="fade-up">Result of Sentiment Analysis</h2>
 
                 <div class="col-md-6">
 
-                         <div class="card info-card px-3 py-3 data-card">
+                         <div class="card  mx-auto info-card px-3 py-3 data-card">
 
-                                               <h5 class="" data-aos="fade-up">Sentiments of the users</h5>
+                                               <h5 class="" data-aos="fade-up">Sentiments of Question1</h5>
+
+                          <div class="card-body">
+                              <canvas  data-aos="fade-in" id="sentimentPieChart1" width="200" height="3"></canvas>
+
+                          </div>
+
+                      </div>
+                </div>
+                  <div class="col-md-6">
+                      <div class="card mx-auto info-card px-3 py-3 data-card">
+                          <div class="card-body">
+                               <h5 class="" data-aos="fade-up">The most frequent words in Question1</h5>
+
+                                                <canvas   data-aos="fade-in" id="wordChart1" width="400" height="200"></canvas>
+
+                          </div>
+
+                      </div>
+
+                </div>
+            </div>
+
+                          <div class="row mt-5">
+
+                <div class="col-md-6">
+
+                         <div class="card mx-auto info-card px-3 py-3 data-card">
+
+                                               <h5 class="" data-aos="fade-up">Sentiments of Question2</h5>
+
+                          <div class="card-body">
+                              <canvas  data-aos="fade-in" id="sentimentPieChart2" width="200" height="3"></canvas>
+
+                          </div>
+
+                      </div>
+                </div>
+                  <div class="col-md-6">
+                      <div class="card mx-auto info-card px-3 py-3 data-card">
+                          <div class="card-body">
+                               <h5 class="" data-aos="fade-up">The most frequent words in Question2</h5>
+
+                                                <canvas   data-aos="fade-in" id="wordChart2" width="400" height="200"></canvas>
+
+                          </div>
+
+                      </div>
+
+                </div>
+            </div>
+
+
+                                        <div class="row mt-5">
+
+                <div class="col-md-6">
+
+                         <div class="card mx-auto info-card px-3 py-3 data-card">
+
+                                               <h5 class="" data-aos="fade-up">Sentiments of Question3</h5>
 
                           <div class="card-body">
                               <canvas  data-aos="fade-in" id="sentimentPieChart" width="200" height="3"></canvas>
@@ -105,19 +195,21 @@
                       </div>
                 </div>
                   <div class="col-md-6">
-                      <div class="card info-card px-3 py-3 data-card">
+                      <div class="card mx-auto info-card px-3 py-3 data-card">
                           <div class="card-body">
-                                                                             <h5 class="" data-aos="fade-up">The most frequent words in reviews</h5>
+                               <h5 class="" data-aos="fade-up">The most frequent words in Question3</h5>
 
-    <canvas   data-aos="fade-in" id="wordChart" width="400" height="200"></canvas>
+                                                <canvas   data-aos="fade-in" id="wordChart" width="400" height="200"></canvas>
 
                           </div>
 
                       </div>
 
-
                 </div>
             </div>
+
+
+
           </div>
         </section>
 
@@ -150,126 +242,6 @@
   <script src="../static/assets/js/game.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<script>
-    async function fetchData() {
-      const response = await fetch('/get_scores');
-      const data = await response.json();
-      return data;
-    }
-
-    async function createLineChart() {
-      const data = await fetchData();
-
-      const labels = data.map(item => item.date);
-      const scores = data.map(item => item.total_score);
-
-      const config = {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Scores',
-            data: scores,
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 2,
-            fill: false
-          }]
-        },
-        options: {
-          plugins: {
-            title: {
-              display: true,
-              text: 'Achieved Score by date',
-              font: {
-                size: 16
-              }
-            }
-          },
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Date'
-              },
-              ticks: {
-                autoSkip: true,
-                maxTicksLimit: 6
-              }
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Score'
-              }
-            }
-          }
-        }
-      };
-
-      // Get the canvas element
-      const canvas = document.getElementById('lineChart');
-
-      // Create a new Chart instance
-      const ctx = canvas.getContext('2d');
-      const lineChart = new Chart(ctx, config);
-    }
-
-    // Call the function to create the line chart
-    createLineChart();
-
-  </script>
-<script>
-function startVoiceRecognition() {
-  const recognition = new webkitSpeechRecognition();
-  recognition.lang = 'en-US';
-
-  recognition.onresult = function (event) {
-    const result = event.results[0][0].transcript;
-    const formattedResult = result.toLowerCase().replace(/\s/g, '');
-    document.getElementById('username').value = formattedResult;
-    completeSound.play();
-
-    // Hide the button
-    const button = document.querySelector('.btn-success');
-    if (button) {
-      button.style.display = 'none';
-    }
-
-    // Display the message
-    const message = document.getElementById('recognitionMessage');
-    if (message) {
-      message.style.display = 'block';
-    }
-
-    // Send the result to Flask for sentiment analysis
-    sendResultForSentimentAnalysis(formattedResult);
-  };
-
-  recognition.start();
-}
-
-function sendResultForSentimentAnalysis(result) {
-  // Create an AJAX request
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', '/sentiment-analysis', true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-
-  // Define a callback function to handle the response
-  xhr.onload = function () {
-    if (xhr.status === 200) {
-      // Handle the response from Flask here
-      console.log(xhr.responseText);
-    } else {
-      console.error('Sentiment analysis request failed');
-    }
-  };
-
-  // Send the result to Flask
-  xhr.send(JSON.stringify({ text: result }));
-}
-
-
-</script>
 
 <script>
     // Extract sentiment values and counts from the Flask template
@@ -322,6 +294,205 @@ var chart = new Chart(ctx, {
                 scales: {
                     y: {
                         beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+
+<script>
+    // Extract sentiment values and counts from the Flask template
+    var sentimentData = {{ sentiment_counts2 | tojson }};
+
+    // Initialize data for the pie chart
+    var labels = sentimentData.map(item => item[0]);
+    var counts = sentimentData.map(item => item[1]);
+
+var ctx = document.getElementById('sentimentPieChart1').getContext('2d');
+var chart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: counts,
+            backgroundColor: ['#ED8B66', '#4EA8D3', '#97ECCC'],
+        }]
+    },
+    options: {
+        title: {
+            display: true,
+            text: 'Sentiment Analysis Pie Chart',
+        },
+        responsive: true, // This makes the chart responsive
+        maintainAspectRatio: false, // Set this to false to allow manual sizing
+        aspectRatio: 1, // Adjust this value to control the chart's aspect ratio
+    }
+});
+
+</script>
+
+<script>
+        var ctx = document.getElementById('wordChart1').getContext('2d');
+        var words = {{ top_words2|tojson }};
+        var labels = words.map(item => item[0]);
+        var data = words.map(item => item[1]);
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Word Count',
+                    data: data,
+                    backgroundColor: 'rgba(237, 139, 102, 0.2)',
+                    borderColor: 'rgba(237, 139, 102, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+
+
+
+<script>
+    // Extract sentiment values and counts from the Flask template
+    var sentimentData = {{ sentiment_counts3 | tojson }};
+
+    // Initialize data for the pie chart
+    var labels = sentimentData.map(item => item[0]);
+    var counts = sentimentData.map(item => item[1]);
+
+var ctx = document.getElementById('sentimentPieChart2').getContext('2d');
+var chart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: counts,
+            backgroundColor: ['#ED8B66', '#4EA8D3', '#97ECCC'],
+        }]
+    },
+    options: {
+        title: {
+            display: true,
+            text: 'Sentiment Analysis Pie Chart',
+        },
+        responsive: true, // This makes the chart responsive
+        maintainAspectRatio: false, // Set this to false to allow manual sizing
+        aspectRatio: 1, // Adjust this value to control the chart's aspect ratio
+    }
+});
+
+</script>
+
+<script>
+        var ctx = document.getElementById('wordChart2').getContext('2d');
+        var words = {{ top_words3|tojson }};
+        var labels = words.map(item => item[0]);
+        var data = words.map(item => item[1]);
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Word Count',
+                    data: data,
+                    backgroundColor: 'rgba(220, 160, 227, 0.2)',
+                    borderColor: 'rgba(220, 160, 227, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+
+ <script>
+        var months = ["June", "July", "August", "September", "October"];
+        var userCount = [5,30, 32, 40, 45];
+
+        var ctx2 = document.getElementById('userCountChart').getContext('2d');
+
+        var chart = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'Number of Users',
+                    data: userCount,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        stepSize: 10
+                    }
+                }
+            }
+        });
+    </script>
+
+
+ <script>
+       var months = ["June", "July", "August", "September", "October"];
+
+        var recognitionData = [20, 50, 90, 130,190];
+        var intervalData = [15, 40, 55,70,90];
+        var pitchIntervalData = [3,15, 20, 35,55];
+
+        var ctx2 = document.getElementById('userCountChart2').getContext('2d');
+
+        var chart = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [
+                    {
+                        label: 'Recognition',
+                        data: recognitionData,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 2,
+                        fill: false
+                    },
+                    {
+                        label: 'Interval',
+                        data: intervalData,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2,
+                        fill: false
+                    },
+                    {
+                        label: 'Pitch&Interval',
+                        data: pitchIntervalData,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        stepSize: 10
                     }
                 }
             }

@@ -149,6 +149,11 @@ def dashboard():
     username = session['username']
     cursor.execute("SELECT sentiment, COUNT(*) FROM Sentiments GROUP BY sentiment")
     sentiment_counts = cursor.fetchall()
+    cursor.execute("SELECT sentiment, COUNT(*) FROM Sentiments2 GROUP BY sentiment")
+    sentiment_counts2 = cursor.fetchall()
+    cursor.execute("SELECT sentiment, COUNT(*) FROM Sentiments3 GROUP BY sentiment")
+    sentiment_counts3 = cursor.fetchall()
+
     cursor.execute("SELECT context FROM Sentiments")
     data = cursor.fetchall()
 
@@ -162,8 +167,38 @@ def dashboard():
     # Get the top 10 most frequent words
     word_count = Counter(words)
     top_words = word_count.most_common(10)
+
+
+    cursor.execute("SELECT context FROM Sentiments2")
+    data2 = cursor.fetchall()
+
+    # Tokenize and process the text
+    words = []
+    for row in data2:
+        text = row[0]
+        tokens = word_tokenize(text)
+        words.extend([word.lower() for word in tokens if word.isalpha() and word.lower() not in stop_words])
+
+    # Get the top 10 most frequent words
+    word_count = Counter(words)
+    top_words2 = word_count.most_common(10)
+
+
+    cursor.execute("SELECT context FROM Sentiments3")
+    data3 = cursor.fetchall()
+
+    # Tokenize and process the text
+    words = []
+    for row in data3:
+        text = row[0]
+        tokens = word_tokenize(text)
+        words.extend([word.lower() for word in tokens if word.isalpha() and word.lower() not in stop_words])
+
+    # Get the top 10 most frequent words
+    word_count = Counter(words)
+    top_words3 = word_count.most_common(10)
     conn.close()
-    return render_template('dashboard.html',top_words=top_words,sentiment_counts=sentiment_counts,isLogin=isLogin)
+    return render_template('dashboard.html',top_words3=top_words3, sentiment_counts3=sentiment_counts3,top_words2=top_words2, sentiment_counts2=sentiment_counts2,top_words=top_words,sentiment_counts=sentiment_counts,isLogin=isLogin)
 
 
 
