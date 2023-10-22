@@ -1325,3 +1325,25 @@ scale:1.04;
 display: none;
 }
 
+    .info-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .info-card h5 {
+        font-size: 18px;
+        color: #333;
+    }
+
+    .info-card .card-body {
+        padding: 0;
+    }
+
+    .info-card canvas {
+        width: 100%;
+        height: auto;
+    }
