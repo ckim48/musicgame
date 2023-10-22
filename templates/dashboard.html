@@ -78,125 +78,48 @@
 
   <main id="main">
 
-<!--   <section id="scoreboard">-->
 
-
-<!--      </div>-->
-<!--     </div>-->
-<!--   </section>-->
- <section class="" style="background-color: #f4f5f7;">
-          <div class="container">
+      <section style="background-color: white;">
+          <div class="container h-100">
                     <div class="section-title" data-aos="fade-up">
-<!--          <h2>My Information</h2>-->
+        <h2>Sentiment Analysis</h2>
         </div>
-            <div class="row"  data-aos="fade-in" data-aos-delay="600">
-                    <div class="section-title" data-aos="fade-up">
-        <h2>User Dashboard</h2>
-      </div>
-                <div class="row">
+              <h2 data-aos="fade-up">How you Feel About our Website?</h2>
+<button data-aos="fade-up" class="btn btn-success mt-4 pt-2 ms-2" onclick="startVoiceRecognition()">Start Voice Recognition</button>
+<p id="recognitionMessage" style="display: none">Voice recognition is complete!</p>
 
+            <div class="row">
+                  <h2 class="mt-5 mb-5" data-aos="fade-up">Result of Sentiment Analysis</h2>
 
                 <div class="col-md-6">
-                  <div class="row d-flex justify-content-center align-items-center h-100">
-                              <h3 class="mb-4 mx-auto text-center mb-4">My Information</h3>
 
-                        <div class="col col-md-12 mb-4 mb-lg-0">
-                          <div class="card mb-3 info-card" style="border-radius: .5rem;">
-                            <div class="row g-0">
-                              <div class="col-md-4 gradient-custom text-center text-white d-flex flex-column justify-content-center"
-                                  style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                                  <h5>{{username}}</h5>
-                              </div>
+                         <div class="card info-card px-3 py-3 data-card">
 
-                              <div class="col-md-8">
-                                <div class="card-body p-4">
-                                  <h6>Information</h6>
-                                  <hr class="mt-0 mb-4">
-                                  <div class="row pt-1">
-                                    <div class="col-7 mb-3">
-                                      <h6>Email</h6>
-                                      <p class="text-muted">{{email}}</p>
-                                    </div>
-                                    <div class="col-5 mb-3">
-                                      <h6>Age</h6>
-                                      <p class="text-muted">{{age}}</p>
-                                    </div>
-                                  </div>
-<!--                                  <h6>Score</h6>-->
-                                  <hr class="mt-0 mb-4">
-                                  <div class="row pt-1">
-                                    <div class="col-7 mb-3">
-                                           <h6>Country</h6>
-                                      <p class="text-muted">{{country}}</p>
+                                               <h5 class="" data-aos="fade-up">Sentiments of the users</h5>
 
-                                    </div>
-                                    <div class="col-5 mb-3">
-                                    <h6>Score</h6>
-                                      <p class="text-muted">{{score}}</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                          <div class="card-body">
+                              <canvas  data-aos="fade-in" id="sentimentPieChart" width="200" height="3"></canvas>
+
                           </div>
-                        </div>
+
                       </div>
                 </div>
                   <div class="col-md-6">
-                              <h3 class="mb-4 mx-auto text-center">My Progression</h3>
-
-
-                      <div class="card info-card px-5 py-2">
+                      <div class="card info-card px-3 py-3 data-card">
                           <div class="card-body">
-                                                      <canvas id="lineChart" width="400" height="200"></canvas>
+                                                                             <h5 class="" data-aos="fade-up">The most frequent words in reviews</h5>
+
+    <canvas   data-aos="fade-in" id="wordChart" width="400" height="200"></canvas>
 
                           </div>
 
                       </div>
 
+
                 </div>
-                    </div>
             </div>
-              <div class="row">
-                  <div class="col-md-6">
-                              <h3 class="mb-4 mx-auto text-center mb-4 mt-5">Top Players</h3>
-
-                      <div class="container">
-                          <div id="leaderboard mx-auto">
-                            <table class="tw mx-auto">
-                            {% for user in leaderboard_data %}
-                              <tr>
-                                <td class="number">{{ loop.index}}</td>
-                                <td class="name">{{ user[0] }}</td>
-                                {% if loop.index == 1%}
-                                <td class="points">{{ user[1] }}
-                                           <img class="gold-medal" src="https://github.com/malunaridev/Challenges-iCodeThis/blob/master/4-leaderboard/assets/gold-medal.png?raw=true" alt="gold medal"/>
-                                  </td>
-                                {% else %}
-                                <td class="points">{{ user[1] }}</td>
-                                {% endif %}
-                              </tr>
-                            {% endfor %}
-                            </table>
-                          </div>
-                         </div>
-                  </div>
-                  <div class="col-md-6">
-                              <h3 class="mb-4 mx-auto text-center mb-4 mt-5">My Progression2</h3>
-                      <div class="card info-card px-5 py-2">
-                          <div class="card-body">
-                                                      <canvas id="scoreChart" width="400" height="200"></canvas>
-
-                          </div>
-
-                      </div>
-                  </div>
-
-
-              </div>
           </div>
         </section>
-
 
   </main><!-- End #main -->
 
@@ -295,76 +218,115 @@
     createLineChart();
 
   </script>
-
 <script>
-  async function fetchData2() {
-    try {
-      const response = await fetch('/get_scores2');
-      if (!response.ok) {
-        throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error(error);
+function startVoiceRecognition() {
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = 'en-US';
+
+  recognition.onresult = function (event) {
+    const result = event.results[0][0].transcript;
+    const formattedResult = result.toLowerCase().replace(/\s/g, '');
+    document.getElementById('username').value = formattedResult;
+    completeSound.play();
+
+    // Hide the button
+    const button = document.querySelector('.btn-success');
+    if (button) {
+      button.style.display = 'none';
     }
-  }
 
-  // Function to create the Chart.js chart with fetched data
-  async function createChart() {
-    const jsonData = await fetchData2();
-
-    var dataByLevel = {};
-
-    jsonData.forEach(function(item) {
-      if (!dataByLevel[item.level]) {
-        dataByLevel[item.level] = {
-          label: item.level,
-          data: [],
-          borderColor: getRandomColor(),
-          fill: false
-        };
-      }
-      dataByLevel[item.level].data.push(item.total_score);
-    });
-
-    var datasets = Object.values(dataByLevel);
-
-    var uniqueDates = [...new Set(jsonData.map(item => item.date))];
-
-    var ctx = document.getElementById('scoreChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: uniqueDates,
-        datasets: datasets
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        title: {
-          display: true,
-          text: 'Achieved Score for Each Level'
-        }
-      }
-    });
-
-    function getRandomColor() {
-      var letters = '0123456789ABCDEF';
-      var color = '#';
-      for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
+    // Display the message
+    const message = document.getElementById('recognitionMessage');
+    if (message) {
+      message.style.display = 'block';
     }
-  }
 
-  // Call the createChart function to fetch data and create the chart
-  createChart();
+    // Send the result to Flask for sentiment analysis
+    sendResultForSentimentAnalysis(formattedResult);
+  };
+
+  recognition.start();
+}
+
+function sendResultForSentimentAnalysis(result) {
+  // Create an AJAX request
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/sentiment-analysis', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  // Define a callback function to handle the response
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      // Handle the response from Flask here
+      console.log(xhr.responseText);
+    } else {
+      console.error('Sentiment analysis request failed');
+    }
+  };
+
+  // Send the result to Flask
+  xhr.send(JSON.stringify({ text: result }));
+}
+
+
 </script>
 
+<script>
+    // Extract sentiment values and counts from the Flask template
+    var sentimentData = {{ sentiment_counts | tojson }};
 
+    // Initialize data for the pie chart
+    var labels = sentimentData.map(item => item[0]);
+    var counts = sentimentData.map(item => item[1]);
 
+var ctx = document.getElementById('sentimentPieChart').getContext('2d');
+var chart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: counts,
+            backgroundColor: ['#D3704E', '#4EA8D3', '#4ED362'],
+        }]
+    },
+    options: {
+        title: {
+            display: true,
+            text: 'Sentiment Analysis Pie Chart',
+        },
+        responsive: true, // This makes the chart responsive
+        maintainAspectRatio: false, // Set this to false to allow manual sizing
+        aspectRatio: 1, // Adjust this value to control the chart's aspect ratio
+    }
+});
+
+</script>
+<script>
+        var ctx = document.getElementById('wordChart').getContext('2d');
+        var words = {{ top_words|tojson }};
+        var labels = words.map(item => item[0]);
+        var data = words.map(item => item[1]);
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Word Count',
+                    data: data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -1184,6 +1184,7 @@ background: -webkit-linear-gradient(to right bottom, rgba(149, 205, 216 , 1), rg
 
 background: linear-gradient(to right bottom, rgba(149, 205, 216 , 1), rgba(253, 160, 133, 1))
 }
+
 .info-card:hover{
 scale:1.04;
 }

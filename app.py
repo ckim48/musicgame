@@ -134,6 +134,38 @@ def register():
             return redirect(url_for('login'))
 
     return render_template('register.html', title='Register')
+@app.route("/dashboard",methods=['Get',"POST"])
+def dashboard():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    if 'username' in session:
+        isLogin = True
+    else:
+        isLogin = False
+
+    username = session['username']  # Assuming you have a way to get the username
+    conn = sqlite3.connect('static/assets/data/database.db')
+    cursor = conn.cursor()
+    username = session['username']
+    cursor.execute("SELECT sentiment, COUNT(*) FROM Sentiments GROUP BY sentiment")
+    sentiment_counts = cursor.fetchall()
+    cursor.execute("SELECT context FROM Sentiments")
+    data = cursor.fetchall()
+
+    # Tokenize and process the text
+    words = []
+    for row in data:
+        text = row[0]
+        tokens = word_tokenize(text)
+        words.extend([word.lower() for word in tokens if word.isalpha() and word.lower() not in stop_words])
+
+    # Get the top 10 most frequent words
+    word_count = Counter(words)
+    top_words = word_count.most_common(10)
+    conn.close()
+    return render_template('dashboard.html',top_words=top_words,sentiment_counts=sentiment_counts,isLogin=isLogin)
+
+
 
 @app.route('/scoreboard', methods=['GET', 'POST'])
 def scoreboard():
@@ -158,7 +190,7 @@ def scoreboard():
     cursor.execute("SELECT age FROM Users WHERE username = ?", (username,))
     age = cursor.fetchone()
     age = age[0]
-    cursor.execute('SELECT username, score FROM Users ORDER BY score DESC LIMIT 10')
+    cursor.execute('SELECT username, score FROM Users ORDER BY score DESC LIMIT 5')
     leaderboard_data = cursor.fetchall()
 
     cursor.execute("SELECT sentiment, COUNT(*) FROM Sentiments GROUP BY sentiment")
@@ -184,7 +216,7 @@ def scoreboard():
     else:
         isLogin = False
 
-    return render_template('scoreboard.html',top_words=top_words,sentiment_counts=sentiment_counts,isLogin=isLogin, leaderboard_data=leaderboard_data,score=score,email=email,username=username,age=age,country=country)
+    return render_template('scoreboard.html',isLogin=isLogin, leaderboard_data=leaderboard_data,score=score,email=email,username=username,age=age,country=country)
 
 @app.route('/update_score', methods=['POST'])
 def update_score():
@@ -301,6 +333,45 @@ def sentiment_analysis():
         return jsonify({'sentiment': sentiment})
 
     return jsonify({'error': 'Invalid request'})
+
+@app.route('/get_scores2', methods=['GET', 'POST'])
+def get_scores_chart():
+    username = session.get('username')
+    if username is None:
+        return "User not logged in", 401
+
+    conn = sqlite3.connect('static/assets/data/database.db')
+    cursor = conn.cursor()
+
+    thirty_days_ago = (datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d')
+
+    query = """
+            SELECT Date, Level, SUM(getScore) as total_score
+            FROM Scores
+            WHERE username = ? AND Date >= ?
+            GROUP BY Date, Level
+            ORDER BY Date, Level
+            """
+
+    cursor.execute(query, (username, thirty_days_ago))
+    rows = cursor.fetchall()
+
+    conn.close()
+
+    result = []
+    # Convert the data to a list of dictionaries
+    for row in rows:
+        level = row[1]  # Level value is in row[1]
+        if level == 1:
+            level_name = 'recognition'
+        elif level == 2:
+            level_name = 'Interval'
+        else:
+            level_name = 'Pitch & Interval'
+        result.append({'date': row[0], 'level': level_name, 'total_score': row[2]})
+    print(result)
+    return jsonify(result)
+
 
 
 if __name__ == '__main__':
