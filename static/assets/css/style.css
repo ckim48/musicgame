@@ -4,12 +4,16 @@ body {
   color: #555555;
 
 }
-
+.text-justify{
+  text-align: justify !important;
+}
 a {
   text-decoration: none;
   color: #7cc576;
 }
-
+.small-font{
+  font-size: 15px;
+}
 a:hover {
   color: #9ed49a;
   text-decoration: none;
@@ -878,6 +882,9 @@ color:darkgray;
 
   background-color: #EC67E2;
 
+}
+.aboutmep{
+  font-family: "Open Sans", sans-serif;
 }
 .color-green{
 color:orange !important;
