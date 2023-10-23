@@ -611,7 +611,17 @@ section {
 .contact .php-email-form textarea {
   padding: 10px 12px;
 }
-
+.btn-success{
+    background-color: #EE9C38;
+    border: none;
+    transition: 0.5s;
+}
+.btn-success:hover{
+    background-color: white;
+    border: 1px solid #EE9C38;
+    color:#EE9C38;
+};
+}
 .contact .php-email-form button[type=submit] {
   background: #7cc576;
   border: 0;
@@ -1322,3 +1332,25 @@ scale:1.04;
 display: none;
 }
 
+    .info-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .info-card h5 {
+        font-size: 18px;
+        color: #333;
+    }
+
+    .info-card .card-body {
+        padding: 0;
+    }
+
+    .info-card canvas {
+        width: 100%;
+        height: auto;
+    }
