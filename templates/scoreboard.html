@@ -51,7 +51,11 @@
                                    <li><a class="nav-link scrollto active color-green" href="{{url_for('index')}}#game">Start Game</a></li>
 
              <li><a class="nav-link scrollto" href="{{url_for('about')}}">About</a></li>
-                      <li><a class="nav-link scrollto active" href="{{url_for('scoreboard')}}">Statistics</a></li>
+                      <li><a class="nav-link scrollto active" href="{{url_for('scoreboard')}}">My Page</a></li>
+                      {% if username=="scott2023" %}
+
+                      <li><a class="nav-link scrollto" href="{{url_for('dashboard')}}">Admin Page</a></li>
+                      {% endif %}
 
 <!--                      <li><a class="nav-link scrollto" href="{{url_for('mypage')}}">My Page</a></li>-->
 
@@ -97,11 +101,12 @@
 
 
                 <div class="col-md-6">
+                  <div class="projectintro">
                   <div class="row d-flex justify-content-center align-items-center h-100">
                               <h3 class="mb-4 mx-auto text-center mb-4">My Information</h3>
 
                         <div class="col col-md-12 mb-4 mb-lg-0">
-                          <div class="card mb-3 info-card" style="border-radius: .5rem;">
+                          <div class="card mb-3 info-card info-card2" style="border-radius: .5rem;">
                             <div class="row g-0">
                               <div class="col-md-4 gradient-custom text-center text-white d-flex flex-column justify-content-center"
                                   style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
@@ -141,24 +146,28 @@
                           </div>
                         </div>
                       </div>
+                    </div>
                 </div>
                   <div class="col-md-6">
+                    <div class="projectintro">
                               <h3 class="mb-4 mx-auto text-center">My Progression By Date</h3>
 
 
-                      <div class="card info-card px-5 py-2">
+                      <div class="card info-card info-card2 px-5 py-4">
                           <div class="card-body">
-                                                      <canvas id="lineChart" width="400" height="200"></canvas>
+                                                      <canvas id="lineChart" width="400" height="215"></canvas>
 
                           </div>
 
                       </div>
+                    </div>
 
                 </div>
                     </div>
             </div>
               <div class="row">
                   <div class="col-md-6"  data-aos="fade-in" data-aos-delay="600">
+                    <div class="projectintro">
                               <h3 class="mb-4 mx-auto text-center mb-4 mt-5">Top Players</h3>
 
                       <div class="container">
@@ -180,16 +189,19 @@
                             </table>
                           </div>
                          </div>
+                       </div>
                   </div>
                   <div class="col-md-6"  data-aos="fade-in" data-aos-delay="600">
-                              <h3 class="mb-4 mx-auto text-center mb-4 mt-5">My Progression By Level</h3>
-                      <div class="card info-card px-5">
+                    <div class="projectintro">
+                              <h3 class="mb-4 text-center mb-4 mt-5">My Progression By Level</h3>
+                      <div class="card info-card info-card2 px-5 py-5 marginsmall">
                           <div class="card-body">
-                                                      <canvas id="scoreChart" width="400" height="300"></canvas>
+                                                      <canvas id="scoreChart" width="400" height="215"></canvas>
 
                           </div>
 
                       </div>
+                    </div>
                   </div>
 
 
@@ -269,15 +281,6 @@
           }]
         },
         options: {
-          plugins: {
-            title: {
-              display: true,
-              text: 'Achieved Score by date',
-              font: {
-                size: 16
-              }
-            }
-          },
           scales: {
             x: {
               title: {
@@ -358,11 +361,27 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        title: {
-          display: true,
-          text: 'Achieved Score for Each Level'
-        }
-      }
+
+                  scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Date'
+              },
+              ticks: {
+                autoSkip: true,
+                maxTicksLimit: 6
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Score'
+              }
+            }
+          }
+      },
+
     });
 
     function getRandomColor() {

@@ -48,7 +48,12 @@
                                    <li><a class="nav-link scrollto active color-green" href="{{url_for('index')}}#game">Start Game</a></li>
 
              <li><a class="nav-link scrollto active" href="{{url_for('about')}}">About</a></li>
-                      <li><a class="nav-link scrollto" href="{{url_for('scoreboard')}}">Statistics</a></li>
+                      <li><a class="nav-link scrollto" href="{{url_for('scoreboard')}}">My Page</a></li>
+                      {% if username=="scott2023" %}
+
+                                            <li><a class="nav-link scrollto" href="{{url_for('dashboard')}}">Admin Page</a></li>
+                                            {%endif%}
+
 
 <!--                      <li><a class="nav-link scrollto" href="{{url_for('mypage')}}">My Page</a></li>-->
 
@@ -90,18 +95,18 @@
               </div>
               <div class="col-lg-6" data-aos="fade-left">
                 <div class="content pt-4 pt-lg-0 pl-0 pl-lg-3 ">
-                  <h3>Andrew Lee</h3>
+                  <h3 class="myh">Andrew Lee</h3>
                   <p class="text-justify aboutmep ">
                     In my web development project, aimed to be used at disability learning centers, I channeled my passion for assisting visually impaired individuals by creating a specialized platform designed to enhance their auditory senses and memory skills. The project's core objectives revolved around leveraging technology to train hearing sensitivity through a pattern recognition game, recognizing the significance of sound perception for the visually impaired. </p>
 
                     <p class="text-justify aboutmep"> Simultaneously, the platform addresses the importance of memory by incorporating exercises within the game. This dual-focused approach aims to provide a comprehensive learning experience for visually impaired individuals, fostering empowerment and inclusivity through innovative uses of computer science and technology.
                   </p>
-                  <ul class="small-font">
-                    <li class="mt-2"> Senior at Avon Old Farms School with a focus on engineering, physics, and music.</li>
-                    <li class="mt-2">Decade-long oboe player, studied composition and AP Music Theory.</li>
-                    <li class="mt-2"> Started in middle school with a wheelchair control project for the disabled.</li>
-                    <li class="mt-2">Engaged with "Another Way of Seeing" to understand the challenges of the visually impaired.</li>
-                    <li class="mt-2"> Utilizes a blend of engineering and music to create tech solutions for the visually impaired.</li>
+                  <ul class="small-font no-bullet">
+                    <li class="mt-2"> <i class="bi bi-music-note-beamed"></i> Senior at Avon Old Farms School with a focus on engineering, physics, and music.</li>
+                    <li class="mt-2"><i class="bi bi-music-note-beamed"></i> Decade-long oboe player, studied composition and AP Music Theory.</li>
+                    <li class="mt-2"> <i class="bi bi-music-note-beamed"></i> Started in middle school with a wheelchair control project for the disabled.</li>
+                    <li class="mt-2"><i class="bi bi-music-note-beamed"></i> Engaged with "Another Way of Seeing" to understand the challenges of the visually impaired.</li>
+                    <li class="mt-2"><i class="bi bi-music-note-beamed"></i> Utilizes a blend of engineering and music to create tech solutions for the visually impaired.</li>
                   </ul>
                 </div>
               </div>
@@ -118,32 +123,35 @@
 
         <div class="row">
           <div class="col-md-6 order-2 order-lg-1">
-            <div class="icon-box mt-3 mt-lg-0" data-aos="fade-up">
+
+            <div class="projectintro">
+            <div class="icon-box mt-3 mt-lg-0 me-md-5" data-aos="fade-up">
               <i class="bx bx-receipt"></i>
               <h4>Purpose-Driven Design</h4>
-              <p>Created specifically for use in disability learning centers, focusing on the needs of the visually impaired.</p>
+              <p class="text-justify">Created specifically for use in disability learning centers, focusing on the needs of the visually impaired.</p>
             </div>
-            <div class="icon-box mt-3" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon-box mt-3 me-md-5" data-aos="fade-up" data-aos-delay="100">
               <i class="bx bx-cube-alt"></i>
               <h4>Train Your Senses</h4>
-              <p>A pattern recognition game designed to train and enhance auditory senses, acknowledging the importance of sound perception in the absence of sight.</p>
+              <p class="text-justify">A pattern recognition game designed to train and enhance auditory senses, acknowledging the importance of sound perception in the absence of sight.</p>
             </div>
-            <div class="icon-box mt-3" data-aos="fade-up" data-aos-delay="200">
+            <div class="icon-box mt-3 me-md-5" data-aos="fade-up" data-aos-delay="200">
               <i class="bx bx-images"></i>
               <h4>Sharpen Your Memory</h4>
-              <p>In-built memory exercises within the game help to improve this crucial skill, making for a more holistic developmental experience.</p>
+              <p class="text-justify">In-built memory exercises within the game help to improve this crucial skill, making for a more holistic developmental experience.</p>
             </div>
-                        <div class="icon-box mt-3" data-aos="fade-up" data-aos-delay="200">
+                        <div class="icon-box mt-3 me-md-5" data-aos="fade-up" data-aos-delay="200">
               <i class="bi bi-people"></i>
               <h4>Empowerment and Inclusivity</h4>
-              <p>Our dual-focused approach aims to provide a comprehensive learning experience, moving beyond mere assistance to empowerment.</p>
+              <p class="text-justify">Our dual-focused approach aims to provide a comprehensive learning experience, moving beyond mere assistance to empowerment.</p>
             </div>
-                                    <div class="icon-box mt-3" data-aos="fade-up" data-aos-delay="200">
-              <i class="bi bi-code-square"></i>
-              <h4>Technological Innovation</h4>
-              <p>Leverages the latest in computer science and software development to create an accessible, user-friendly platform.</p>
+                                      <div class="icon-box mt-3 me-md-5" data-aos="fade-up" data-aos-delay="200">
+                <i class="bi bi-code-square"></i>
+                <h4>Technological Innovation</h4>
+                <p class="text-justify">Leverages the latest in computer science and software development to create an accessible, user-friendly platform.</p>
+              </div>
             </div>
-            </div>
+          </div>
              <div class="col-md-6 order-2 order-lg-1" data-aos="fade-left" data-aos-delay="200">
                   <img src="../static/assets/img/about1.jpg" class="img-fluid myphoto2 mx-auto " alt="">
 
@@ -158,7 +166,7 @@
           <div class="row mt-5">
             <div class="text-center contact-info">
                 <h3><i class="bi bi-envelope"></i> Email</h3>
-              <p>andrew7321999@icloud.com</p>
+              <p>joonseoandrewlee@gmail.com</p>
             </div>
 
           </div>

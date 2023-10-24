@@ -18,6 +18,11 @@ a:hover {
   color: #9ed49a;
   text-decoration: none;
 }
+.no-bullet{
+  list-style: none;
+    font-family: 'Josefin Sans', sans-serif;
+  color:#6D6D6D;
+}
 
 h1,p{
 font-family: 'Josefin Sans', sans-serif;
@@ -894,7 +899,8 @@ color:darkgray;
 
 }
 .aboutmep{
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Josefin Sans', sans-serif;
+  color:#6D6D6D;
 }
 .color-green{
 color:orange !important;
@@ -1141,6 +1147,9 @@ td {
 width: 75%;
 border-radius: 10px;
 }
+.myh{
+  font-family: 'PT Sans', sans-serif;;
+}
 .myphoto2{
 width: 90%;
 border-radius: 10px;
@@ -1332,25 +1341,44 @@ scale:1.04;
 display: none;
 }
 
+
+
     .info-card {
-        border: 1px solid #e0e0e0;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        background-color: #fff;
-        padding: 20px;
+        border: 1px solid #FCF3FD;
+        border-radius: 15px;
+/*        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+        background-color: #FCF7FF;
+/*        padding: 10px;*/
+/*        width:500px;*/
         margin-bottom: 20px;
+    }
+
+        .info-card2 {
+        border: 1px solid lightgray;
+        border-radius: 15px;
+/*        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+        background-color: white;
+/*        padding: 10px;*/
+/*        width:500px;*/
+        margin-bottom: 20px;
+    }
+    .projectintro{
+      width:90%;
     }
 
     .info-card h5 {
         font-size: 18px;
-        color: #333;
+        color: #5F5F5F;
     }
 
     .info-card .card-body {
         padding: 0;
     }
-
-    .info-card canvas {
-        width: 100%;
-        height: auto;
+    .marginsmall{
+      margin-right:25px !important;
     }
+
+/*    .info-card canvas {
+        width: 80%;
+        height: auto;
+    }*/

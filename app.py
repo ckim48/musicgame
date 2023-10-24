@@ -30,12 +30,14 @@ def index():
         return render_template('index.html', isLogin = False,current_score=0)
 @app.route('/about', methods=['GET'])
 def about():
+    username = session['username']
     if 'username' in session:
-        return render_template('about.html', isLogin = True)
+        return render_template('about.html', isLogin = True,username=username)
     else:
         return render_template('about.html', isLogin = False)
 @app.route('/mypage', methods=['GET'])
 def mypage():
+    username = session['username']
     if 'username' not in session:
         return redirect(url_for('login'))
     if 'username' in session:
@@ -56,7 +58,7 @@ def mypage():
         age = cursor.fetchone()
         age = age[0]
 
-        return render_template('mypage.html', isLogin = True,score=score,email=email,username=username,age=age,country=country)
+        return render_template('mypage.html',isLogin = True,score=score,email=email,username=username,age=age,country=country)
     else:
         return render_template('index.html', isLogin = False)
 def validate_login(username, password):
@@ -198,7 +200,8 @@ def dashboard():
     word_count = Counter(words)
     top_words3 = word_count.most_common(10)
     conn.close()
-    return render_template('dashboard.html',top_words3=top_words3, sentiment_counts3=sentiment_counts3,top_words2=top_words2, sentiment_counts2=sentiment_counts2,top_words=top_words,sentiment_counts=sentiment_counts,isLogin=isLogin)
+    username = session['username']
+    return render_template('dashboard.html',username=username,top_words3=top_words3, sentiment_counts3=sentiment_counts3,top_words2=top_words2, sentiment_counts2=sentiment_counts2,top_words=top_words,sentiment_counts=sentiment_counts,isLogin=isLogin)
 
 
 
@@ -250,7 +253,7 @@ def scoreboard():
         isLogin = True
     else:
         isLogin = False
-
+    username = session['username']
     return render_template('scoreboard.html',isLogin=isLogin, leaderboard_data=leaderboard_data,score=score,email=email,username=username,age=age,country=country)
 
 @app.route('/update_score', methods=['POST'])
@@ -410,4 +413,4 @@ def get_scores_chart():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,port=8000)

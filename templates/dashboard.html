@@ -51,7 +51,11 @@
                                    <li><a class="nav-link scrollto active color-green" href="{{url_for('index')}}#game">Start Game</a></li>
 
              <li><a class="nav-link scrollto" href="{{url_for('about')}}">About</a></li>
-                      <li><a class="nav-link scrollto active" href="{{url_for('scoreboard')}}">Statistics</a></li>
+                      <li><a class="nav-link scrollto" href="{{url_for('scoreboard')}}">My Page</a></li>
+                      {% if username=="scott2023" %}
+
+                      <li><a class="nav-link scrollto active" href="{{url_for('dashboard')}}">Admin Page</a></li>
+                      {% endif %}
 
 <!--                      <li><a class="nav-link scrollto" href="{{url_for('mypage')}}">My Page</a></li>-->
 
@@ -77,7 +81,7 @@
   </header><!-- End Header -->
 
   <main id="main">
- <section style="background-color: #FEFEF6;">
+ <section style="background-color: #FDFDFA;">
           <div class="container h-100">
                     <div class="section-title" data-aos="fade-up">
         <h2>User Activity Log</h2>
@@ -87,9 +91,9 @@
 
                 <div class="col-md-6">
 
-                         <div class="card mx-auto info-card px-3 py-3 data-card">
+                         <div class="card mx-auto info-card px-4 py-4 data-card">
 
-                                               <h5 class="mt-2" data-aos="fade-up">Number of Users</h5>
+                                               <h5  data-aos="fade-up">Number of users</h5>
 
                           <div class="card-body">
                               <canvas  data-aos="fade-in" id="userCountChart"  width="400" height="200"></canvas>
@@ -99,9 +103,9 @@
                       </div>
                 </div>
                   <div class="col-md-6">
-                      <div class="card mx-auto info-card px-3 py-3 data-card">
+                      <div class="card mx-auto info-card px-4 py-4 data-card">
                           <div class="card-body">
-                               <h5 class="" data-aos="fade-up">Solved Questions</h5>
+                               <h5 class="" data-aos="fade-up">Solved questions</h5>
 
                                                 <canvas   data-aos="fade-in" id="userCountChart2" width="400" height="200"></canvas>
 
@@ -124,9 +128,9 @@
 
                 <div class="col-md-6">
 
-                         <div class="card  mx-auto info-card px-3 py-3 data-card">
+                         <div class="card  mx-auto info-card px-4 py-4 data-card">
 
-                                               <h5 class="" data-aos="fade-up">Sentiments of Question1</h5>
+                                               <h5 class="" data-aos="fade-up">Sentiments of question1</h5>
 
                           <div class="card-body">
                               <canvas  data-aos="fade-in" id="sentimentPieChart1" width="200" height="3"></canvas>
@@ -136,9 +140,9 @@
                       </div>
                 </div>
                   <div class="col-md-6">
-                      <div class="card mx-auto info-card px-3 py-3 data-card">
+                      <div class="card mx-auto info-card px-4 py-4 data-card">
                           <div class="card-body">
-                               <h5 class="" data-aos="fade-up">The most frequent words in Question1</h5>
+                               <h5 class="" data-aos="fade-up">The most frequent words in question1</h5>
 
                                                 <canvas   data-aos="fade-in" id="wordChart1" width="400" height="200"></canvas>
 
@@ -153,9 +157,9 @@
 
                 <div class="col-md-6">
 
-                         <div class="card mx-auto info-card px-3 py-3 data-card">
+                         <div class="card mx-auto info-card px-4 py-4 data-card">
 
-                                               <h5 class="" data-aos="fade-up">Sentiments of Question2</h5>
+                                               <h5 class="" data-aos="fade-up">Sentiments of question2</h5>
 
                           <div class="card-body">
                               <canvas  data-aos="fade-in" id="sentimentPieChart2" width="200" height="3"></canvas>
@@ -165,9 +169,9 @@
                       </div>
                 </div>
                   <div class="col-md-6">
-                      <div class="card mx-auto info-card px-3 py-3 data-card">
+                      <div class="card mx-auto info-card px-4 py-4 data-card">
                           <div class="card-body">
-                               <h5 class="" data-aos="fade-up">The most frequent words in Question2</h5>
+                               <h5 class="" data-aos="fade-up">The most frequent words in question2</h5>
 
                                                 <canvas   data-aos="fade-in" id="wordChart2" width="400" height="200"></canvas>
 
@@ -185,7 +189,7 @@
 
                          <div class="card mx-auto info-card px-3 py-3 data-card">
 
-                                               <h5 class="" data-aos="fade-up">Sentiments of Question3</h5>
+                                               <h5 class="" data-aos="fade-up">Sentiments of question3</h5>
 
                           <div class="card-body">
                               <canvas  data-aos="fade-in" id="sentimentPieChart" width="200" height="3"></canvas>
@@ -197,7 +201,7 @@
                   <div class="col-md-6">
                       <div class="card mx-auto info-card px-3 py-3 data-card">
                           <div class="card-body">
-                               <h5 class="" data-aos="fade-up">The most frequent words in Question3</h5>
+                               <h5 class="" data-aos="fade-up">The most frequent words in question3</h5>
 
                                                 <canvas   data-aos="fade-in" id="wordChart" width="400" height="200"></canvas>
 
