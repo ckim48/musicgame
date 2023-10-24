@@ -30,8 +30,9 @@ def index():
         return render_template('index.html', isLogin = False,current_score=0)
 @app.route('/about', methods=['GET'])
 def about():
-    username = session['username']
+    
     if 'username' in session:
+        username = session['username']
         return render_template('about.html', isLogin = True,username=username)
     else:
         return render_template('about.html', isLogin = False)
