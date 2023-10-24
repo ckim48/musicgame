@@ -160,7 +160,7 @@ function checkSequence2() {
         gameboard.appendChild(congratsElement);
         correctSound.play();
         show_firework();
-        sendScoreToBackend(score);
+        sendScoreToBackend(score,false,true,false);
         setTimeout(() => {
             // Remove the "Congratulations" message
             congratsElement.remove();

@@ -210,7 +210,7 @@ function checkSequence() {
     });
     canPressKeys = false;
 
-    sendScoreToBackend(score);
+    sendScoreToBackend(score,true,false,false);
 
 
 
@@ -311,12 +311,14 @@ startButton.addEventListener('click', () => {
     game3 = false;
 });
 
-function sendScoreToBackend(score) {
+function sendScoreToBackend(score,game1,game2,game3) {
   const xhr = new XMLHttpRequest();
   const endpoint = '/update_score';
   const formData = new FormData();
   formData.append('score', score);
-
+  formData.append('game1', game1);
+  formData.append('game2', game2);
+  formData.append('game3', game3);
   xhr.open('POST', endpoint, true);
 
   // Set up a function to handle the response from the server

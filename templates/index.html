@@ -126,10 +126,15 @@
                                     <br>
                                     <br>
 <!--                                                                                                                              <p>You need <strong>0</strong> points to unlock.</p>-->
-
+                                    {% if isLogin %}
                                     <button class="btn btn-primary active" onclick="changeContent(1)" id="btn1">
                                         <i class="bi bi-unlock"></i> Play
                                     </button>
+                                    {% else %}
+                                                                        <button class="btn btn-primary active" onclick="changeContent(1)" id="btn1" disabled>
+                                        <i class="bi bi-unlock"></i> Play
+                                    </button>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -164,7 +169,7 @@
 </h6>
                                                                                           <p>You need <strong>10</strong> points to unlock.</p>
 
-                                                                        <button class="btn btn-primary" onclick="changeContent(2)">
+                                                                        <button class="btn btn-primary" onclick="changeContent(2)" disabled>
 
                                     <i class="bi bi-lock"></i> Interval
                                     </button>
@@ -202,7 +207,7 @@ Press the key in the correct order and time interval!.
 </h6>
                                                                                                                               <p>You need <strong>15</strong> points to unlock.</p>
 
-                                    <button class="btn btn-primary" onclick="changeContent(3)">
+                                    <button class="btn btn-primary" onclick="changeContent(3)" disabled>
                                         <i class="bi bi-unlock"></i> Play
                                     </button>
                                 </div>

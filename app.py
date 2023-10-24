@@ -280,9 +280,21 @@ def update_score():
     today_date = datetime.today()
 
     formatted_date = today_date.strftime('%Y/%m/%d')
-    cursor.execute("Insert INTO Scores Values(?,?,?,?)", (formatted_date , 1, username,1))
-    conn.commit()
+    lev = 1
+    game1 = request.form.get('game1')
+    game2 = request.form.get('game2')
+    game3 = request.form.get('game3')
+    if game1 == True:
+        lev = 1
+    elif game2 == True:
+        lev = 2
+    elif game3 == True:
+        lev = 3
 
+    cursor.execute("Insert INTO Scores Values(?,?,?,?)", (formatted_date , 1, username,lev))
+    conn.commit()
+    cursor.close()
+    conn.close()
     return jsonify({'score': new_score})
 
     # except Exception as e:

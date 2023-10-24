@@ -289,7 +289,7 @@ function checkSequence3() {
       firework6.remove();
     });
 
-        sendScoreToBackend(score);
+        sendScoreToBackend(score,false,false,true);
 
         // Reset the game after a delay (e.g., 3 seconds)
         setTimeout(() => {
