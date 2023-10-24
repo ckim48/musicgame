@@ -156,6 +156,7 @@ function checkSequence2() {
         const congratsElement = document.createElement('div');
         congratsElement.textContent = 'Congratulations!';
         congratsElement.classList.add('congratulations');
+        canPressKey = false;
         gameboard.appendChild(congratsElement);
         correctSound.play();
         show_firework();

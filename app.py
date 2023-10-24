@@ -259,40 +259,40 @@ def scoreboard():
 
 @app.route('/update_score', methods=['POST'])
 def update_score():
-    try:
+
         # Get the username from the request
-        username = session['username']  # Assuming you have a way to get the username
-        conn = sqlite3.connect('static/assets/data/database.db')
-        cursor = conn.cursor()
+    username = session['username']  # Assuming you have a way to get the username
+    conn = sqlite3.connect('static/assets/data/database.db')
+    cursor = conn.cursor()
 
-        cursor.execute("SELECT score FROM Users WHERE username = ?", (username,))
-        current_score = cursor.fetchone()
+    cursor.execute("SELECT score FROM Users WHERE username = ?", (username,))
+    current_score = cursor.fetchone()
 
-        if current_score is None:
-            return 'User not found', 404
+    if current_score is None:
+        return 'User not found', 404
 
         # Increment the current score by 1
-        new_score = current_score[0] + 1
-        get_score = 1
+    new_score = current_score[0] + 1
+    get_score = 1
 
         # Update the score in the database for the given username
-        cursor.execute("UPDATE Users SET score = ? WHERE username = ?", (new_score, username))
-        today_date = datetime.today()
+    cursor.execute("UPDATE Users SET score = ? WHERE username = ?", (new_score, username))
+    today_date = datetime.today()
 
-        formatted_date = today_date.strftime('%Y/%m/%d')
-        cursor.execute("Insert INTO Scores Values(?,?,?)", (formatted_date , 1, username))
-        conn.commit()
+    formatted_date = today_date.strftime('%Y/%m/%d')
+    cursor.execute("Insert INTO Scores Values(?,?,?,?)", (formatted_date , 1, username,1))
+    conn.commit()
 
-        return jsonify({'score': new_score})
+    return jsonify({'score': new_score})
 
-    except Exception as e:
-        conn.rollback()  # Roll back the transaction if an error occurs
-        return f'Error: {str(e)}', 500
-
-    finally:
-        # Close the cursor and connection
-        cursor.close()
-        conn.close()
+    # except Exception as e:
+    #     conn.rollback()  # Roll back the transaction if an error occurs
+    #     return f'Error: {str(e)}', 500
+    #
+    # finally:
+    #     # Close the cursor and connection
+    #     cursor.close()
+    #     conn.close()
 
 
 
