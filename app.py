@@ -190,14 +190,12 @@ def dashboard():
     cursor.execute("SELECT context FROM Sentiments3")
     data3 = cursor.fetchall()
 
-    # Tokenize and process the text
     words = []
     for row in data3:
         text = row[0]
         tokens = word_tokenize(text)
         words.extend([word.lower() for word in tokens if word.isalpha() and word.lower() not in stop_words])
 
-    # Get the top 10 most frequent words
     word_count = Counter(words)
     top_words3 = word_count.most_common(10)
     conn.close()
@@ -210,10 +208,10 @@ def dashboard():
 def scoreboard():
     if 'username' not in session:
         return redirect(url_for('login'))
-    username = session['username']  # Assuming you have a way to get the username
+    username = session['username'] 
     conn = sqlite3.connect('static/assets/data/database.db')
     cursor = conn.cursor()
-    username = session['username']  # Assuming you have a way to get the username
+    username = session['username']  
     conn = sqlite3.connect('static/assets/data/database.db')
     cursor = conn.cursor()
 
@@ -237,7 +235,6 @@ def scoreboard():
     cursor.execute("SELECT context FROM Sentiments")
     data = cursor.fetchall()
 
-    # Tokenize and process the text
     words = []
     for row in data:
         text = row[0]
@@ -275,7 +272,6 @@ def update_score():
     new_score = current_score[0] + 1
     get_score = 1
 
-        # Update the score in the database for the given username
     cursor.execute("UPDATE Users SET score = ? WHERE username = ?", (new_score, username))
     today_date = datetime.today()
 
@@ -297,14 +293,6 @@ def update_score():
     conn.close()
     return jsonify({'score': new_score})
 
-    # except Exception as e:
-    #     conn.rollback()  # Roll back the transaction if an error occurs
-    #     return f'Error: {str(e)}', 500
-    #
-    # finally:
-    #     # Close the cursor and connection
-    #     cursor.close()
-    #     conn.close()
 
 
 
@@ -332,10 +320,8 @@ def get_scores_for_username():
 
     conn.close()
 
-    # Convert the data to a list of dictionaries
     result = [{'date': row[0], 'total_score': row[1]} for row in rows]
 
-    # Ensure there are entries for every date in the last 7 days and set score to 0 if not achieved
     end_date = datetime.now()
     start_date = end_date - timedelta(days=6)
 
