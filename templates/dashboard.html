@@ -248,10 +248,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 <script>
-    // Extract sentiment values and counts from the Flask template
     var sentimentData = {{ sentiment_counts | tojson }};
 
-    // Initialize data for the pie chart
     var labels = sentimentData.map(item => item[0]);
     var counts = sentimentData.map(item => item[1]);
 
@@ -270,9 +268,9 @@ var chart = new Chart(ctx, {
             display: true,
             text: 'Sentiment Analysis Pie Chart',
         },
-        responsive: true, // This makes the chart responsive
-        maintainAspectRatio: false, // Set this to false to allow manual sizing
-        aspectRatio: 1, // Adjust this value to control the chart's aspect ratio
+        responsive: true, 
+        maintainAspectRatio: false,
+        aspectRatio: 1,
     }
 });
 
@@ -306,10 +304,9 @@ var chart = new Chart(ctx, {
 
 
 <script>
-    // Extract sentiment values and counts from the Flask template
     var sentimentData = {{ sentiment_counts2 | tojson }};
 
-    // Initialize data for the pie chart
+   
     var labels = sentimentData.map(item => item[0]);
     var counts = sentimentData.map(item => item[1]);
 
@@ -328,9 +325,9 @@ var chart = new Chart(ctx, {
             display: true,
             text: 'Sentiment Analysis Pie Chart',
         },
-        responsive: true, // This makes the chart responsive
-        maintainAspectRatio: false, // Set this to false to allow manual sizing
-        aspectRatio: 1, // Adjust this value to control the chart's aspect ratio
+        responsive: true, 
+        maintainAspectRatio: false, 
+        aspectRatio: 1, 
     }
 });
 
@@ -367,10 +364,8 @@ var chart = new Chart(ctx, {
 
 
 <script>
-    // Extract sentiment values and counts from the Flask template
     var sentimentData = {{ sentiment_counts3 | tojson }};
 
-    // Initialize data for the pie chart
     var labels = sentimentData.map(item => item[0]);
     var counts = sentimentData.map(item => item[1]);
 
@@ -389,9 +384,9 @@ var chart = new Chart(ctx, {
             display: true,
             text: 'Sentiment Analysis Pie Chart',
         },
-        responsive: true, // This makes the chart responsive
-        maintainAspectRatio: false, // Set this to false to allow manual sizing
-        aspectRatio: 1, // Adjust this value to control the chart's aspect ratio
+        responsive: true, 
+        maintainAspectRatio: false, 
+        aspectRatio: 1, 
     }
 });
 
